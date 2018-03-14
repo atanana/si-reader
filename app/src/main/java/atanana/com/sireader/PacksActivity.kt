@@ -1,12 +1,16 @@
 package atanana.com.sireader
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.Snackbar
+import android.os.Environment
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-
 import kotlinx.android.synthetic.main.activity_packs.*
+import android.webkit.MimeTypeMap
+import android.widget.Toast
+
 
 class PacksActivity : AppCompatActivity() {
 
@@ -16,8 +20,16 @@ class PacksActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+            val intent = Intent()
+            intent.action = Intent.ACTION_GET_CONTENT
+            val file = Environment.getExternalStorageDirectory()
+            val type = MimeTypeMap.getSingleton().getMimeTypeFromExtension("doc")
+            intent.setDataAndType(Uri.fromFile(file), type)
+            if (intent.resolveActivity(packageManager) != null) {
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, R.string.no_file_managers_installed, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
