@@ -1,32 +1,31 @@
 package atanana.com.sireader
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import kotlinx.android.synthetic.main.activity_packs.*
-import android.webkit.MimeTypeMap
 import android.widget.Toast
+import atanana.com.sireader.files.OPEN_FILE_REQUEST_CODE
+import atanana.com.sireader.files.OpenFileHandler
+import dagger.android.AndroidInjection
+import kotlinx.android.synthetic.main.activity_packs.*
+import javax.inject.Inject
 
 
 class PacksActivity : AppCompatActivity() {
+    @Inject
+    lateinit var openFileHandler: OpenFileHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_packs)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            val intent = Intent()
-            intent.action = Intent.ACTION_GET_CONTENT
-            val file = Environment.getExternalStorageDirectory()
-            val type = MimeTypeMap.getSingleton().getMimeTypeFromExtension("doc")
-            intent.setDataAndType(Uri.fromFile(file), type)
-            if (intent.resolveActivity(packageManager) != null) {
-                startActivity(intent)
+        fab.setOnClickListener {
+            val intent = openFileHandler.openFileIntent()
+            if (intent != null) {
+                startActivityForResult(intent, OPEN_FILE_REQUEST_CODE)
             } else {
                 Toast.makeText(this, R.string.no_file_managers_installed, Toast.LENGTH_SHORT).show()
             }

@@ -8,7 +8,7 @@ import dagger.android.AndroidInjectionModule
 import dagger.android.ContributesAndroidInjector
 
 @Module
-internal abstract class PacksActivityModule {
+internal abstract class InjectorsModule {
     @ContributesAndroidInjector
     abstract fun packsActivity(): PacksActivity
 }
@@ -16,7 +16,8 @@ internal abstract class PacksActivityModule {
 @Component(modules = [
     ContextModule::class,
     AndroidInjectionModule::class,
-    PacksActivityModule::class
+    InjectorsModule::class,
+    FilesModule::class
 ])
 interface AppComponent {
     fun inject(app: App)
