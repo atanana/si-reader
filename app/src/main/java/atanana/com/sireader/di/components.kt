@@ -3,31 +3,21 @@ package atanana.com.sireader.di
 import atanana.com.sireader.App
 import atanana.com.sireader.PacksActivity
 import dagger.Component
-import dagger.Subcomponent
-import dagger.android.AndroidInjectionModule
-import dagger.android.AndroidInjector
-import android.app.Activity
-import dagger.android.ActivityKey
-import dagger.multibindings.IntoMap
-import dagger.Binds
 import dagger.Module
+import dagger.android.AndroidInjectionModule
+import dagger.android.ContributesAndroidInjector
 
-
-@Subcomponent
-interface PacksActivitySubcomponent : AndroidInjector<PacksActivity> {
-    @Subcomponent.Builder
-    abstract class Builder : AndroidInjector.Builder<PacksActivity>()
-}
-
-@Module(subcomponents = [(PacksActivitySubcomponent::class)])
+@Module
 internal abstract class PacksActivityModule {
-    @Binds
-    @IntoMap
-    @ActivityKey(PacksActivity::class)
-    internal abstract fun bindPacksActivityInjectorFactory(builder: PacksActivitySubcomponent.Builder): AndroidInjector.Factory<out Activity>
+    @ContributesAndroidInjector
+    abstract fun packsActivity(): PacksActivity
 }
 
-@Component(modules = [ContextModule::class, AndroidInjectionModule::class, PacksActivityModule::class])
+@Component(modules = [
+    ContextModule::class,
+    AndroidInjectionModule::class,
+    PacksActivityModule::class
+])
 interface AppComponent {
     fun inject(app: App)
 }
