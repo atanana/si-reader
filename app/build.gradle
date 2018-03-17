@@ -47,6 +47,10 @@ dependencies {
     kapt "android.arch.persistence.room:compiler:${rootProject.ext.roomVersion}"
     implementation "android.arch.persistence.room:rxjava2:${rootProject.ext.roomVersion}"
 
+    // liveData
+    implementation "android.arch.lifecycle:extensions:${rootProject.ext.liveDataVersion}"
+    implementation "android.arch.lifecycle:reactivestreams:${rootProject.ext.liveDataVersion}"
+
     testImplementation "junit:junit:${rootProject.ext.junitVersion}"
     androidTestImplementation "com.android.support.test:runner:${rootProject.ext.testRunnerVersion}"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:${rootProject.ext.testEspressoVersion}"
