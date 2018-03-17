@@ -31,7 +31,7 @@ data class PackEntity(
         val author: String?,
         val notes: String?,
         @ForeignKey(
-                entity = QuestionFile::class,
+                entity = QuestionFileEntity::class,
                 parentColumns = ["id"],
                 childColumns = ["fileId"],
                 onDelete = ForeignKey.CASCADE
@@ -40,7 +40,7 @@ data class PackEntity(
 )
 
 @Entity(tableName = "files")
-data class QuestionFile(
+data class QuestionFileEntity(
         @PrimaryKey(autoGenerate = true)
         val id: Int,
         val title: String,
