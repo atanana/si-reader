@@ -18,7 +18,8 @@ internal abstract class InjectorsModule {
     ContextModule::class,
     AndroidInjectionModule::class,
     InjectorsModule::class,
-    DbModule::class
+    DatabaseModule::class,
+    ViewModelModule::class
 ])
 @Singleton
 interface AppComponent {

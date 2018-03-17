@@ -11,7 +11,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class DbModule {
+class DatabaseModule {
     @Provides
     @Singleton
     fun provideDatabase(context: Context): Database {
