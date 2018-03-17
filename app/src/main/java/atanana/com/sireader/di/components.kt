@@ -6,6 +6,7 @@ import dagger.Component
 import dagger.Module
 import dagger.android.AndroidInjectionModule
 import dagger.android.ContributesAndroidInjector
+import javax.inject.Singleton
 
 @Module
 internal abstract class InjectorsModule {
@@ -16,8 +17,10 @@ internal abstract class InjectorsModule {
 @Component(modules = [
     ContextModule::class,
     AndroidInjectionModule::class,
-    InjectorsModule::class
+    InjectorsModule::class,
+    DbModule::class
 ])
+@Singleton
 interface AppComponent {
     fun inject(app: App)
 }
