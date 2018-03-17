@@ -16,8 +16,7 @@ internal abstract class InjectorsModule {
 @Component(modules = [
     ContextModule::class,
     AndroidInjectionModule::class,
-    InjectorsModule::class,
-    FilesModule::class
+    InjectorsModule::class
 ])
 interface AppComponent {
     fun inject(app: App)
