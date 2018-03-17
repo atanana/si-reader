@@ -30,6 +30,7 @@ ext {
     supportLibVersion = "27.1.0"
     constraintLayoutVersion = "1.0.2"
     dagger2Version = "2.15"
+    roomVersion = "1.0.0"
 
     //test
     junitVersion = "4.12"

@@ -38,6 +38,10 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:${rootProject.ext.dagger2Version}"
     kapt "com.google.dagger:dagger-android-processor:${rootProject.ext.dagger2Version}"
 
+    // room
+    implementation "android.arch.persistence.room:runtime:${rootProject.ext.roomVersion}"
+    kapt "android.arch.persistence.room:compiler:${rootProject.ext.roomVersion}"
+
     testImplementation "junit:junit:${rootProject.ext.junitVersion}"
     androidTestImplementation "com.android.support.test:runner:${rootProject.ext.testRunnerVersion}"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:${rootProject.ext.testEspressoVersion}"
