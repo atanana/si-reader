@@ -14,6 +14,12 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas".toString())
+            }
+        }
     }
     buildTypes {
         release {
@@ -35,7 +41,7 @@ dexcount {
     teamCityIntegration = false
     teamCitySlug = null
     runOnEachPackage = true
-    maxMethodCount = 64000
+    maxMethodCount = 640000
 }
 
 dependencies {
