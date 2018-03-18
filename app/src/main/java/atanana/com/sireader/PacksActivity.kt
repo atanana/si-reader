@@ -33,19 +33,21 @@ class PacksActivity : AppCompatActivity() {
             viewModel.fabClicked()
         }
 
-        viewModel.activityForResultData.observe(this, Observer<ActivityForResultMessage> {
+        viewModel.liveBus.observe(this, Observer<Action> {
             it!!
-            startActivityForResult(it.intent, it.requestCode)
-        })
-
-        viewModel.toastData.observe(this, Observer<TextMessage> {
-            it!!
-            val text = when (it) {
-                is StringTextMessage -> it.text
-                is ResourceTextMessage -> getString(it.textId)
+            when (it) {
+                is TextMessage -> processTextMessage(it)
+                is ActivityForResultMessage -> startActivityForResult(it.intent, it.requestCode)
             }
-            Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
         })
+    }
+
+    private fun processTextMessage(message: TextMessage) {
+        val text = when (message) {
+            is StringTextMessage -> message.text
+            is ResourceTextMessage -> getString(message.textId)
+        }
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

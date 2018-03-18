@@ -8,22 +8,17 @@ import atanana.com.sireader.files.OPEN_FILE_REQUEST_CODE
 import atanana.com.sireader.files.OpenFileHandler
 
 class PacksViewModel constructor(private val openFileHandler: OpenFileHandler) : ViewModel() {
-    private val toastLiveData = MutableLiveData<TextMessage>()
+    private val bus = MutableLiveData<Action>()
 
-    val toastData: LiveData<TextMessage>
-        get() = toastLiveData
-
-    private val activityForResultLiveData = MutableLiveData<ActivityForResultMessage>()
-
-    val activityForResultData: LiveData<ActivityForResultMessage>
-        get() = activityForResultLiveData
+    val liveBus: LiveData<Action>
+        get() = bus
 
     fun fabClicked() {
         val intent = openFileHandler.openFileIntent()
-        if (intent != null) {
-            activityForResultLiveData.value = ActivityForResultMessage(intent, OPEN_FILE_REQUEST_CODE)
+        bus.value = if (intent != null) {
+            ActivityForResultMessage(intent, OPEN_FILE_REQUEST_CODE)
         } else {
-            toastLiveData.value = ResourceTextMessage(R.string.no_file_managers_installed)
+            ResourceTextMessage(R.string.no_file_managers_installed)
         }
     }
 }
