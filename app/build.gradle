@@ -51,6 +51,9 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:${rootProject.ext.liveDataVersion}"
     implementation "android.arch.lifecycle:reactivestreams:${rootProject.ext.liveDataVersion}"
 
+    //poi
+    implementation group: 'org.apache.poi', name: 'poi-scratchpad', version: rootProject.ext.poiVersion
+
     testImplementation "junit:junit:${rootProject.ext.junitVersion}"
     androidTestImplementation "com.android.support.test:runner:${rootProject.ext.testRunnerVersion}"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:${rootProject.ext.testEspressoVersion}"
