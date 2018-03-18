@@ -2,6 +2,7 @@ package atanana.com.sireader
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -48,6 +49,10 @@ class PacksActivity : AppCompatActivity() {
             is ResourceTextMessage -> getString(message.textId)
         }
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        viewModel.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
