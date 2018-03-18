@@ -44,6 +44,7 @@ data class QuestionFileEntity(
         @PrimaryKey(autoGenerate = true)
         val id: Int,
         val title: String,
+        val filename: String,
         val notes: String?,
         val editor: String?
 )

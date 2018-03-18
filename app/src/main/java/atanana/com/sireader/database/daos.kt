@@ -20,11 +20,14 @@ interface PacksDao {
     fun packForFile(fileId: Int): Flowable<List<PackEntity>>
 
     @Insert
-    fun insertPack(pack: PackEntity)
+    fun insertPack(pack: PackEntity): Long
 }
 
 @Dao
 interface QuestionFilesDao {
     @Query("select * from files")
     fun all(): Flowable<List<QuestionFileEntity>>
+
+    @Insert
+    fun insertFile(file: QuestionFileEntity): Long
 }
