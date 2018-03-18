@@ -1,4 +1,4 @@
-package atanana.com.sireader.db
+package atanana.com.sireader.database
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.ForeignKey

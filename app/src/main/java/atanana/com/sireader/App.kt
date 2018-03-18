@@ -2,8 +2,8 @@ package atanana.com.sireader
 
 import android.app.Activity
 import android.app.Application
-import atanana.com.sireader.di.ContextModule
-import atanana.com.sireader.di.DaggerAppComponent
+import atanana.com.sireader.dagger.ContextModule
+import atanana.com.sireader.dagger.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.DispatchingAndroidInjector

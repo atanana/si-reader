@@ -1,11 +1,11 @@
-package atanana.com.sireader.di
+package atanana.com.sireader.dagger
 
 import android.arch.persistence.room.Room
 import android.content.Context
-import atanana.com.sireader.db.Database
-import atanana.com.sireader.db.PacksDao
-import atanana.com.sireader.db.QuestionFilesDao
-import atanana.com.sireader.db.QuestionsDao
+import atanana.com.sireader.database.Database
+import atanana.com.sireader.database.PacksDao
+import atanana.com.sireader.database.QuestionFilesDao
+import atanana.com.sireader.database.QuestionsDao
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

@@ -1,4 +1,4 @@
-package atanana.com.sireader.di
+package atanana.com.sireader.dagger
 
 import atanana.com.sireader.files.OpenFileHandler
 import atanana.com.sireader.viewmodels.PacksViewModelFactory

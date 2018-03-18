@@ -1,4 +1,4 @@
-package atanana.com.sireader.db
+package atanana.com.sireader.database
 
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
