@@ -33,7 +33,7 @@ class PacksViewModel constructor(
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == OPEN_FILE_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-            val file = File(data.dataString)
+            val file = File(data.data.path)
             try {
                 parseFileUseCase.process(file)
             } catch (e: ParseFileException) {
