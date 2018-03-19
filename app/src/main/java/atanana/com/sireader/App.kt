@@ -2,7 +2,6 @@ package atanana.com.sireader
 
 import android.app.Activity
 import android.app.Application
-import atanana.com.sireader.dagger.ContextModule
 import atanana.com.sireader.dagger.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.HasActivityInjector
@@ -18,7 +17,7 @@ class App : Application(), HasActivityInjector {
         super.onCreate()
         DaggerAppComponent
                 .builder()
-                .contextModule(ContextModule(this))
+                .applicationContext(this)
                 .build()
                 .inject(this)
     }
