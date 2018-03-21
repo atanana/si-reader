@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Environment
 import android.webkit.MimeTypeMap
+import java.io.File
 import javax.inject.Inject
 
 const val OPEN_FILE_REQUEST_CODE = 100
@@ -21,5 +22,9 @@ class OpenFileHandler @Inject constructor(private val context: Context) {
         } else {
             null
         }
+    }
+
+    fun getFile(data: Intent): File {
+        return File(data.data.path)
     }
 }

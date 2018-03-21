@@ -10,7 +10,6 @@ import atanana.com.sireader.R
 import atanana.com.sireader.files.OPEN_FILE_REQUEST_CODE
 import atanana.com.sireader.files.OpenFileHandler
 import atanana.com.sireader.files.ParseFileUseCase
-import java.io.File
 
 class PacksViewModel constructor(
         private val openFileHandler: OpenFileHandler,
@@ -33,7 +32,7 @@ class PacksViewModel constructor(
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == OPEN_FILE_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-            val file = File(data.data.path)
+            val file = openFileHandler.getFile(data)
             try {
                 parseFileUseCase.process(file)
             } catch (e: ParseFileException) {
