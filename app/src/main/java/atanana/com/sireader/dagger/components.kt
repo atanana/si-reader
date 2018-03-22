@@ -1,25 +1,27 @@
 package atanana.com.sireader.dagger
 
+import android.app.Activity
 import android.content.Context
 import atanana.com.sireader.App
 import atanana.com.sireader.PacksActivity
-import dagger.BindsInstance
-import dagger.Component
-import dagger.Module
+import dagger.*
+import dagger.android.ActivityKey
 import dagger.android.AndroidInjector
-import dagger.android.ContributesAndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
+import dagger.multibindings.IntoMap
 import javax.inject.Singleton
 
-@Module
-internal abstract class InjectorsModule {
-    @ContributesAndroidInjector
-    abstract fun packsActivity(): PacksActivity
+@Module(subcomponents = [PackActivitySubcomponent::class])
+internal abstract class PacksActivityModule {
+    @Binds
+    @IntoMap
+    @ActivityKey(PacksActivity::class)
+    abstract fun bindYourActivityInjectorFactory(builder: PackActivitySubcomponent.Builder): AndroidInjector.Factory<out Activity>
 }
 
 @Component(modules = [
     AndroidSupportInjectionModule::class,
-    InjectorsModule::class,
+    PacksActivityModule::class,
     DatabaseModule::class
 ])
 @Singleton
@@ -31,4 +33,10 @@ interface AppComponent : AndroidInjector<App> {
 
         fun build(): AppComponent
     }
+}
+
+@Subcomponent
+interface PackActivitySubcomponent : AndroidInjector<PacksActivity> {
+    @Subcomponent.Builder
+    abstract class Builder : AndroidInjector.Builder<PacksActivity>()
 }
