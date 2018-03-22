@@ -3,6 +3,7 @@
     <string name="action_settings">Settings</string>
     <string name="no_packs">Нет пакетов</string>
     <string name="no_file_managers_installed">Не установлено файловых менеджеров!</string>
+    <string name="no_permissions_to_read_files">Нет разрешений на чтение файлов!</string>
     <string name="cannot_parse_file">Не удалось прочитать файл!</string>
     <string name="cannot_save_questions">Не сохранить вопросы в базу данных!</string>
 </resources>
