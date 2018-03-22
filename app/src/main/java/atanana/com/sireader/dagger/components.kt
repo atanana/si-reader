@@ -35,7 +35,7 @@ interface AppComponent : AndroidInjector<App> {
     }
 }
 
-@Subcomponent
+@Subcomponent(modules = [RxPermissionsModule::class])
 interface PackActivitySubcomponent : AndroidInjector<PacksActivity> {
     @Subcomponent.Builder
     abstract class Builder : AndroidInjector.Builder<PacksActivity>()
