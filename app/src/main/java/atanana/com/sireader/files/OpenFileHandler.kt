@@ -2,8 +2,8 @@ package atanana.com.sireader.files
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.webkit.MimeTypeMap
-import java.io.File
 import javax.inject.Inject
 
 const val OPEN_FILE_REQUEST_CODE = 100
@@ -26,7 +26,7 @@ class OpenFileHandler @Inject constructor(private val context: Context) {
                 .setType(docType)
     }
 
-    fun getFile(data: Intent): File {
-        return File(data.data.path)
+    fun getUri(data: Intent): Uri {
+        return data.data
     }
 }
