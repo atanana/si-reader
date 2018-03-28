@@ -14,7 +14,7 @@ import atanana.com.sireader.files.ParseFileUseCase
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.android.schedulers.AndroidSchedulers
 
-class PacksViewModel constructor(
+class PacksActivityViewModel constructor(
         private val openFileHandler: OpenFileHandler,
         private val parseFileUseCase: ParseFileUseCase,
         private val rxPermissions: RxPermissions

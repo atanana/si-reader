@@ -18,7 +18,7 @@ class PacksActivity : AppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: PacksViewModelFactory
 
-    lateinit var viewModel: PacksViewModel
+    lateinit var viewModel: PacksActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -28,7 +28,7 @@ class PacksActivity : AppCompatActivity() {
 
         viewModel = ViewModelProviders
                 .of(this, viewModelFactory)
-                .get(PacksViewModel::class.java)
+                .get(PacksActivityViewModel::class.java)
 
         fab.setOnClickListener {
             viewModel.fabClicked()
