@@ -22,7 +22,7 @@ class PacksActivityModule {
 
 @Module
 internal abstract class InjectorsModule {
-    @ContributesAndroidInjector(modules = [RxPermissionsModule::class, PacksActivityModule::class])
+    @ContributesAndroidInjector(modules = [PacksActivityModule::class])
     abstract fun packsActivity(): PacksActivity
 
     @ContributesAndroidInjector

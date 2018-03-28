@@ -73,9 +73,6 @@ dependencies {
     //poi
     implementation group: 'org.apache.poi', name: 'poi-scratchpad', version: rootProject.ext.poiVersion
 
-    //rxPermissions
-    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
-
     testImplementation "junit:junit:${rootProject.ext.junitVersion}"
     androidTestImplementation "com.android.support.test:runner:${rootProject.ext.testRunnerVersion}"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:${rootProject.ext.testEspressoVersion}"
