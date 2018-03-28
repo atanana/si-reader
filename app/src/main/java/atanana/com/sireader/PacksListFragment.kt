@@ -1,5 +1,6 @@
 package atanana.com.sireader
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -8,7 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import atanana.com.sireader.viewmodels.PacksListViewModel
 import atanana.com.sireader.viewmodels.PacksListViewModelFactory
+import atanana.com.sireader.views.gone
 import dagger.android.support.AndroidSupportInjection
+import kotlinx.android.synthetic.main.fragment_packs.*
 import javax.inject.Inject
 
 /**
@@ -28,6 +31,12 @@ class PacksListFragment : Fragment() {
         viewModel = ViewModelProviders
                 .of(this, viewModelFactory)
                 .get(PacksListViewModel::class.java)
+
+        viewModel.files.observe(this, Observer { files ->
+            files!!
+            no_packs_label.gone(files.isNotEmpty())
+            packs_list.gone(files.isEmpty())
+        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
