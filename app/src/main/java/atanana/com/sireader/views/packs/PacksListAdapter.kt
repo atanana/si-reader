@@ -10,6 +10,10 @@ import atanana.com.sireader.database.QuestionFileEntity
 
 class PacksListAdapter : RecyclerView.Adapter<PacksListAdapter.ViewHolder>() {
     var packs = emptyList<QuestionFileEntity>()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
