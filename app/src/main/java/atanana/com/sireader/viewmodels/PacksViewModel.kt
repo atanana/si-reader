@@ -44,13 +44,14 @@ class PacksViewModel constructor(
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == OPEN_FILE_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             val uri = openFileHandler.getUri(data)
-            try {
-                parseFileUseCase.process(uri)
-            } catch (e: ParseFileException) {
-                bus.value = ResourceTextMessage(R.string.cannot_parse_file)
-            } catch (e: CannotSaveInDatabaseException) {
-                bus.value = ResourceTextMessage(R.string.cannot_save_questions)
-            }
+            parseFileUseCase.process(uri)
+                    .subscribe({}, { error ->
+                        bus.value = when (error) {
+                            is ParseFileException -> ResourceTextMessage(R.string.cannot_parse_file)
+                            is CannotSaveInDatabaseException -> ResourceTextMessage(R.string.cannot_save_questions)
+                            else -> ResourceTextMessage(R.string.unknown_error)
+                        }
+                    })
         }
     }
 }

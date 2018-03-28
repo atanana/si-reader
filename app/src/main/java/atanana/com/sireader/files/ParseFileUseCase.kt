@@ -12,6 +12,8 @@ import com.atanana.si_parser.QuestionPackTokenizer
 import com.atanana.si_parser.SiInfo
 import com.atanana.si_parser.parsing.InfoParser
 import com.atanana.si_parser.parsing.QuestionPackParser
+import io.reactivex.Completable
+import io.reactivex.schedulers.Schedulers
 import org.apache.poi.hwpf.HWPFDocument
 import org.apache.poi.hwpf.extractor.WordExtractor
 import javax.inject.Inject
@@ -23,7 +25,7 @@ class ParseFileUseCase @Inject constructor(
         private val database: Database,
         private val contentResolver: ContentResolver
 ) {
-    fun process(uri: Uri) {
+    fun process(uri: Uri): Completable = Completable.fromCallable {
         val (siInfo, questionPacks) = parseFile(uri)
 
         database.save {
@@ -41,6 +43,7 @@ class ParseFileUseCase @Inject constructor(
             }
         }
     }
+            .subscribeOn(Schedulers.io())
 
     private fun saveQuestion(question: QuestionData, packId: Int) {
         questionsDao.insertQuestion(
