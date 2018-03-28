@@ -12,6 +12,7 @@ import atanana.com.sireader.files.OPEN_FILE_REQUEST_CODE
 import atanana.com.sireader.files.OpenFileHandler
 import atanana.com.sireader.files.ParseFileUseCase
 import com.tbruyelle.rxpermissions2.RxPermissions
+import io.reactivex.android.schedulers.AndroidSchedulers
 
 class PacksViewModel constructor(
         private val openFileHandler: OpenFileHandler,
@@ -45,6 +46,7 @@ class PacksViewModel constructor(
         if (requestCode == OPEN_FILE_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             val uri = openFileHandler.getUri(data)
             parseFileUseCase.process(uri)
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({}, { error ->
                         bus.value = when (error) {
                             is ParseFileException -> ResourceTextMessage(R.string.cannot_parse_file)
