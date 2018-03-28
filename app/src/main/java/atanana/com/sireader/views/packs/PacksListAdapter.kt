@@ -27,6 +27,6 @@ class PacksListAdapter : RecyclerView.Adapter<PacksListAdapter.ViewHolder>() {
 
     class ViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         val packName: TextView = item.findViewById(R.id.pack_name)
-        val packFile: TextView = item.findViewById(R.id.pack_name)
+        val packFile: TextView = item.findViewById(R.id.pack_file)
     }
 }

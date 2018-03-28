@@ -10,7 +10,7 @@
         android:id="@+id/pack_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColorLink="@android:color/black"
+        android:textColor="@android:color/black"
         android:textSize="18sp"
         tools:text="test pack name" />
 
