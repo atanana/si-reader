@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import atanana.com.sireader.App
 import atanana.com.sireader.PacksActivity
+import atanana.com.sireader.PacksListFragment
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
@@ -23,6 +24,9 @@ class PacksActivityModule {
 internal abstract class InjectorsModule {
     @ContributesAndroidInjector(modules = [RxPermissionsModule::class, PacksActivityModule::class])
     abstract fun packsActivity(): PacksActivity
+
+    @ContributesAndroidInjector
+    abstract fun packsListFragment(): PacksListFragment
 }
 
 @Component(modules = [

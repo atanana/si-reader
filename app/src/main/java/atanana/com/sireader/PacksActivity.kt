@@ -4,21 +4,30 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import atanana.com.sireader.viewmodels.*
 import dagger.android.AndroidInjection
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_packs.*
 import javax.inject.Inject
 
 
-class PacksActivity : AppCompatActivity() {
+class PacksActivity : HasSupportFragmentInjector, AppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: PacksViewModelFactory
 
     lateinit var viewModel: PacksActivityViewModel
+
+    @Inject
+    lateinit var dispatchingFragmentInjector: DispatchingAndroidInjector<Fragment>
+
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> = dispatchingFragmentInjector
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
