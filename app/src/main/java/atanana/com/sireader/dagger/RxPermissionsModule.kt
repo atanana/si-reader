@@ -1,6 +1,6 @@
 package atanana.com.sireader.dagger
 
-import atanana.com.sireader.PacksActivity
+import android.app.Activity
 import com.tbruyelle.rxpermissions2.RxPermissions
 import dagger.Module
 import dagger.Provides
@@ -8,5 +8,5 @@ import dagger.Provides
 @Module
 class RxPermissionsModule {
     @Provides
-    fun provideRxPermissions(activity: PacksActivity): RxPermissions = RxPermissions(activity)
+    fun provideRxPermissions(activity: Activity): RxPermissions = RxPermissions(activity)
 }
