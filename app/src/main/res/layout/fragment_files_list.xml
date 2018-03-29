@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PacksListFragment"
-    tools:showIn="@layout/activity_packs">
+    tools:context=".FilesListFragment"
+    tools:showIn="@layout/activity_files_list">
 
     <TextView
-        android:id="@+id/no_packs_label"
+        android:id="@+id/no_files_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/no_packs"
+        android:text="@string/no_files"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -19,9 +19,9 @@
         tools:visibility="gone" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/packs_list"
+        android:id="@+id/files_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_pack" />
+        tools:listitem="@layout/item_file" />
 
 </android.support.constraint.ConstraintLayout>

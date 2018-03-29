@@ -9,22 +9,22 @@ import atanana.com.sireader.database.QuestionFilesDao
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
-class PacksListViewModelFactory @Inject constructor(
+class FilesListViewModelFactory @Inject constructor(
         private val filesDao: QuestionFilesDao
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T = when {
-        modelClass.isAssignableFrom(PacksListViewModel::class.java) ->
-            PacksListViewModel(filesDao) as T
+        modelClass.isAssignableFrom(FilesListViewModel::class.java) ->
+            FilesListViewModel(filesDao) as T
         else -> throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
 
-class PacksListViewModel(filesDao: QuestionFilesDao) : BaseViewModel() {
-    private val filesData = MutableLiveData<PacksListViewState>()
+class FilesListViewModel(filesDao: QuestionFilesDao) : BaseViewModel() {
+    private val filesData = MutableLiveData<FilesListViewState>()
 
-    val files: LiveData<PacksListViewState>
+    val files: LiveData<FilesListViewState>
         get() = filesData
 
     init {
@@ -32,7 +32,7 @@ class PacksListViewModel(filesDao: QuestionFilesDao) : BaseViewModel() {
                 filesDao.all()
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe { entities ->
-                            filesData.value = PacksListViewState(
+                            filesData.value = FilesListViewState(
                                     entities.isNotEmpty(),
                                     entities.isEmpty(),
                                     entities
@@ -41,13 +41,13 @@ class PacksListViewModel(filesDao: QuestionFilesDao) : BaseViewModel() {
         )
     }
 
-    fun onPackClick(packId: Int) {
-        bus.value = OpenPack(packId)
+    fun onFileClick(packId: Int) {
+        bus.value = OpenFile(packId)
     }
 }
 
-data class PacksListViewState(
-        val noPacksLabelGone: Boolean,
-        val packsListGone: Boolean,
-        val packs: List<QuestionFileEntity>
+data class FilesListViewState(
+        val noFilesLabelGone: Boolean,
+        val filesListGone: Boolean,
+        val files: List<QuestionFileEntity>
 )

@@ -8,28 +8,28 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import atanana.com.sireader.viewmodels.OpenPack
-import atanana.com.sireader.viewmodels.PacksListViewModel
-import atanana.com.sireader.viewmodels.PacksListViewModelFactory
-import atanana.com.sireader.viewmodels.PacksListViewState
+import atanana.com.sireader.viewmodels.FilesListViewModel
+import atanana.com.sireader.viewmodels.FilesListViewModelFactory
+import atanana.com.sireader.viewmodels.FilesListViewState
+import atanana.com.sireader.viewmodels.OpenFile
+import atanana.com.sireader.views.files.FilesListAdapter
 import atanana.com.sireader.views.gone
-import atanana.com.sireader.views.packs.PacksListAdapter
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.fragment_packs_list.*
+import kotlinx.android.synthetic.main.fragment_files_list.*
 import javax.inject.Inject
 
 /**
  * A placeholder fragment containing a simple view.
  */
-class PacksListFragment : Fragment() {
+class FilesListFragment : Fragment() {
 
     @Inject
-    lateinit var viewModelFactory: PacksListViewModelFactory
+    lateinit var viewModelFactory: FilesListViewModelFactory
 
-    private lateinit var viewModel: PacksListViewModel
+    private lateinit var viewModel: FilesListViewModel
 
-    private val packsAdapter = PacksListAdapter { packId ->
-        viewModel.onPackClick(packId)
+    private val filesAdapter = FilesListAdapter { fileId ->
+        viewModel.onFileClick(fileId)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,12 +38,12 @@ class PacksListFragment : Fragment() {
 
         viewModel = ViewModelProviders
                 .of(this, viewModelFactory)
-                .get(PacksListViewModel::class.java)
+                .get(FilesListViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_packs_list, container, false)
+        return inflater.inflate(R.layout.fragment_files_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,25 +54,25 @@ class PacksListFragment : Fragment() {
 
         viewModel.liveBus.observe(this, Observer { action ->
             when (action) {
-                is OpenPack -> openPack(action.packId)
+                is OpenFile -> openFile(action.fileId)
             }
         })
 
-        packs_list.layoutManager = LinearLayoutManager(activity)
-        packs_list.adapter = packsAdapter
+        files_list.layoutManager = LinearLayoutManager(activity)
+        files_list.adapter = filesAdapter
     }
 
-    private fun setViewState(state: PacksListViewState) {
-        no_packs_label.gone(state.noPacksLabelGone)
-        packs_list.gone(state.packsListGone)
-        packsAdapter.packs = state.packs
+    private fun setViewState(state: FilesListViewState) {
+        no_files_label.gone(state.noFilesLabelGone)
+        files_list.gone(state.filesListGone)
+        filesAdapter.files = state.files
     }
 
-    private fun openPack(packId: Int) {
+    private fun openFile(fileId: Int) {
         fragmentManager?.apply {
             beginTransaction()
-                    .replace(R.id.fragment, PackFragment.newInstance(packId), PackFragment.TAG)
-                    .addToBackStack(PackFragment.TAG)
+                    .replace(R.id.fragment, FileFragment.newInstance(fileId), FileFragment.TAG)
+                    .addToBackStack(FileFragment.TAG)
                     .commit()
         }
     }

@@ -13,4 +13,4 @@ data class ResourceTextMessage(@StringRes val textId: Int) : TextMessage()
 
 data class ActivityForResultMessage(val intent: Intent, val requestCode: Int) : Action()
 
-data class OpenPack(val packId: Int) : Action()
+data class OpenFile(val fileId: Int) : Action()

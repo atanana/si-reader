@@ -13,20 +13,20 @@ import atanana.com.sireader.usecases.ParseFileUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
-class PacksViewModelFactory @Inject constructor(
+class FilesListActivityViewModelFactory @Inject constructor(
         private val openFileHandler: OpenFileHandler,
         private val parseFileUseCase: ParseFileUseCase
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T = when {
-        modelClass.isAssignableFrom(PacksActivityViewModel::class.java) ->
-            PacksActivityViewModel(openFileHandler, parseFileUseCase) as T
+        modelClass.isAssignableFrom(FilesListActivityViewModel::class.java) ->
+            FilesListActivityViewModel(openFileHandler, parseFileUseCase) as T
         else -> throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
 
-class PacksActivityViewModel(
+class FilesListActivityViewModel(
         private val openFileHandler: OpenFileHandler,
         private val parseFileUseCase: ParseFileUseCase
 ) : BaseViewModel() {

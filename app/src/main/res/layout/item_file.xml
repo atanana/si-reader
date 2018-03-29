@@ -10,7 +10,7 @@
     android:padding="@dimen/default_margin">
 
     <TextView
-        android:id="@+id/pack_name"
+        android:id="@+id/file_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
@@ -18,12 +18,12 @@
         tools:text="test pack name" />
 
     <TextView
-        android:id="@+id/pack_file"
+        android:id="@+id/file_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_margin"
-        app:layout_constraintStart_toStartOf="@+id/pack_name"
-        app:layout_constraintTop_toBottomOf="@+id/pack_name"
+        app:layout_constraintStart_toStartOf="@+id/file_title"
+        app:layout_constraintTop_toBottomOf="@+id/file_title"
         tools:text="test_pack.doc" />
 
 </android.support.constraint.ConstraintLayout>

@@ -14,15 +14,15 @@ import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
-import kotlinx.android.synthetic.main.activity_packs.*
+import kotlinx.android.synthetic.main.activity_files_list.*
 import javax.inject.Inject
 
 
-class PacksActivity : HasSupportFragmentInjector, AppCompatActivity() {
+class FilesListActivity : HasSupportFragmentInjector, AppCompatActivity() {
     @Inject
-    lateinit var viewModelFactory: PacksViewModelFactory
+    lateinit var viewModelFactory: FilesListActivityViewModelFactory
 
-    lateinit var viewModel: PacksActivityViewModel
+    private lateinit var viewModel: FilesListActivityViewModel
 
     @Inject
     lateinit var dispatchingFragmentInjector: DispatchingAndroidInjector<Fragment>
@@ -32,12 +32,12 @@ class PacksActivity : HasSupportFragmentInjector, AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_packs)
+        setContentView(R.layout.activity_files_list)
         setSupportActionBar(toolbar)
 
         viewModel = ViewModelProviders
                 .of(this, viewModelFactory)
-                .get(PacksActivityViewModel::class.java)
+                .get(FilesListActivityViewModel::class.java)
 
         fab.setOnClickListener {
             viewModel.fabClicked()
@@ -66,7 +66,7 @@ class PacksActivity : HasSupportFragmentInjector, AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_packs, menu)
+        menuInflater.inflate(R.menu.menu_files, menu)
         return true
     }
 

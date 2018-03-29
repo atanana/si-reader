@@ -3,8 +3,8 @@ package atanana.com.sireader.dagger
 import android.app.Activity
 import android.content.Context
 import atanana.com.sireader.App
-import atanana.com.sireader.PacksActivity
-import atanana.com.sireader.PacksListFragment
+import atanana.com.sireader.FilesListActivity
+import atanana.com.sireader.FilesListFragment
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
@@ -15,18 +15,18 @@ import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 @Module
-class PacksActivityModule {
+class FilesListActivityModule {
     @Provides
-    fun provideActivity(packsActivity: PacksActivity): Activity = packsActivity
+    fun provideActivity(filesListActivity: FilesListActivity): Activity = filesListActivity
 }
 
 @Module
 internal abstract class InjectorsModule {
-    @ContributesAndroidInjector(modules = [PacksActivityModule::class])
-    abstract fun packsActivity(): PacksActivity
+    @ContributesAndroidInjector(modules = [FilesListActivityModule::class])
+    abstract fun filesListActivity(): FilesListActivity
 
     @ContributesAndroidInjector
-    abstract fun packsListFragment(): PacksListFragment
+    abstract fun filesListFragment(): FilesListFragment
 }
 
 @Component(modules = [

@@ -7,31 +7,31 @@ import android.view.View
 import android.view.ViewGroup
 
 
-private const val ARG_PACK_ID = "pack_id"
+private const val ARG_FILE_ID = "file_id"
 
-class PackFragment : Fragment() {
-    private var packId: Int? = null
+class FileFragment : Fragment() {
+    private var fileId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            packId = it.getInt(ARG_PACK_ID)
+            fileId = it.getInt(ARG_FILE_ID)
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_pack, container, false)
+        return inflater.inflate(R.layout.fragment_file, container, false)
     }
 
     companion object {
-        val TAG = "PackFragment"
+        const val TAG = "FileFragment"
 
         @JvmStatic
-        fun newInstance(packId: Int) =
-                PackFragment().apply {
+        fun newInstance(fileId: Int) =
+                FileFragment().apply {
                     arguments = Bundle().apply {
-                        putInt(ARG_PACK_ID, packId)
+                        putInt(ARG_FILE_ID, fileId)
                     }
                 }
     }
