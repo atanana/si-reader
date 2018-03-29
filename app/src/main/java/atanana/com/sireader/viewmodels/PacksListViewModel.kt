@@ -22,16 +22,28 @@ class PacksListViewModelFactory @Inject constructor(
 }
 
 class PacksListViewModel(filesDao: QuestionFilesDao) : BaseViewModel() {
-    private val filesData = MutableLiveData<List<QuestionFileEntity>>()
+    private val filesData = MutableLiveData<PacksListViewState>()
 
-    val files: LiveData<List<QuestionFileEntity>>
+    val files: LiveData<PacksListViewState>
         get() = filesData
 
     init {
         addDisposable(
                 filesDao.all()
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe { filesData.value = it }
+                        .subscribe { entities ->
+                            filesData.value = PacksListViewState(
+                                    entities.isNotEmpty(),
+                                    entities.isEmpty(),
+                                    entities
+                            )
+                        }
         )
     }
 }
+
+data class PacksListViewState(
+        val noPacksLabelGone: Boolean,
+        val packsListGone: Boolean,
+        val packs: List<QuestionFileEntity>
+)

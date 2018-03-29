@@ -43,11 +43,11 @@ class PacksListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.files.observe(this, Observer { files ->
-            files!!
-            no_packs_label.gone(files.isNotEmpty())
-            packs_list.gone(files.isEmpty())
-            packsAdapter.packs = files
+        viewModel.files.observe(this, Observer { state ->
+            state!!
+            no_packs_label.gone(state.noPacksLabelGone)
+            packs_list.gone(state.packsListGone)
+            packsAdapter.packs = state.packs
         })
 
         packs_list.layoutManager = LinearLayoutManager(activity)
