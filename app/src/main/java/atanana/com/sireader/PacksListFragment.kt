@@ -15,7 +15,7 @@ import atanana.com.sireader.viewmodels.PacksListViewState
 import atanana.com.sireader.views.gone
 import atanana.com.sireader.views.packs.PacksListAdapter
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.fragment_packs.*
+import kotlinx.android.synthetic.main.fragment_packs_list.*
 import javax.inject.Inject
 
 /**
@@ -43,7 +43,7 @@ class PacksListFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_packs, container, false)
+        return inflater.inflate(R.layout.fragment_packs_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
