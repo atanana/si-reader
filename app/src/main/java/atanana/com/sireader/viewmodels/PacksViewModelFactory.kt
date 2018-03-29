@@ -3,7 +3,7 @@ package atanana.com.sireader.viewmodels
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import atanana.com.sireader.files.OpenFileHandler
-import atanana.com.sireader.files.ParseFileUseCase
+import atanana.com.sireader.usecases.ParseFileUseCase
 import javax.inject.Inject
 
 class PacksViewModelFactory @Inject constructor(

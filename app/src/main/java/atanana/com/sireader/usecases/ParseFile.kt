@@ -1,4 +1,4 @@
-package atanana.com.sireader.files
+package atanana.com.sireader.usecases
 
 import android.content.ContentResolver
 import android.net.Uri

@@ -9,7 +9,7 @@ import atanana.com.sireader.ParseFileException
 import atanana.com.sireader.R
 import atanana.com.sireader.files.OPEN_FILE_REQUEST_CODE
 import atanana.com.sireader.files.OpenFileHandler
-import atanana.com.sireader.files.ParseFileUseCase
+import atanana.com.sireader.usecases.ParseFileUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 
 class PacksActivityViewModel(
