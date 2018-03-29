@@ -2,7 +2,6 @@ package atanana.com.sireader.viewmodels
 
 import android.app.Activity.RESULT_OK
 import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.ViewModel
 import android.content.Intent
 import atanana.com.sireader.CannotSaveInDatabaseException
 import atanana.com.sireader.ParseFileException
@@ -15,7 +14,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 class PacksActivityViewModel(
         private val openFileHandler: OpenFileHandler,
         private val parseFileUseCase: ParseFileUseCase
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val bus = SingleLiveEvent<Action>()
 
@@ -34,15 +33,17 @@ class PacksActivityViewModel(
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == OPEN_FILE_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             val uri = openFileHandler.getUri(data)
-            parseFileUseCase.process(uri)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({}, { error ->
-                        bus.value = when (error) {
-                            is ParseFileException -> ResourceTextMessage(R.string.cannot_parse_file)
-                            is CannotSaveInDatabaseException -> ResourceTextMessage(R.string.cannot_save_questions)
-                            else -> ResourceTextMessage(R.string.unknown_error)
-                        }
-                    })
+            addDisposable(
+                    parseFileUseCase.process(uri)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({}, { error ->
+                                bus.value = when (error) {
+                                    is ParseFileException -> ResourceTextMessage(R.string.cannot_parse_file)
+                                    is CannotSaveInDatabaseException -> ResourceTextMessage(R.string.cannot_save_questions)
+                                    else -> ResourceTextMessage(R.string.unknown_error)
+                                }
+                            })
+            )
         }
     }
 }
