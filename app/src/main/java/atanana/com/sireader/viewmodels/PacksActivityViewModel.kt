@@ -2,6 +2,8 @@ package atanana.com.sireader.viewmodels
 
 import android.app.Activity.RESULT_OK
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProvider
 import android.content.Intent
 import atanana.com.sireader.CannotSaveInDatabaseException
 import atanana.com.sireader.ParseFileException
@@ -10,6 +12,20 @@ import atanana.com.sireader.files.OPEN_FILE_REQUEST_CODE
 import atanana.com.sireader.files.OpenFileHandler
 import atanana.com.sireader.usecases.ParseFileUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
+import javax.inject.Inject
+
+class PacksViewModelFactory @Inject constructor(
+        private val openFileHandler: OpenFileHandler,
+        private val parseFileUseCase: ParseFileUseCase
+) : ViewModelProvider.Factory {
+
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T = when {
+        modelClass.isAssignableFrom(PacksActivityViewModel::class.java) ->
+            PacksActivityViewModel(openFileHandler, parseFileUseCase) as T
+        else -> throw IllegalArgumentException("Unknown ViewModel class")
+    }
+}
 
 class PacksActivityViewModel(
         private val openFileHandler: OpenFileHandler,
