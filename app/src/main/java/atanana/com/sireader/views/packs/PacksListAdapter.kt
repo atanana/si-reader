@@ -8,7 +8,10 @@ import android.widget.TextView
 import atanana.com.sireader.R
 import atanana.com.sireader.database.QuestionFileEntity
 
-class PacksListAdapter : RecyclerView.Adapter<PacksListAdapter.ViewHolder>() {
+class PacksListAdapter(
+        private val selectPack: (Int) -> Unit
+) : RecyclerView.Adapter<PacksListAdapter.ViewHolder>() {
+
     var packs = emptyList<QuestionFileEntity>()
         set(value) {
             field = value
@@ -27,9 +30,10 @@ class PacksListAdapter : RecyclerView.Adapter<PacksListAdapter.ViewHolder>() {
         val pack = packs[position]
         holder.packName.text = pack.title
         holder.packFile.text = pack.filename
+        holder.item.setOnClickListener { selectPack(pack.id) }
     }
 
-    class ViewHolder(item: View) : RecyclerView.ViewHolder(item) {
+    class ViewHolder(val item: View) : RecyclerView.ViewHolder(item) {
         val packName: TextView = item.findViewById(R.id.pack_name)
         val packFile: TextView = item.findViewById(R.id.pack_file)
     }

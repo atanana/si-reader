@@ -40,6 +40,10 @@ class PacksListViewModel(filesDao: QuestionFilesDao) : BaseViewModel() {
                         }
         )
     }
+
+    fun onPackClick(packId: Int) {
+        bus.value = OpenPack(packId)
+    }
 }
 
 data class PacksListViewState(

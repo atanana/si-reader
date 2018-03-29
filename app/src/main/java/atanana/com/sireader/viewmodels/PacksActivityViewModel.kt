@@ -1,7 +1,6 @@
 package atanana.com.sireader.viewmodels
 
 import android.app.Activity.RESULT_OK
-import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.content.Intent
@@ -31,11 +30,6 @@ class PacksActivityViewModel(
         private val openFileHandler: OpenFileHandler,
         private val parseFileUseCase: ParseFileUseCase
 ) : BaseViewModel() {
-
-    private val bus = SingleLiveEvent<Action>()
-
-    val liveBus: LiveData<Action>
-        get() = bus
 
     fun fabClicked() {
         val intent = openFileHandler.openFileIntent()

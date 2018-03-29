@@ -6,4 +6,7 @@
     <string name="cannot_parse_file">Не удалось прочитать файл!</string>
     <string name="cannot_save_questions">Не сохранить вопросы в базу данных!</string>
     <string name="unknown_error">Неизвестная ошибка!</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
