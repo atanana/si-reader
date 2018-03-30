@@ -5,7 +5,7 @@
     style="@style/ListItem">
 
     <TextView
-        android:id="@+id/file_title"
+        android:id="@+id/pack_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
@@ -13,12 +13,21 @@
         tools:text="test pack name" />
 
     <TextView
-        android:id="@+id/file_name"
+        android:id="@+id/pack_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_margin"
-        app:layout_constraintStart_toStartOf="@+id/file_title"
-        app:layout_constraintTop_toBottomOf="@+id/file_title"
-        tools:text="test_pack.doc" />
+        app:layout_constraintStart_toStartOf="@+id/pack_title"
+        app:layout_constraintTop_toBottomOf="@+id/pack_title"
+        tools:text="test pack author" />
+
+    <TextView
+        android:id="@+id/pack_notes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        app:layout_constraintStart_toStartOf="@+id/pack_author"
+        app:layout_constraintTop_toBottomOf="@+id/pack_author"
+        tools:text="test pack notes" />
 
 </android.support.constraint.ConstraintLayout>
