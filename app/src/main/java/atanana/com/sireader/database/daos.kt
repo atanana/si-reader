@@ -28,6 +28,9 @@ interface QuestionFilesDao {
     @Query("select * from files")
     fun all(): Flowable<List<QuestionFileEntity>>
 
+    @Query("select * from files where id = :fileId")
+    fun file(fileId: Int): Flowable<QuestionFileEntity>
+
     @Insert
     fun insertFile(file: QuestionFileEntity): Long
 }
