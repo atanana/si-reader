@@ -8,6 +8,7 @@ import atanana.com.sireader.database.PackEntity
 import atanana.com.sireader.database.PacksDao
 import atanana.com.sireader.database.QuestionFileEntity
 import atanana.com.sireader.database.QuestionFilesDao
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
 import javax.inject.Inject
 
@@ -17,7 +18,7 @@ class FileViewModelFactory @Inject constructor(
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T = when {
-        modelClass.isAssignableFrom(FilesListViewModel::class.java) ->
+        modelClass.isAssignableFrom(FileViewModel::class.java) ->
             FileViewModel(filesDao, packsDao) as T
         else -> throw IllegalArgumentException("Unknown ViewModel class")
     }
@@ -39,6 +40,7 @@ class FileViewModel(
                                 packsDao.packForFile(fileId),
                                 BiFunction { file, packs -> FileViewState(file, packs) }
                         )
+                        .observeOn(AndroidSchedulers.mainThread())
                         .subscribe { fileData.value = it }
         )
     }
