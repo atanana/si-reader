@@ -26,4 +26,9 @@
         <item name="android:elevation">@dimen/card_elevation</item>
     </style>
 
+    <style name="TitleText">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
 </resources>

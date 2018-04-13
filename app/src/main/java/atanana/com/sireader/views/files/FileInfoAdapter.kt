@@ -8,6 +8,8 @@ import android.widget.TextView
 import atanana.com.sireader.R
 import atanana.com.sireader.SiReaderException
 import atanana.com.sireader.database.PackEntity
+import atanana.com.sireader.database.QuestionFileEntity
+import atanana.com.sireader.views.gone
 
 class FileInfoAdapter : RecyclerView.Adapter<FileInfoAdapter.ViewHolder>() {
     companion object {
@@ -20,6 +22,13 @@ class FileInfoAdapter : RecyclerView.Adapter<FileInfoAdapter.ViewHolder>() {
             field = value
             notifyDataSetChanged()
         }
+
+    var info: QuestionFileEntity? = null
+        set(value) {
+            field = value
+            notifyItemChanged(0)
+        }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return when (viewType) {
@@ -39,6 +48,7 @@ class FileInfoAdapter : RecyclerView.Adapter<FileInfoAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         when (getItemViewType(position)) {
             TYPE_FILE_INFO -> {
+                info?.let { (holder as FileInfoViewHolder).bind(it) }
             }
             TYPE_PACK -> {
                 val pack = packs[position - 1]
@@ -52,7 +62,7 @@ class FileInfoAdapter : RecyclerView.Adapter<FileInfoAdapter.ViewHolder>() {
         return if (position == 0) TYPE_FILE_INFO else TYPE_PACK
     }
 
-    open class ViewHolder(val item: View) : RecyclerView.ViewHolder(item)
+    open class ViewHolder(item: View) : RecyclerView.ViewHolder(item)
 
     class PackViewHolder(item: View) : ViewHolder(item) {
         private val packTitle: TextView = item.findViewById(R.id.pack_title)
@@ -66,5 +76,19 @@ class FileInfoAdapter : RecyclerView.Adapter<FileInfoAdapter.ViewHolder>() {
         }
     }
 
-    class FileInfoViewHolder(item: View) : ViewHolder(item)
+    class FileInfoViewHolder(item: View) : ViewHolder(item) {
+        private val fileTitle: TextView = item.findViewById(R.id.file_title)
+        private val fileName: TextView = item.findViewById(R.id.file_name)
+        private val fileNotes: TextView = item.findViewById(R.id.file_notes)
+        private val fileEditors: TextView = item.findViewById(R.id.file_editors)
+
+        fun bind(fileEntity: QuestionFileEntity) {
+            fileTitle.text = fileEntity.title
+            fileName.text = fileEntity.filename
+            fileNotes.text = fileEntity.notes
+            fileNotes.gone(fileEntity.notes.isNullOrBlank())
+            fileEditors.text = fileEntity.editor
+            fileEditors.gone(fileEntity.editor.isNullOrBlank())
+        }
+    }
 }

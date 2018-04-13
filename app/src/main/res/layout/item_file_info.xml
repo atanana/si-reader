@@ -1,4 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout style="@style/ListItem">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimaryDark"
+    android:elevation="@dimen/app_bar_elevation"
+    android:paddingBottom="@dimen/default_margin"
+    android:paddingLeft="@dimen/double_margin"
+    android:paddingRight="@dimen/double_margin"
+    android:paddingTop="@dimen/default_margin">
+
+    <TextView
+        android:id="@+id/file_title"
+        style="@style/TitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        tools:text="test file title" />
+
+    <TextView
+        android:id="@+id/file_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toStartOf="@+id/file_title"
+        app:layout_constraintTop_toBottomOf="@+id/file_title"
+        tools:text="test file name" />
+
+    <TextView
+        android:id="@+id/file_notes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:textColor="@android:color/white"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/file_name"
+        app:layout_constraintTop_toBottomOf="@+id/file_name"
+        tools:text="test file notes" />
+
+    <TextView
+        android:id="@+id/file_editors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:textColor="@android:color/white"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/file_notes"
+        app:layout_constraintTop_toBottomOf="@+id/file_notes"
+        tools:text="test file editors" />
 
 </android.support.constraint.ConstraintLayout>

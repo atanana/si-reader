@@ -52,6 +52,7 @@ class FileFragment : Fragment() {
         viewModel.file.observe(this, Observer { state ->
             state!!
             packsAdapter.packs = state.packs
+            packsAdapter.info = state.file
         })
 
         file_info.layoutManager = LinearLayoutManager(activity)
