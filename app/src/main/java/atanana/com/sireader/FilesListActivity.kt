@@ -1,7 +1,6 @@
 package atanana.com.sireader
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -20,7 +19,7 @@ import javax.inject.Inject
 
 class FilesListActivity : HasSupportFragmentInjector, AppCompatActivity() {
     @Inject
-    lateinit var viewModelFactory: FilesListActivityViewModelFactory
+    lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var viewModel: FilesListActivityViewModel
 
@@ -35,9 +34,7 @@ class FilesListActivity : HasSupportFragmentInjector, AppCompatActivity() {
         setContentView(R.layout.activity_files_list)
         setSupportActionBar(toolbar)
 
-        viewModel = ViewModelProviders
-                .of(this, viewModelFactory)
-                .get(FilesListActivityViewModel::class.java)
+        viewModel = getViewModel(viewModelFactory)
 
         fab.setOnClickListener {
             viewModel.fabClicked()

@@ -1,17 +1,13 @@
 package atanana.com.sireader
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import atanana.com.sireader.viewmodels.FilesListViewModel
-import atanana.com.sireader.viewmodels.FilesListViewModelFactory
-import atanana.com.sireader.viewmodels.FilesListViewState
-import atanana.com.sireader.viewmodels.OpenFile
+import atanana.com.sireader.viewmodels.*
 import atanana.com.sireader.views.files.FilesListAdapter
 import atanana.com.sireader.views.gone
 import dagger.android.support.AndroidSupportInjection
@@ -24,7 +20,7 @@ import javax.inject.Inject
 class FilesListFragment : Fragment() {
 
     @Inject
-    lateinit var viewModelFactory: FilesListViewModelFactory
+    lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var viewModel: FilesListViewModel
 
@@ -36,9 +32,7 @@ class FilesListFragment : Fragment() {
         AndroidSupportInjection.inject(this)
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProviders
-                .of(this, viewModelFactory)
-                .get(FilesListViewModel::class.java)
+        viewModel = getViewModel(viewModelFactory)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

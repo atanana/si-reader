@@ -1,7 +1,6 @@
 package atanana.com.sireader
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -9,7 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import atanana.com.sireader.viewmodels.FileViewModel
-import atanana.com.sireader.viewmodels.FileViewModelFactory
+import atanana.com.sireader.viewmodels.ViewModelFactory
+import atanana.com.sireader.viewmodels.getViewModel
 import atanana.com.sireader.views.files.FileInfoAdapter
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_file.*
@@ -22,7 +22,7 @@ class FileFragment : Fragment() {
     private var fileId: Int? = null
 
     @Inject
-    lateinit var viewModelFactory: FileViewModelFactory
+    lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var viewModel: FileViewModel
 
@@ -32,9 +32,7 @@ class FileFragment : Fragment() {
         AndroidSupportInjection.inject(this)
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProviders
-                .of(this, viewModelFactory)
-                .get(FileViewModel::class.java)
+        viewModel = getViewModel(viewModelFactory)
 
         arguments?.let {
             fileId = it.getInt(ARG_FILE_ID)

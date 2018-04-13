@@ -2,8 +2,6 @@ package atanana.com.sireader.viewmodels
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
 import atanana.com.sireader.database.PackEntity
 import atanana.com.sireader.database.PacksDao
 import atanana.com.sireader.database.QuestionFileEntity
@@ -12,19 +10,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
 import javax.inject.Inject
 
-class FileViewModelFactory @Inject constructor(
-        private val filesDao: QuestionFilesDao,
-        private val packsDao: PacksDao
-) : ViewModelProvider.Factory {
-    @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T = when {
-        modelClass.isAssignableFrom(FileViewModel::class.java) ->
-            FileViewModel(filesDao, packsDao) as T
-        else -> throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}
-
-class FileViewModel(
+class FileViewModel @Inject constructor(
         private val filesDao: QuestionFilesDao,
         private val packsDao: PacksDao
 ) : BaseViewModel() {
