@@ -24,7 +24,10 @@ class PackViewModel @Inject constructor(
                 packsDao.pack(packId)
                         .zipWith<List<QuestionEntity>, PackViewState>(
                                 questionsDao.questionsForPack(packId),
-                                BiFunction { pack, questions -> PackViewState(pack, questions) }
+                                BiFunction { pack, questions ->
+                                    val questionViewModels = questions.map { QuestionViewModel(it, false) }
+                                    PackViewState(pack, questionViewModels)
+                                }
                         )
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe { packData.value = it }
@@ -32,4 +35,6 @@ class PackViewModel @Inject constructor(
     }
 }
 
-data class PackViewState(val pack: PackEntity, val questions: List<QuestionEntity>)
+data class QuestionViewModel(val question: QuestionEntity, val isOpened: Boolean)
+
+data class PackViewState(val pack: PackEntity, val questions: List<QuestionViewModel>)

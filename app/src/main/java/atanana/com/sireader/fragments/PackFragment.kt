@@ -8,12 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import atanana.com.sireader.R
 import atanana.com.sireader.database.PackEntity
-import atanana.com.sireader.database.QuestionEntity
 import atanana.com.sireader.viewmodels.PackViewModel
+import atanana.com.sireader.viewmodels.QuestionViewModel
 import atanana.com.sireader.viewmodels.ViewModelFactory
 import atanana.com.sireader.viewmodels.getViewModel
 import atanana.com.sireader.views.optionalText
-import atanana.com.sireader.views.questions.QuestionsAdaper
+import atanana.com.sireader.views.questions.QuestionsAdapter
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_pack.*
 import javax.inject.Inject
@@ -28,7 +28,7 @@ class PackFragment : BaseFragment() {
 
     private lateinit var viewModel: PackViewModel
 
-    private val questionsAdapter = QuestionsAdaper { questionId ->
+    private val questionsAdapter = QuestionsAdapter { questionId ->
 
     }
 
@@ -68,7 +68,7 @@ class PackFragment : BaseFragment() {
         pack_notes.optionalText(pack.notes)
     }
 
-    private fun updateQuestions(questions: List<QuestionEntity>) {
+    private fun updateQuestions(questions: List<QuestionViewModel>) {
         questionsAdapter.questions = questions
     }
 

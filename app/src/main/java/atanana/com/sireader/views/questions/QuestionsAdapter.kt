@@ -6,12 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import atanana.com.sireader.R
-import atanana.com.sireader.database.QuestionEntity
+import atanana.com.sireader.viewmodels.QuestionViewModel
+import atanana.com.sireader.views.gone
 
-class QuestionsAdaper(
+class QuestionsAdapter(
         private val answerClick: (questionId: Int) -> Unit
-) : RecyclerView.Adapter<QuestionsAdaper.ViewHolder>() {
-    var questions = emptyList<QuestionEntity>()
+) : RecyclerView.Adapter<QuestionsAdapter.ViewHolder>() {
+    var questions = emptyList<QuestionViewModel>()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -31,9 +32,12 @@ class QuestionsAdaper(
 
     class ViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         private val questionText = item.findViewById<TextView>(R.id.question_text)
+        private val answer = item.findViewById<TextView>(R.id.answer)
 
-        fun bind(question: QuestionEntity) {
-            questionText.text = question.question
+        fun bind(viewModel: QuestionViewModel) {
+            questionText.text = viewModel.question.question
+            answer.gone(!viewModel.isOpened)
+            answer.text = viewModel.question.answer
         }
     }
 }
