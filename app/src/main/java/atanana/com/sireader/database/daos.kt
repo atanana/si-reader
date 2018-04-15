@@ -19,6 +19,9 @@ interface PacksDao {
     @Query("select * from packs where fileId = :fileId")
     fun packForFile(fileId: Int): Flowable<List<PackEntity>>
 
+    @Query("select * from packs where id = :packId")
+    fun pack(packId: Int): Flowable<PackEntity>
+
     @Insert
     fun insertPack(pack: PackEntity): Long
 }
