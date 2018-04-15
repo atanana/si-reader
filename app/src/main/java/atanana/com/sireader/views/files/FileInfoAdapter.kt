@@ -61,13 +61,9 @@ class FileInfoAdapter : RecyclerView.Adapter<FileInfoAdapter.ViewHolder>() {
     sealed class ViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         class PackViewHolder(item: View) : ViewHolder(item) {
             private val packTitle: TextView = item.findViewById(R.id.pack_title)
-            private val packAuthor: TextView = item.findViewById(R.id.pack_author)
-            private val packNotes: TextView = item.findViewById(R.id.pack_notes)
 
             fun bind(pack: PackEntity) {
                 packTitle.text = pack.topic
-                packAuthor.text = pack.author
-                packNotes.text = pack.notes
             }
         }
 

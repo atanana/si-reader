@@ -21,7 +21,10 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">@dimen/default_margin</item>
-        <item name="android:padding">@dimen/default_margin</item>
+        <item name="android:paddingLeft">@dimen/default_margin</item>
+        <item name="android:paddingRight">@dimen/default_margin</item>
+        <item name="android:paddingTop">@dimen/double_margin</item>
+        <item name="android:paddingBottom">@dimen/double_margin</item>
         <item name="android:background">@color/card_background</item>
         <item name="android:elevation">@dimen/card_elevation</item>
     </style>
