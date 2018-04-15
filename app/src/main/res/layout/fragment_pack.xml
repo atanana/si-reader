@@ -4,9 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@color/background"
+    tools:context=".fragments.PackFragment">
 
-    <android.support.constraint.ConstraintLayout style="@style/HeaderItem">
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/pack_info"
+        style="@style/HeaderItem">
 
         <TextView
             android:id="@+id/pack_title"
@@ -38,5 +41,15 @@
             tools:text="test file notes" />
 
     </android.support.constraint.ConstraintLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/questions_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pack_info"
+        tools:listitem="@layout/item_question">
+
+    </android.support.v7.widget.RecyclerView>
 
 </android.support.constraint.ConstraintLayout>

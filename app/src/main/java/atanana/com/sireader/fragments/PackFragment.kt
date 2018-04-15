@@ -2,6 +2,7 @@ package atanana.com.sireader.fragments
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import atanana.com.sireader.viewmodels.PackViewModel
 import atanana.com.sireader.viewmodels.ViewModelFactory
 import atanana.com.sireader.viewmodels.getViewModel
 import atanana.com.sireader.views.optionalText
+import atanana.com.sireader.views.questions.QuestionsAdaper
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_pack.*
 import javax.inject.Inject
@@ -25,6 +27,10 @@ class PackFragment : BaseFragment() {
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var viewModel: PackViewModel
+
+    private val questionsAdapter = QuestionsAdaper { questionId ->
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidSupportInjection.inject(this)
@@ -51,6 +57,9 @@ class PackFragment : BaseFragment() {
             updatePackInfo(state.pack)
             updateQuestions(state.questions)
         })
+
+        questions_list.layoutManager = LinearLayoutManager(activity)
+        questions_list.adapter = questionsAdapter
     }
 
     private fun updatePackInfo(pack: PackEntity) {
@@ -60,7 +69,7 @@ class PackFragment : BaseFragment() {
     }
 
     private fun updateQuestions(questions: List<QuestionEntity>) {
-
+        questionsAdapter.questions = questions
     }
 
     override val transactionTag: String
