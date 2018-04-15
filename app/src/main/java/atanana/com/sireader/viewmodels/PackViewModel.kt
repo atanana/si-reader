@@ -25,7 +25,7 @@ class PackViewModel @Inject constructor(
                         .zipWith<List<QuestionEntity>, PackViewState>(
                                 questionsDao.questionsForPack(packId),
                                 BiFunction { pack, questions ->
-                                    val questionViewModels = questions.map { QuestionViewModel(it, false) }
+                                    val questionViewModels = questions.map { QuestionViewModel(it, true) }
                                     PackViewState(pack, questionViewModels)
                                 }
                         )
@@ -33,8 +33,20 @@ class PackViewModel @Inject constructor(
                         .subscribe { packData.value = it }
         )
     }
+
+    fun onQuestionClick(questionId: Int) {
+        val currentState = packData.value!!
+        val newQuestions = currentState.questions.map {
+            if (it.question.id == questionId) {
+                it.copy(isClosed = false)
+            } else {
+                it
+            }
+        }
+        packData.value = currentState.copy(questions = newQuestions)
+    }
 }
 
-data class QuestionViewModel(val question: QuestionEntity, val isOpened: Boolean)
+data class QuestionViewModel(val question: QuestionEntity, val isClosed: Boolean)
 
 data class PackViewState(val pack: PackEntity, val questions: List<QuestionViewModel>)

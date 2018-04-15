@@ -10,7 +10,7 @@ import atanana.com.sireader.viewmodels.QuestionViewModel
 import atanana.com.sireader.views.gone
 
 class QuestionsAdapter(
-        private val answerClick: (questionId: Int) -> Unit
+        private val onQuestionClick: (questionId: Int) -> Unit
 ) : RecyclerView.Adapter<QuestionsAdapter.ViewHolder>() {
     var questions = emptyList<QuestionViewModel>()
         set(value) {
@@ -30,14 +30,20 @@ class QuestionsAdapter(
         holder.bind(questions[position])
     }
 
-    class ViewHolder(item: View) : RecyclerView.ViewHolder(item) {
+    inner class ViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         private val questionText = item.findViewById<TextView>(R.id.question_text)
         private val answer = item.findViewById<TextView>(R.id.answer)
 
         fun bind(viewModel: QuestionViewModel) {
             questionText.text = viewModel.question.question
-            answer.gone(!viewModel.isOpened)
+            answer.gone(viewModel.isClosed)
             answer.text = viewModel.question.answer
+
+            itemView.setOnClickListener {
+                if (viewModel.isClosed) {
+                    onQuestionClick(viewModel.question.id)
+                }
+            }
         }
     }
 }

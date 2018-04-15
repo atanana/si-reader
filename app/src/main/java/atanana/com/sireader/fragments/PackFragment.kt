@@ -29,7 +29,7 @@ class PackFragment : BaseFragment() {
     private lateinit var viewModel: PackViewModel
 
     private val questionsAdapter = QuestionsAdapter { questionId ->
-
+        viewModel.onQuestionClick(questionId)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
