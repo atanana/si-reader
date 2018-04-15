@@ -29,6 +29,12 @@
         <item name="android:elevation">@dimen/card_elevation</item>
     </style>
 
+    <style name="HeaderItem" parent="ListItem">
+        <item name="android:layout_margin">0dp</item>
+        <item name="android:elevation">@dimen/app_bar_elevation</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
+    </style>
+
     <style name="TitleText">
         <item name="android:textColor">@android:color/black</item>
         <item name="android:textSize">18sp</item>
