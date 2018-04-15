@@ -30,6 +30,10 @@ class FileViewModel @Inject constructor(
                         .subscribe { fileData.value = it }
         )
     }
+
+    fun onPackClick(packId: Int) {
+        bus.value = OpenPack(packId)
+    }
 }
 
 data class FileViewState(val file: QuestionFileEntity, val packs: List<PackEntity>)

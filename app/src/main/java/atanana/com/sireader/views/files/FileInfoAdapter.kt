@@ -13,7 +13,9 @@ import atanana.com.sireader.views.files.FileInfoAdapter.ViewHolder.FileInfoViewH
 import atanana.com.sireader.views.files.FileInfoAdapter.ViewHolder.PackViewHolder
 import atanana.com.sireader.views.gone
 
-class FileInfoAdapter : RecyclerView.Adapter<FileInfoAdapter.ViewHolder>() {
+class FileInfoAdapter(
+        private val selectPack: (Int) -> Unit
+) : RecyclerView.Adapter<FileInfoAdapter.ViewHolder>() {
     companion object {
         const val TYPE_FILE_INFO = 0
         const val TYPE_PACK = 1
@@ -35,7 +37,7 @@ class FileInfoAdapter : RecyclerView.Adapter<FileInfoAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return when (viewType) {
             TYPE_FILE_INFO -> FileInfoViewHolder(inflateView(parent, R.layout.item_file_info))
-            TYPE_PACK -> PackViewHolder(inflateView(parent, R.layout.item_pack))
+            TYPE_PACK -> PackViewHolder(inflateView(parent, R.layout.item_pack), selectPack)
             else -> throw SiReaderException("Unknown view type!")
         }
     }
@@ -59,11 +61,12 @@ class FileInfoAdapter : RecyclerView.Adapter<FileInfoAdapter.ViewHolder>() {
     }
 
     sealed class ViewHolder(item: View) : RecyclerView.ViewHolder(item) {
-        class PackViewHolder(item: View) : ViewHolder(item) {
+        class PackViewHolder(item: View, private val selectPack: (Int) -> Unit) : ViewHolder(item) {
             private val packTitle: TextView = item.findViewById(R.id.pack_title)
 
             fun bind(pack: PackEntity) {
                 packTitle.text = pack.topic
+                itemView.setOnClickListener { selectPack(pack.id) }
             }
         }
 

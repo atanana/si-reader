@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import atanana.com.sireader.R
 import atanana.com.sireader.viewmodels.FileViewModel
+import atanana.com.sireader.viewmodels.OpenPack
 import atanana.com.sireader.viewmodels.ViewModelFactory
 import atanana.com.sireader.viewmodels.getViewModel
 import atanana.com.sireader.views.files.FileInfoAdapter
@@ -27,7 +28,9 @@ class FileFragment : Fragment() {
 
     private lateinit var viewModel: FileViewModel
 
-    private val packsAdapter = FileInfoAdapter()
+    private val packsAdapter = FileInfoAdapter { packId ->
+        viewModel.onPackClick(packId)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidSupportInjection.inject(this)
@@ -56,8 +59,23 @@ class FileFragment : Fragment() {
             packsAdapter.info = state.file
         })
 
+        viewModel.liveBus.observe(this, Observer { action ->
+            when (action) {
+                is OpenPack -> openPack(action.packId)
+            }
+        })
+
         file_info.layoutManager = LinearLayoutManager(activity)
         file_info.adapter = packsAdapter
+    }
+
+    private fun openPack(packId: Int) {
+        fragmentManager?.apply {
+            beginTransaction()
+                    .replace(R.id.fragment, PackFragment.newInstance(packId), PackFragment.TAG)
+                    .addToBackStack(PackFragment.TAG)
+                    .commit()
+        }
     }
 
     companion object {

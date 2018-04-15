@@ -2,10 +2,7 @@ package atanana.com.sireader.dagger
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import atanana.com.sireader.viewmodels.FileViewModel
-import atanana.com.sireader.viewmodels.FilesListActivityViewModel
-import atanana.com.sireader.viewmodels.FilesListViewModel
-import atanana.com.sireader.viewmodels.ViewModelFactory
+import atanana.com.sireader.viewmodels.*
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
@@ -36,4 +33,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(FileViewModel::class)
     internal abstract fun fileViewModel(viewModel: FileViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PackViewModel::class)
+    internal abstract fun packViewModel(viewModel: PackViewModel): ViewModel
 }
