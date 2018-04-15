@@ -2,7 +2,6 @@ package atanana.com.sireader.fragments
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,7 @@ import javax.inject.Inject
 
 private const val ARG_PACK_ID = "pack_id"
 
-class PackFragment : Fragment() {
+class PackFragment : BaseFragment() {
     private var packId: Int? = null
 
     @Inject
@@ -47,6 +46,9 @@ class PackFragment : Fragment() {
 
         })
     }
+
+    override val transactionTag: String
+        get() = TAG
 
     companion object {
         const val TAG = "PackFragment"

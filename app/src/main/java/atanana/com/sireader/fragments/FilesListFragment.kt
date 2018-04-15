@@ -2,7 +2,6 @@ package atanana.com.sireader.fragments
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +17,7 @@ import javax.inject.Inject
 /**
  * A placeholder fragment containing a simple view.
  */
-class FilesListFragment : Fragment() {
+class FilesListFragment : BaseFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -64,11 +63,13 @@ class FilesListFragment : Fragment() {
     }
 
     private fun openFile(fileId: Int) {
-        fragmentManager?.apply {
-            beginTransaction()
-                    .replace(R.id.fragment, FileFragment.newInstance(fileId), FileFragment.TAG)
-                    .addToBackStack(FileFragment.TAG)
-                    .commit()
-        }
+        fragmentManager?.openFragment(FileFragment.newInstance(fileId))
+    }
+
+    override val transactionTag: String
+        get() = TAG
+
+    companion object {
+        const val TAG = "FilesListFragment"
     }
 }
