@@ -11,7 +11,7 @@ import atanana.com.sireader.database.PackEntity
 import atanana.com.sireader.database.QuestionFileEntity
 import atanana.com.sireader.views.files.FileInfoAdapter.ViewHolder.FileInfoViewHolder
 import atanana.com.sireader.views.files.FileInfoAdapter.ViewHolder.PackViewHolder
-import atanana.com.sireader.views.gone
+import atanana.com.sireader.views.optionalText
 
 class FileInfoAdapter(
         private val selectPack: (Int) -> Unit
@@ -79,10 +79,8 @@ class FileInfoAdapter(
             fun bind(fileEntity: QuestionFileEntity) {
                 fileTitle.text = fileEntity.title
                 fileName.text = fileEntity.filename
-                fileNotes.text = fileEntity.notes
-                fileNotes.gone(fileEntity.notes.isNullOrBlank())
-                fileEditors.text = fileEntity.editor
-                fileEditors.gone(fileEntity.editor.isNullOrBlank())
+                fileNotes.optionalText(fileEntity.notes)
+                fileEditors.optionalText(fileEntity.editor)
             }
         }
     }

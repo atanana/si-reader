@@ -6,10 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import atanana.com.sireader.R
+import atanana.com.sireader.database.PackEntity
+import atanana.com.sireader.database.QuestionEntity
 import atanana.com.sireader.viewmodels.PackViewModel
 import atanana.com.sireader.viewmodels.ViewModelFactory
 import atanana.com.sireader.viewmodels.getViewModel
+import atanana.com.sireader.views.optionalText
 import dagger.android.support.AndroidSupportInjection
+import kotlinx.android.synthetic.main.fragment_pack.*
 import javax.inject.Inject
 
 private const val ARG_PACK_ID = "pack_id"
@@ -43,8 +47,20 @@ class PackFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.pack.observe(this, Observer { state ->
-
+            state!!
+            updatePackInfo(state.pack)
+            updateQuestions(state.questions)
         })
+    }
+
+    private fun updatePackInfo(pack: PackEntity) {
+        pack_title.text = pack.topic
+        pack_author.optionalText(pack.author)
+        pack_notes.optionalText(pack.notes)
+    }
+
+    private fun updateQuestions(questions: List<QuestionEntity>) {
+
     }
 
     override val transactionTag: String
