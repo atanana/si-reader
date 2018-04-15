@@ -3,9 +3,9 @@ package atanana.com.sireader.dagger
 import android.app.Activity
 import android.content.Context
 import atanana.com.sireader.App
-import atanana.com.sireader.FileFragment
 import atanana.com.sireader.FilesListActivity
-import atanana.com.sireader.FilesListFragment
+import atanana.com.sireader.fragments.FileFragment
+import atanana.com.sireader.fragments.FilesListFragment
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module

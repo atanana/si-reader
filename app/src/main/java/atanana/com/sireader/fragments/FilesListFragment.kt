@@ -1,4 +1,4 @@
-package atanana.com.sireader
+package atanana.com.sireader.fragments
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import atanana.com.sireader.R
 import atanana.com.sireader.viewmodels.*
 import atanana.com.sireader.views.files.FilesListAdapter
 import atanana.com.sireader.views.gone

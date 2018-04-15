@@ -1,4 +1,4 @@
-package atanana.com.sireader
+package atanana.com.sireader.fragments
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import atanana.com.sireader.R
 import atanana.com.sireader.viewmodels.FileViewModel
 import atanana.com.sireader.viewmodels.ViewModelFactory
 import atanana.com.sireader.viewmodels.getViewModel
@@ -34,8 +35,8 @@ class FileFragment : Fragment() {
 
         viewModel = getViewModel(viewModelFactory)
 
-        arguments?.let {
-            fileId = it.getInt(ARG_FILE_ID)
+        arguments?.apply {
+            fileId = getInt(ARG_FILE_ID)
         }
 
         fileId?.let {
