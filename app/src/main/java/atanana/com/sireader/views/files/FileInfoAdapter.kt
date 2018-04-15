@@ -9,6 +9,8 @@ import atanana.com.sireader.R
 import atanana.com.sireader.SiReaderException
 import atanana.com.sireader.database.PackEntity
 import atanana.com.sireader.database.QuestionFileEntity
+import atanana.com.sireader.views.files.FileInfoAdapter.ViewHolder.FileInfoViewHolder
+import atanana.com.sireader.views.files.FileInfoAdapter.ViewHolder.PackViewHolder
 import atanana.com.sireader.views.gone
 
 class FileInfoAdapter : RecyclerView.Adapter<FileInfoAdapter.ViewHolder>() {
@@ -46,15 +48,9 @@ class FileInfoAdapter : RecyclerView.Adapter<FileInfoAdapter.ViewHolder>() {
     override fun getItemCount(): Int = packs.size + 1
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        when (getItemViewType(position)) {
-            TYPE_FILE_INFO -> {
-                info?.let { (holder as FileInfoViewHolder).bind(it) }
-            }
-            TYPE_PACK -> {
-                val pack = packs[position - 1]
-                (holder as PackViewHolder).bind(pack)
-            }
-            else -> throw SiReaderException("Unknown view type!")
+        when (holder) {
+            is PackViewHolder -> holder.bind(packs[position - 1])
+            is FileInfoViewHolder -> info?.let { holder.bind(it) }
         }
     }
 
@@ -62,33 +58,33 @@ class FileInfoAdapter : RecyclerView.Adapter<FileInfoAdapter.ViewHolder>() {
         return if (position == 0) TYPE_FILE_INFO else TYPE_PACK
     }
 
-    open class ViewHolder(item: View) : RecyclerView.ViewHolder(item)
+    sealed class ViewHolder(item: View) : RecyclerView.ViewHolder(item) {
+        class PackViewHolder(item: View) : ViewHolder(item) {
+            private val packTitle: TextView = item.findViewById(R.id.pack_title)
+            private val packAuthor: TextView = item.findViewById(R.id.pack_author)
+            private val packNotes: TextView = item.findViewById(R.id.pack_notes)
 
-    class PackViewHolder(item: View) : ViewHolder(item) {
-        private val packTitle: TextView = item.findViewById(R.id.pack_title)
-        private val packAuthor: TextView = item.findViewById(R.id.pack_author)
-        private val packNotes: TextView = item.findViewById(R.id.pack_notes)
-
-        fun bind(pack: PackEntity) {
-            packTitle.text = pack.topic
-            packAuthor.text = pack.author
-            packNotes.text = pack.notes
+            fun bind(pack: PackEntity) {
+                packTitle.text = pack.topic
+                packAuthor.text = pack.author
+                packNotes.text = pack.notes
+            }
         }
-    }
 
-    class FileInfoViewHolder(item: View) : ViewHolder(item) {
-        private val fileTitle: TextView = item.findViewById(R.id.file_title)
-        private val fileName: TextView = item.findViewById(R.id.file_name)
-        private val fileNotes: TextView = item.findViewById(R.id.file_notes)
-        private val fileEditors: TextView = item.findViewById(R.id.file_editors)
+        class FileInfoViewHolder(item: View) : ViewHolder(item) {
+            private val fileTitle: TextView = item.findViewById(R.id.file_title)
+            private val fileName: TextView = item.findViewById(R.id.file_name)
+            private val fileNotes: TextView = item.findViewById(R.id.file_notes)
+            private val fileEditors: TextView = item.findViewById(R.id.file_editors)
 
-        fun bind(fileEntity: QuestionFileEntity) {
-            fileTitle.text = fileEntity.title
-            fileName.text = fileEntity.filename
-            fileNotes.text = fileEntity.notes
-            fileNotes.gone(fileEntity.notes.isNullOrBlank())
-            fileEditors.text = fileEntity.editor
-            fileEditors.gone(fileEntity.editor.isNullOrBlank())
+            fun bind(fileEntity: QuestionFileEntity) {
+                fileTitle.text = fileEntity.title
+                fileName.text = fileEntity.filename
+                fileNotes.text = fileEntity.notes
+                fileNotes.gone(fileEntity.notes.isNullOrBlank())
+                fileEditors.text = fileEntity.editor
+                fileEditors.gone(fileEntity.editor.isNullOrBlank())
+            }
         }
     }
 }
