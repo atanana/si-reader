@@ -1,6 +1,7 @@
 package atanana.com.sireader.views.questions
 
 import android.support.annotation.StringRes
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -15,8 +16,9 @@ class QuestionsAdapter(
 ) : RecyclerView.Adapter<QuestionsAdapter.ViewHolder>() {
     var questions = emptyList<QuestionViewModel>()
         set(value) {
+            val diffResult = DiffUtil.calculateDiff(DiffCallback(field, value), false)
             field = value
-            notifyDataSetChanged()
+            diffResult.dispatchUpdatesTo(this)
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -37,7 +39,7 @@ class QuestionsAdapter(
         private val alsoAnswer = item.findViewById<TextView>(R.id.also_answer)
         private val notAnswer = item.findViewById<TextView>(R.id.not_answer)
         private val comment = item.findViewById<TextView>(R.id.comment)
-        private val referece = item.findViewById<TextView>(R.id.reference)
+        private val reference = item.findViewById<TextView>(R.id.reference)
         private val answerLayout = item.findViewById<View>(R.id.answer_layout)
 
         fun bind(viewModel: QuestionViewModel) {
@@ -47,7 +49,7 @@ class QuestionsAdapter(
             alsoAnswer.safePrepend(viewModel.question.alsoAnswer, R.string.prefix_also_answer)
             notAnswer.safePrepend(viewModel.question.notAnswer, R.string.prefix_not_answer)
             comment.safePrepend(viewModel.question.comment, R.string.prefix_comment)
-            referece.safePrepend(viewModel.question.reference, R.string.prefix_reference)
+            reference.safePrepend(viewModel.question.reference, R.string.prefix_reference)
 
             itemView.setOnClickListener {
                 if (viewModel.isClosed) {
@@ -62,5 +64,22 @@ class QuestionsAdapter(
         value?.let {
             text = context.resources.getString(prefixId, it)
         }
+    }
+}
+
+class DiffCallback(
+        private val oldQuestions: List<QuestionViewModel>,
+        private val newQuestion: List<QuestionViewModel>
+) : DiffUtil.Callback() {
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldQuestions[oldItemPosition].question.id == newQuestion[newItemPosition].question.id
+    }
+
+    override fun getOldListSize(): Int = oldQuestions.size
+
+    override fun getNewListSize(): Int = newQuestion.size
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldQuestions[oldItemPosition] == newQuestion[newItemPosition]
     }
 }
