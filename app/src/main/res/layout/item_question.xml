@@ -2,21 +2,40 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/ListItem">
+    style="@style/ListItem"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp">
 
     <TextView
         android:id="@+id/question_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/default_margin"
+        android:paddingRight="@dimen/default_margin"
         android:textSize="18sp"
         tools:text="test pack name" />
 
-    <TextView
-        android:id="@+id/answer"
+    <LinearLayout
+        android:id="@+id/answer_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_margin"
-        app:layout_constraintTop_toBottomOf="@id/question_text"
-        tools:text="test answer" />
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/question_text">
+
+        <View
+            android:id="@+id/separator"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/double_margin"
+            android:background="@drawable/line" />
+
+        <TextView
+            android:id="@+id/answer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/default_margin"
+            android:paddingRight="@dimen/default_margin"
+            tools:text="test answer" />
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

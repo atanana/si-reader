@@ -33,10 +33,11 @@ class QuestionsAdapter(
     inner class ViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         private val questionText = item.findViewById<TextView>(R.id.question_text)
         private val answer = item.findViewById<TextView>(R.id.answer)
+        private val answerLayout = item.findViewById<View>(R.id.answer_layout)
 
         fun bind(viewModel: QuestionViewModel) {
             questionText.text = viewModel.question.question
-            answer.gone(viewModel.isClosed)
+            answerLayout.gone(viewModel.isClosed)
             answer.text = viewModel.question.answer
 
             itemView.setOnClickListener {
