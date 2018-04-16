@@ -36,6 +36,38 @@
             android:paddingRight="@dimen/default_margin"
             tools:text="test answer" />
 
+        <TextView
+            android:id="@+id/also_answer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/default_margin"
+            android:paddingRight="@dimen/default_margin"
+            tools:text="test also answer" />
+
+        <TextView
+            android:id="@+id/not_answer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/default_margin"
+            android:paddingRight="@dimen/default_margin"
+            tools:text="test not answer" />
+
+        <TextView
+            android:id="@+id/comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/default_margin"
+            android:paddingRight="@dimen/default_margin"
+            tools:text="test comment" />
+
+        <TextView
+            android:id="@+id/reference"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/default_margin"
+            android:paddingRight="@dimen/default_margin"
+            tools:text="test reference" />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

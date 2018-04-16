@@ -6,4 +6,9 @@
     <string name="cannot_parse_file">Не удалось прочитать файл!</string>
     <string name="cannot_save_questions">Не сохранить вопросы в базу данных!</string>
     <string name="unknown_error">Неизвестная ошибка!</string>
+    <string name="prefix_answer">Ответ: %s</string>
+    <string name="prefix_also_answer">Зачёт: %s</string>
+    <string name="prefix_not_answer">Незачёт: %s</string>
+    <string name="prefix_comment">Комментарий: %s</string>
+    <string name="prefix_reference">Источник: %s</string>
 </resources>
