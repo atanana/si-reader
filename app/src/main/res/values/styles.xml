@@ -25,8 +25,9 @@
         <item name="android:paddingRight">@dimen/default_margin</item>
         <item name="android:paddingTop">@dimen/double_margin</item>
         <item name="android:paddingBottom">@dimen/double_margin</item>
-        <item name="android:background">@color/card_background</item>
+        <item name="android:background">@drawable/item_background</item>
         <item name="android:elevation">@dimen/card_elevation</item>
+        <item name="android:clickable">true</item>
     </style>
 
     <style name="HeaderItem" parent="ListItem">
