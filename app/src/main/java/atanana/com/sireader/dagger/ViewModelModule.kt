@@ -38,4 +38,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(PackViewModel::class)
     internal abstract fun packViewModel(viewModel: PackViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PacksPagerViewModel::class)
+    internal abstract fun packsPagerViewModel(viewModel: PacksPagerViewModel): ViewModel
 }

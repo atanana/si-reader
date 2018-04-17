@@ -69,7 +69,7 @@ class FileFragment : BaseFragment() {
     }
 
     private fun openPack(packId: Int) {
-        fragmentManager?.openFragment(PackFragment.newInstance(packId))
+        fragmentManager?.openFragment(PacksPagerFragment.newInstance(fileId!!, packId))
     }
 
     override val transactionTag: String

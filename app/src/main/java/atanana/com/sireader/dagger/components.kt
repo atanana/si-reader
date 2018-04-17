@@ -7,6 +7,7 @@ import atanana.com.sireader.FilesListActivity
 import atanana.com.sireader.fragments.FileFragment
 import atanana.com.sireader.fragments.FilesListFragment
 import atanana.com.sireader.fragments.PackFragment
+import atanana.com.sireader.fragments.PacksPagerFragment
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
@@ -35,6 +36,9 @@ internal abstract class InjectorsModule {
 
     @ContributesAndroidInjector
     abstract fun packFragment(): PackFragment
+
+    @ContributesAndroidInjector
+    abstract fun packsPagerFragment(): PacksPagerFragment
 }
 
 @Component(modules = [
