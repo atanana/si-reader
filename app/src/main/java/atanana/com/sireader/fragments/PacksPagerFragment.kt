@@ -1,6 +1,7 @@
 package atanana.com.sireader.fragments
 
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -38,6 +39,8 @@ class PacksPagerFragment : BaseFragment() {
             fileId = it.getInt(ARG_FILE_ID)
             packId = it.getInt(ARG_PACK_ID)
         }
+
+        viewModel.loadPacks(fileId!!, packId!!)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +51,13 @@ class PacksPagerFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         packsPagesAdapter = PacksPagesAdapter(fragmentManager!!)
         packs_pager.adapter = packsPagesAdapter
+
+        viewModel.packs.observe(this, Observer { state ->
+            state!!
+            packsPagesAdapter.packs = state.packs
+            val currentIndex = state.packs.indexOfFirst { it.id == state.currentPackId }
+            packs_pager.setCurrentItem(currentIndex, false)
+        })
     }
 
     override val transactionTag: String

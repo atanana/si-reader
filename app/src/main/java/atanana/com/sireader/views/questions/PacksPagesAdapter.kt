@@ -8,6 +8,10 @@ import atanana.com.sireader.fragments.PackFragment
 
 class PacksPagesAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager) {
     var packs = emptyList<PackEntity>()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun getItem(position: Int): Fragment {
         return PackFragment.newInstance(packs[position].id)
