@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import atanana.com.sireader.fragments.FilesListFragment
+import atanana.com.sireader.fragments.openFragment
 import atanana.com.sireader.viewmodels.*
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
@@ -33,6 +35,8 @@ class FilesListActivity : HasSupportFragmentInjector, AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_files_list)
         setSupportActionBar(toolbar)
+
+        supportFragmentManager.openFragment(FilesListFragment(), false)
 
         viewModel = getViewModel(viewModelFactory)
 
