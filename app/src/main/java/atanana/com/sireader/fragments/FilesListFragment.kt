@@ -41,8 +41,7 @@ class FilesListFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.files.observe(this, Observer { state ->
-            state!!
+        viewModel.files.observe(this, { state ->
             setViewState(state)
         })
 

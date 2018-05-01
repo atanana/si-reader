@@ -7,10 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import atanana.com.sireader.R
-import atanana.com.sireader.viewmodels.FileViewModel
-import atanana.com.sireader.viewmodels.OpenPack
-import atanana.com.sireader.viewmodels.ViewModelFactory
-import atanana.com.sireader.viewmodels.getViewModel
+import atanana.com.sireader.viewmodels.*
 import atanana.com.sireader.views.files.FileInfoAdapter
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_file.*
@@ -52,8 +49,7 @@ class FileFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.file.observe(this, Observer { state ->
-            state!!
+        viewModel.file.observe(this, { state ->
             packsAdapter.packs = state.packs
             packsAdapter.info = state.file
         })

@@ -1,7 +1,6 @@
 package atanana.com.sireader.fragments
 
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +9,7 @@ import atanana.com.sireader.R
 import atanana.com.sireader.viewmodels.PacksPagerViewModel
 import atanana.com.sireader.viewmodels.ViewModelFactory
 import atanana.com.sireader.viewmodels.getViewModel
+import atanana.com.sireader.viewmodels.observe
 import atanana.com.sireader.views.questions.PacksPagesAdapter
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_packs_pager.*
@@ -52,8 +52,7 @@ class PacksPagerFragment : BaseFragment() {
         packsPagesAdapter = PacksPagesAdapter(fragmentManager!!)
         packs_pager.adapter = packsPagesAdapter
 
-        viewModel.packs.observe(this, Observer { state ->
-            state!!
+        viewModel.packs.observe(this, { state ->
             packsPagesAdapter.packs = state.packs
             val currentIndex = state.packs.indexOfFirst { it.id == state.currentPackId }
             packs_pager.setCurrentItem(currentIndex, false)

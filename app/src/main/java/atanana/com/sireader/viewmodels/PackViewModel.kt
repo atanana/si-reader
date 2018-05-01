@@ -1,6 +1,5 @@
 package atanana.com.sireader.viewmodels
 
-import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import atanana.com.sireader.database.PackEntity
 import atanana.com.sireader.database.PacksDao
@@ -16,8 +15,7 @@ class PackViewModel @Inject constructor(
 ) : BaseViewModel() {
     private val packData = MutableLiveData<PackViewState>()
 
-    val pack: LiveData<PackViewState>
-        get() = packData
+    val pack: NonNullMediatorLiveData<PackViewState> = packData.nonNull()
 
     fun loadPack(packId: Int) {
         addDisposable(

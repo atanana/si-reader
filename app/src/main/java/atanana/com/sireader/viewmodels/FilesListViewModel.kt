@@ -1,6 +1,5 @@
 package atanana.com.sireader.viewmodels
 
-import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import atanana.com.sireader.database.QuestionFileEntity
 import atanana.com.sireader.database.QuestionFilesDao
@@ -10,8 +9,7 @@ import javax.inject.Inject
 class FilesListViewModel @Inject constructor(filesDao: QuestionFilesDao) : BaseViewModel() {
     private val filesData = MutableLiveData<FilesListViewState>()
 
-    val files: LiveData<FilesListViewState>
-        get() = filesData
+    val files: NonNullMediatorLiveData<FilesListViewState> = filesData.nonNull()
 
     init {
         addDisposable(

@@ -1,6 +1,5 @@
 package atanana.com.sireader.fragments
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -8,10 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import atanana.com.sireader.R
 import atanana.com.sireader.database.PackEntity
-import atanana.com.sireader.viewmodels.PackViewModel
-import atanana.com.sireader.viewmodels.QuestionViewModel
-import atanana.com.sireader.viewmodels.ViewModelFactory
-import atanana.com.sireader.viewmodels.getViewModel
+import atanana.com.sireader.viewmodels.*
 import atanana.com.sireader.views.optionalText
 import atanana.com.sireader.views.questions.QuestionsAdapter
 import dagger.android.support.AndroidSupportInjection
@@ -52,8 +48,7 @@ class PackFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.pack.observe(this, Observer { state ->
-            state!!
+        viewModel.pack.observe(this, { state ->
             updatePackInfo(state.pack)
             updateQuestions(state.questions)
         })

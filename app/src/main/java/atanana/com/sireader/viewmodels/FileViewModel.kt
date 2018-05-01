@@ -1,6 +1,5 @@
 package atanana.com.sireader.viewmodels
 
-import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import atanana.com.sireader.database.PackEntity
 import atanana.com.sireader.database.PacksDao
@@ -16,8 +15,7 @@ class FileViewModel @Inject constructor(
 ) : BaseViewModel() {
     private val fileData = MutableLiveData<FileViewState>()
 
-    val file: LiveData<FileViewState>
-        get() = fileData
+    val file: NonNullMediatorLiveData<FileViewState> = fileData.nonNull()
 
     fun loadFileInfo(fileId: Int) {
         addDisposable(
