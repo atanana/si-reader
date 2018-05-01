@@ -41,7 +41,7 @@ class FilesListFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.files.observe(this, { state ->
+        viewModel.state.observe(this, { state ->
             setViewState(state)
         })
 
@@ -56,9 +56,25 @@ class FilesListFragment : BaseFragment() {
     }
 
     private fun setViewState(state: FilesListViewState) {
-        no_files_label.gone(state.noFilesLabelGone)
-        files_list.gone(state.filesListGone)
-        filesAdapter.files = state.files
+        when (state) {
+            NoFiles -> {
+                no_files_label.gone(false)
+                loading_files.gone(true)
+                files_list.gone(true)
+                filesAdapter.files = emptyList()
+            }
+            Loading -> {
+                no_files_label.gone(true)
+                loading_files.gone(false)
+                files_list.gone(true)
+            }
+            is Files -> {
+                no_files_label.gone(true)
+                loading_files.gone(true)
+                files_list.gone(false)
+                filesAdapter.files = state.files
+            }
+        }
     }
 
     private fun openFile(fileId: Int) {

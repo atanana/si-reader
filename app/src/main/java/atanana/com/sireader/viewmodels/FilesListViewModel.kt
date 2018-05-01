@@ -9,18 +9,19 @@ import javax.inject.Inject
 class FilesListViewModel @Inject constructor(filesDao: QuestionFilesDao) : BaseViewModel() {
     private val filesData = MutableLiveData<FilesListViewState>()
 
-    val files: NonNullMediatorLiveData<FilesListViewState> = filesData.nonNull()
+    val state: NonNullMediatorLiveData<FilesListViewState> = filesData.nonNull()
 
     init {
+        state.value = Loading
         addDisposable(
                 filesDao.all()
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe { entities ->
-                            filesData.value = FilesListViewState(
-                                    entities.isNotEmpty(),
-                                    entities.isEmpty(),
-                                    entities
-                            )
+                            filesData.value = if (entities.isEmpty()) {
+                                NoFiles
+                            } else {
+                                Files(entities)
+                            }
                         }
         )
     }
@@ -30,8 +31,8 @@ class FilesListViewModel @Inject constructor(filesDao: QuestionFilesDao) : BaseV
     }
 }
 
-data class FilesListViewState(
-        val noFilesLabelGone: Boolean,
-        val filesListGone: Boolean,
-        val files: List<QuestionFileEntity>
-)
+sealed class FilesListViewState
+
+object Loading : FilesListViewState()
+object NoFiles : FilesListViewState()
+data class Files(val files: List<QuestionFileEntity>) : FilesListViewState()
