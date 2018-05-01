@@ -38,6 +38,14 @@ class FilesListActivity : HasSupportFragmentInjector, AppCompatActivity() {
 
         supportFragmentManager.openFragment(FilesListFragment(), false)
 
+        supportFragmentManager.addOnBackStackChangedListener {
+            if (supportFragmentManager.backStackEntryCount == 0) {
+                fab.show()
+            } else {
+                fab.hide()
+            }
+        }
+
         viewModel = getViewModel(viewModelFactory)
 
         fab.setOnClickListener {
