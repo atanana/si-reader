@@ -1,11 +1,13 @@
 package atanana.com.sireader.fragments
 
 import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import atanana.com.sireader.R
 import atanana.com.sireader.viewmodels.*
 import atanana.com.sireader.views.files.FilesListAdapter
@@ -48,11 +50,29 @@ class FilesListFragment : BaseFragment() {
         viewModel.liveBus.observe(this, Observer { action ->
             when (action) {
                 is OpenFile -> openFile(action.fileId)
+                is TextMessage -> processTextMessage(action)
+                is ActivityForResultMessage -> startActivityForResult(action.intent, action.requestCode)
             }
         })
 
+        fab.setOnClickListener {
+            viewModel.fabClicked()
+        }
+
         files_list.layoutManager = LinearLayoutManager(activity)
         files_list.adapter = filesAdapter
+    }
+
+    private fun processTextMessage(message: TextMessage) {
+        val text = when (message) {
+            is StringTextMessage -> message.text
+            is ResourceTextMessage -> getString(message.textId)
+        }
+        Toast.makeText(activity, text, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        viewModel.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun setViewState(state: FilesListViewState) {

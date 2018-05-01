@@ -1,16 +1,12 @@
 package atanana.com.sireader
 
-import android.arch.lifecycle.Observer
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import atanana.com.sireader.fragments.FilesListFragment
 import atanana.com.sireader.fragments.openFragment
-import atanana.com.sireader.viewmodels.*
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -20,11 +16,6 @@ import javax.inject.Inject
 
 
 class FilesListActivity : HasSupportFragmentInjector, AppCompatActivity() {
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private lateinit var viewModel: FilesListActivityViewModel
-
     @Inject
     lateinit var dispatchingFragmentInjector: DispatchingAndroidInjector<Fragment>
 
@@ -37,40 +28,6 @@ class FilesListActivity : HasSupportFragmentInjector, AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         supportFragmentManager.openFragment(FilesListFragment(), false)
-
-        supportFragmentManager.addOnBackStackChangedListener {
-            if (supportFragmentManager.backStackEntryCount == 0) {
-                fab.show()
-            } else {
-                fab.hide()
-            }
-        }
-
-        viewModel = getViewModel(viewModelFactory)
-
-        fab.setOnClickListener {
-            viewModel.fabClicked()
-        }
-
-        viewModel.liveBus.observe(this, Observer<Action> {
-            it!!
-            when (it) {
-                is TextMessage -> processTextMessage(it)
-                is ActivityForResultMessage -> startActivityForResult(it.intent, it.requestCode)
-            }
-        })
-    }
-
-    private fun processTextMessage(message: TextMessage) {
-        val text = when (message) {
-            is StringTextMessage -> message.text
-            is ResourceTextMessage -> getString(message.textId)
-        }
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        viewModel.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

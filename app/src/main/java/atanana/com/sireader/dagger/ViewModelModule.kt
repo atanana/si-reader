@@ -21,11 +21,6 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(FilesListActivityViewModel::class)
-    internal abstract fun filesListActivityViewModel(viewModel: FilesListActivityViewModel): ViewModel
-
-    @Binds
-    @IntoMap
     @ViewModelKey(FilesListViewModel::class)
     internal abstract fun filesListViewModel(viewModel: FilesListViewModel): ViewModel
 
