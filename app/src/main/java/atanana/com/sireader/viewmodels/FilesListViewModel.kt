@@ -67,7 +67,7 @@ class FilesListViewModel @Inject constructor(
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == OPEN_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
-            val uri = openFileHandler.getUri(data)
+            val uri = data.data
             val oldState = filesData.value
             filesData.value = Loading
             addDisposable(

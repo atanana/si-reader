@@ -2,7 +2,6 @@ package atanana.com.sireader.files
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.webkit.MimeTypeMap
 import javax.inject.Inject
 
@@ -24,9 +23,5 @@ class OpenFileHandler @Inject constructor(private val context: Context) {
         return Intent()
                 .setAction(Intent.ACTION_GET_CONTENT)
                 .setType(docType)
-    }
-
-    fun getUri(data: Intent): Uri {
-        return data.data
     }
 }
