@@ -58,14 +58,13 @@ class FilesListViewModel @Inject constructor(
             addDisposable(
                     parseFileUseCase.process(uri)
                             .observeOn(AndroidSchedulers.mainThread())
-                            .doOnError { error ->
+                            .subscribe({}, { error ->
                                 bus.value = when (error) {
                                     is ParseFileException -> ResourceTextMessage(R.string.cannot_parse_file)
                                     is CannotSaveInDatabaseException -> ResourceTextMessage(R.string.cannot_save_questions)
                                     else -> ResourceTextMessage(R.string.unknown_error)
                                 }
-                            }
-                            .subscribe()
+                            })
             )
         }
     }
