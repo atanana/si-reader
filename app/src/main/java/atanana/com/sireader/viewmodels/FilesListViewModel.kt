@@ -54,11 +54,13 @@ class FilesListViewModel @Inject constructor(
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == OPEN_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
             val uri = openFileHandler.getUri(data)
-            state.value = Loading
+            val oldState = filesData.value
+            filesData.value = Loading
             addDisposable(
                     parseFileUseCase.process(uri)
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({}, { error ->
+                                filesData.value = oldState
                                 bus.value = when (error) {
                                     is ParseFileException -> ResourceTextMessage(R.string.cannot_parse_file)
                                     is CannotSaveInDatabaseException -> ResourceTextMessage(R.string.cannot_save_questions)
