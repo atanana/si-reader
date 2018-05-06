@@ -1,6 +1,8 @@
 package atanana.com.sireader.usecases
 
 import android.content.ContentResolver
+import android.content.ContentResolver.SCHEME_CONTENT
+import android.content.ContentResolver.SCHEME_FILE
 import android.net.Uri
 import android.provider.OpenableColumns
 import atanana.com.sireader.CannotSaveInDatabaseException
@@ -72,14 +74,22 @@ class ParseFileUseCase @Inject constructor(
         }
     }
 
-    private fun fileName(uri: Uri): String? = contentResolver.query(uri, null, null, null, null)
-            ?.use { cursor ->
-                if (cursor.moveToFirst()) {
-                    cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
-                } else {
-                    null
-                }
+    private fun fileName(uri: Uri): String? =
+            when (uri.scheme) {
+                SCHEME_CONTENT -> queryFileName(uri)
+                SCHEME_FILE -> uri.lastPathSegment
+                else -> null
             }
+
+    private fun queryFileName(uri: Uri): String? =
+            contentResolver.query(uri, null, null, null, null)
+                    ?.use { cursor ->
+                        if (cursor.moveToFirst()) {
+                            cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+                        } else {
+                            null
+                        }
+                    }
 
     private fun parseFile(uri: Uri): Pair<SiInfo, List<QuestionPack>> {
         try {
