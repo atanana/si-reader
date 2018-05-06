@@ -36,6 +36,7 @@ ext {
     rxAndroidVersion = "2.0.2"
     liveDataVersion = "1.1.1"
     poiVersion = "3.17"
+    rxPermissionsVersion = "0.9.5"
 
     //test
     junitVersion = "4.12"

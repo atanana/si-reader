@@ -46,7 +46,7 @@ dexcount {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.android.support.constraint:constraint-layout:${rootProject.ext.constraintLayoutVersion}"
     implementation "com.android.support:design:${rootProject.ext.supportLibVersion}"
@@ -72,6 +72,9 @@ dependencies {
 
     //poi
     implementation group: 'org.apache.poi', name: 'poi-scratchpad', version: rootProject.ext.poiVersion
+
+    //rxPermissions
+    implementation "com.tbruyelle.rxpermissions2:rxpermissions:${rootProject.ext.rxPermissionsVersion}@aar"
 
     testImplementation "junit:junit:${rootProject.ext.junitVersion}"
     androidTestImplementation "com.android.support.test:runner:${rootProject.ext.testRunnerVersion}"

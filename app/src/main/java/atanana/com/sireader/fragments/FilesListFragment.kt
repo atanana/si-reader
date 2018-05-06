@@ -12,6 +12,7 @@ import atanana.com.sireader.R
 import atanana.com.sireader.viewmodels.*
 import atanana.com.sireader.views.files.FilesListAdapter
 import atanana.com.sireader.views.gone
+import com.tbruyelle.rxpermissions2.RxPermissions
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_files_list.*
 import javax.inject.Inject
@@ -23,6 +24,9 @@ class FilesListFragment : BaseFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var rxPermissions: RxPermissions
 
     private lateinit var viewModel: FilesListViewModel
 
@@ -56,7 +60,7 @@ class FilesListFragment : BaseFragment() {
         })
 
         fab.setOnClickListener {
-            viewModel.fabClicked()
+            viewModel.fabClicked(rxPermissions)
         }
 
         files_list.layoutManager = LinearLayoutManager(activity)

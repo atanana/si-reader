@@ -18,17 +18,17 @@ import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 @Module
-class FilesListActivityModule {
+class FragmentModule {
     @Provides
-    fun provideActivity(filesListActivity: FilesListActivity): Activity = filesListActivity
+    fun provideActivity(fragment: FilesListFragment): Activity = (fragment.activity as Activity?)!!
 }
 
 @Module
 internal abstract class InjectorsModule {
-    @ContributesAndroidInjector(modules = [FilesListActivityModule::class])
+    @ContributesAndroidInjector()
     abstract fun filesListActivity(): FilesListActivity
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [FragmentModule::class, RxPermissionsModule::class])
     abstract fun filesListFragment(): FilesListFragment
 
     @ContributesAndroidInjector
