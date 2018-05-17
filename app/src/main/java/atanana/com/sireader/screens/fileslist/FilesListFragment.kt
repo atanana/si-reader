@@ -32,9 +32,17 @@ class FilesListFragment : BaseFragment() {
 
     private lateinit var viewModel: FilesListViewModel
 
-    private val filesAdapter = FilesListAdapter { fileId ->
-        viewModel.onFileClick(fileId)
+    private val fileClickListener = object : FilesListAdapter.FileClickListener {
+        override fun onClick(fileId: Int) {
+            viewModel.onFileClick(fileId)
+        }
+
+        override fun onLongClick(fileId: Int) {
+            viewModel.onLongFileClick(fileId)
+        }
     }
+
+    private val filesAdapter = FilesListAdapter(fileClickListener)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidSupportInjection.inject(this)

@@ -1,8 +1,9 @@
 package atanana.com.sireader.screens.fileslist
 
 import atanana.com.sireader.database.QuestionFileEntity
+import javax.inject.Inject
 
-class FilesSelectionManager {
+class FilesSelectionManager @Inject constructor() {
     private val files = mutableSetOf<Int>()
 
     val selectedFiles: Set<Int>

@@ -20,7 +20,8 @@ import javax.inject.Inject
 class FilesListViewModel @Inject constructor(
         filesDao: QuestionFilesDao,
         private val openFileHandler: OpenFileHandler,
-        private val parseFileUseCase: ParseFileUseCase
+        private val parseFileUseCase: ParseFileUseCase,
+        private val selectionManager: FilesSelectionManager
 ) : BaseViewModel() {
     private val filesData = MutableLiveData<FilesListViewState>()
 
@@ -41,8 +42,19 @@ class FilesListViewModel @Inject constructor(
         )
     }
 
-    fun onFileClick(packId: Int) {
-        bus.value = OpenFile(packId)
+    fun onFileClick(fileId: Int) {
+        if (selectionManager.isSelectionMode) {
+            selectionManager.selectFile(fileId)
+        } else {
+            bus.value = OpenFile(fileId)
+        }
+    }
+
+    fun onLongFileClick(fileId: Int) {
+        if (!selectionManager.isSelectionMode) {
+            selectionManager.isSelectionMode = true
+            onFileClick(fileId)
+        }
     }
 
     fun fabClicked(rxPermissions: RxPermissions) {

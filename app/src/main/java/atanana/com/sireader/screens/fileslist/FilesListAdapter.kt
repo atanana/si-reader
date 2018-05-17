@@ -9,7 +9,7 @@ import atanana.com.sireader.R
 import atanana.com.sireader.database.QuestionFileEntity
 
 class FilesListAdapter(
-        private val selectFile: (Int) -> Unit
+        private val clickListener: FileClickListener
 ) : RecyclerView.Adapter<FilesListAdapter.ViewHolder>() {
 
     var files = emptyList<QuestionFileEntity>()
@@ -37,7 +37,16 @@ class FilesListAdapter(
         fun bind(file: QuestionFileEntity) {
             fileTitle.text = file.title
             fileName.text = file.filename
-            itemView.setOnClickListener { selectFile(file.id) }
+            itemView.setOnClickListener { clickListener.onClick(file.id) }
+            itemView.setOnLongClickListener {
+                clickListener.onLongClick(file.id)
+                return@setOnLongClickListener true
+            }
         }
+    }
+
+    interface FileClickListener {
+        fun onClick(fileId: Int)
+        fun onLongClick(fileId: Int)
     }
 }
