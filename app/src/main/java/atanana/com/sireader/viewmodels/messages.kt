@@ -16,3 +16,5 @@ data class ActivityForResultMessage(val intent: Intent, val requestCode: Int) : 
 data class OpenFile(val fileId: Int) : Action()
 
 data class OpenPack(val packId: Int) : Action()
+
+data class SelectionModeChange(val value: Boolean) : Action()

@@ -54,6 +54,7 @@ class FilesListViewModel @Inject constructor(
         if (!selectionManager.isSelectionMode) {
             selectionManager.isSelectionMode = true
             onFileClick(fileId)
+            bus.value = SelectionModeChange(true)
         }
     }
 

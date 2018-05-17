@@ -4,9 +4,7 @@ import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import atanana.com.sireader.R
 import atanana.com.sireader.fragments.BaseFragment
@@ -44,11 +42,14 @@ class FilesListFragment : BaseFragment() {
 
     private val filesAdapter = FilesListAdapter(fileClickListener)
 
+    private var isSelectionMode = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidSupportInjection.inject(this)
         super.onCreate(savedInstanceState)
 
         viewModel = getViewModel(viewModelFactory)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -66,6 +67,7 @@ class FilesListFragment : BaseFragment() {
                 is OpenFile -> openFile(action.fileId)
                 is TextMessage -> processTextMessage(action)
                 is ActivityForResultMessage -> startActivityForResult(action.intent, action.requestCode)
+                is SelectionModeChange -> onSelectionModeChange(action.value)
             }
         })
 
@@ -75,6 +77,11 @@ class FilesListFragment : BaseFragment() {
 
         files_list.layoutManager = LinearLayoutManager(activity)
         files_list.adapter = filesAdapter
+    }
+
+    private fun onSelectionModeChange(value: Boolean) {
+        isSelectionMode = value
+        activity?.invalidateOptionsMenu()
     }
 
     private fun processTextMessage(message: TextMessage) {
@@ -113,6 +120,14 @@ class FilesListFragment : BaseFragment() {
 
     private fun openFile(fileId: Int) {
         fragmentManager?.openFragment(FileFragment.newInstance(fileId))
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.menu_files, menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?) {
+        menu?.findItem(R.id.action_delete)?.isVisible = isSelectionMode
     }
 
     override val transactionTag: String
