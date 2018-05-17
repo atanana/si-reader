@@ -3,7 +3,7 @@ package atanana.com.sireader.dagger
 import android.app.Activity
 import android.content.Context
 import atanana.com.sireader.App
-import atanana.com.sireader.FilesListActivity
+import atanana.com.sireader.MainActivity
 import atanana.com.sireader.screens.fileinfo.FileFragment
 import atanana.com.sireader.screens.fileslist.FilesListFragment
 import atanana.com.sireader.screens.pack.PackFragment
@@ -26,7 +26,7 @@ class FragmentModule {
 @Module
 internal abstract class InjectorsModule {
     @ContributesAndroidInjector()
-    abstract fun filesListActivity(): FilesListActivity
+    abstract fun filesListActivity(): MainActivity
 
     @ContributesAndroidInjector(modules = [FragmentModule::class, RxPermissionsModule::class])
     abstract fun filesListFragment(): FilesListFragment
