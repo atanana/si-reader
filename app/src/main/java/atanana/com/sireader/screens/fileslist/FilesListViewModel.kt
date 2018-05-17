@@ -1,4 +1,4 @@
-package atanana.com.sireader.viewmodels
+package atanana.com.sireader.screens.fileslist
 
 import android.Manifest
 import android.app.Activity
@@ -12,6 +12,7 @@ import atanana.com.sireader.database.QuestionFilesDao
 import atanana.com.sireader.files.OPEN_FILE_REQUEST_CODE
 import atanana.com.sireader.files.OpenFileHandler
 import atanana.com.sireader.usecases.ParseFileUseCase
+import atanana.com.sireader.viewmodels.*
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject

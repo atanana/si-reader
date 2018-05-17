@@ -2,7 +2,11 @@ package atanana.com.sireader.dagger
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import atanana.com.sireader.viewmodels.*
+import atanana.com.sireader.screens.fileinfo.FileViewModel
+import atanana.com.sireader.screens.fileslist.FilesListViewModel
+import atanana.com.sireader.screens.pack.PackViewModel
+import atanana.com.sireader.screens.packspager.PacksPagerViewModel
+import atanana.com.sireader.viewmodels.ViewModelFactory
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module

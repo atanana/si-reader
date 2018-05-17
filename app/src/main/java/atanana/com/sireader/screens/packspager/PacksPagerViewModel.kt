@@ -1,8 +1,11 @@
-package atanana.com.sireader.viewmodels
+package atanana.com.sireader.screens.packspager
 
 import android.arch.lifecycle.MutableLiveData
 import atanana.com.sireader.database.PackEntity
 import atanana.com.sireader.database.PacksDao
+import atanana.com.sireader.viewmodels.BaseViewModel
+import atanana.com.sireader.viewmodels.NonNullMediatorLiveData
+import atanana.com.sireader.viewmodels.nonNull
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 

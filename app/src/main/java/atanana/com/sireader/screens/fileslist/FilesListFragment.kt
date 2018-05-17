@@ -1,4 +1,4 @@
-package atanana.com.sireader.fragments
+package atanana.com.sireader.screens.fileslist
 
 import android.arch.lifecycle.Observer
 import android.content.Intent
@@ -9,8 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import atanana.com.sireader.R
+import atanana.com.sireader.fragments.BaseFragment
+import atanana.com.sireader.fragments.openFragment
+import atanana.com.sireader.screens.fileinfo.FileFragment
 import atanana.com.sireader.viewmodels.*
-import atanana.com.sireader.views.files.FilesListAdapter
 import atanana.com.sireader.views.gone
 import com.tbruyelle.rxpermissions2.RxPermissions
 import dagger.android.support.AndroidSupportInjection

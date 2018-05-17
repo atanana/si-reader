@@ -1,4 +1,4 @@
-package atanana.com.sireader.views.files
+package atanana.com.sireader.screens.fileslist
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater

@@ -1,4 +1,4 @@
-package atanana.com.sireader.views.questions
+package atanana.com.sireader.screens.pack
 
 import android.support.annotation.StringRes
 import android.support.v7.util.DiffUtil
@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import atanana.com.sireader.R
-import atanana.com.sireader.viewmodels.QuestionViewModel
 import atanana.com.sireader.views.gone
 
 class QuestionsAdapter(

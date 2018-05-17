@@ -5,8 +5,8 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import atanana.com.sireader.fragments.FilesListFragment
 import atanana.com.sireader.fragments.openFragment
+import atanana.com.sireader.screens.fileslist.FilesListFragment
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector

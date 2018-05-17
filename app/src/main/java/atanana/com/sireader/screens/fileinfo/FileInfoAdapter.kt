@@ -1,4 +1,4 @@
-package atanana.com.sireader.views.files
+package atanana.com.sireader.screens.fileinfo
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -9,8 +9,8 @@ import atanana.com.sireader.R
 import atanana.com.sireader.SiReaderException
 import atanana.com.sireader.database.PackEntity
 import atanana.com.sireader.database.QuestionFileEntity
-import atanana.com.sireader.views.files.FileInfoAdapter.ViewHolder.FileInfoViewHolder
-import atanana.com.sireader.views.files.FileInfoAdapter.ViewHolder.PackViewHolder
+import atanana.com.sireader.screens.fileinfo.FileInfoAdapter.ViewHolder.FileInfoViewHolder
+import atanana.com.sireader.screens.fileinfo.FileInfoAdapter.ViewHolder.PackViewHolder
 import atanana.com.sireader.views.optionalText
 
 class FileInfoAdapter(

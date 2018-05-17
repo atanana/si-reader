@@ -4,10 +4,10 @@ import android.app.Activity
 import android.content.Context
 import atanana.com.sireader.App
 import atanana.com.sireader.FilesListActivity
-import atanana.com.sireader.fragments.FileFragment
-import atanana.com.sireader.fragments.FilesListFragment
-import atanana.com.sireader.fragments.PackFragment
-import atanana.com.sireader.fragments.PacksPagerFragment
+import atanana.com.sireader.screens.fileinfo.FileFragment
+import atanana.com.sireader.screens.fileslist.FilesListFragment
+import atanana.com.sireader.screens.pack.PackFragment
+import atanana.com.sireader.screens.packspager.PacksPagerFragment
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module

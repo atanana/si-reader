@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.FilesListFragment">
+    tools:context=".screens.fileslist.FilesListFragment">
 
     <TextView
         android:id="@+id/no_files_label"
