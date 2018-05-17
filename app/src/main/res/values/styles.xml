@@ -3,9 +3,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -33,7 +33,7 @@
     <style name="HeaderItem" parent="ListItem">
         <item name="android:layout_margin">0dp</item>
         <item name="android:elevation">@dimen/app_bar_elevation</item>
-        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:background">@color/primary_dark</item>
     </style>
 
     <style name="TitleText">
