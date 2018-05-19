@@ -28,6 +28,9 @@ class FilesSelectionManager @Inject constructor() {
     fun mapFiles(entities: List<QuestionFileEntity>): List<FileItem> =
             entities.map { entity -> FileItem(entity, isFileSelected(entity)) }
 
+    fun mapItems(entities: List<FileItem>): List<FileItem> =
+            entities.map { item -> FileItem(item.entity, isFileSelected(item.entity)) }
+
     private fun isFileSelected(entity: QuestionFileEntity) =
             isSelectionMode && files.contains(entity.id)
 

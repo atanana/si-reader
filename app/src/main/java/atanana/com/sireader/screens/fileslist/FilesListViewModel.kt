@@ -8,7 +8,6 @@ import android.content.res.Resources
 import atanana.com.sireader.CannotSaveInDatabaseException
 import atanana.com.sireader.ParseFileException
 import atanana.com.sireader.R
-import atanana.com.sireader.database.QuestionFileEntity
 import atanana.com.sireader.database.QuestionFilesDao
 import atanana.com.sireader.files.OPEN_FILE_REQUEST_CODE
 import atanana.com.sireader.files.OpenFileHandler
@@ -39,7 +38,7 @@ class FilesListViewModel @Inject constructor(
                             filesData.value = if (entities.isEmpty()) {
                                 NoFiles
                             } else {
-                                Files(entities)
+                                Files(selectionManager.mapFiles(entities))
                             }
                         }
         )
@@ -58,9 +57,16 @@ class FilesListViewModel @Inject constructor(
 
     fun onFileClick(fileId: Int) {
         if (selectionManager.isSelectionMode) {
-            selectionManager.selectFile(fileId)
+            selectFile(fileId)
         } else {
             bus.value = OpenFileMessage(fileId)
+        }
+    }
+
+    private fun selectFile(fileId: Int) {
+        selectionManager.selectFile(fileId)
+        (filesData.value as? Files)?.files?.let { files ->
+            filesData.value = Files(selectionManager.mapItems(files))
         }
     }
 
@@ -121,4 +127,4 @@ sealed class FilesListViewState
 
 object Loading : FilesListViewState()
 object NoFiles : FilesListViewState()
-data class Files(val files: List<QuestionFileEntity>) : FilesListViewState()
+data class Files(val files: List<FileItem>) : FilesListViewState()

@@ -2,6 +2,13 @@
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
     android:color="@color/primary_light">
     <item>
-        <color android:color="@color/card_background" />
+        <selector>
+            <item android:state_selected="true">
+                <color android:color="@color/accent" />
+            </item>
+            <item>
+                <color android:color="@color/card_background" />
+            </item>
+        </selector>
     </item>
 </ripple>

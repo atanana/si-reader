@@ -6,13 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import atanana.com.sireader.R
-import atanana.com.sireader.database.QuestionFileEntity
 
 class FilesListAdapter(
         private val clickListener: FileClickListener
 ) : RecyclerView.Adapter<FilesListAdapter.ViewHolder>() {
 
-    var files = emptyList<QuestionFileEntity>()
+    var files = emptyList<FileItem>()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -34,9 +33,11 @@ class FilesListAdapter(
         private val fileTitle: TextView = item.findViewById(R.id.file_title)
         private val fileName: TextView = item.findViewById(R.id.file_name)
 
-        fun bind(file: QuestionFileEntity) {
+        fun bind(item: FileItem) {
+            val file = item.entity
             fileTitle.text = file.title
             fileName.text = file.filename
+            itemView.isSelected = item.isSelected
             itemView.setOnClickListener { clickListener.onClick(file.id) }
             itemView.setOnLongClickListener {
                 clickListener.onLongClick(file.id)
