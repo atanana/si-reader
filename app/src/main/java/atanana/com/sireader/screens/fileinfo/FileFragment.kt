@@ -10,7 +10,7 @@ import atanana.com.sireader.R
 import atanana.com.sireader.fragments.BaseFragment
 import atanana.com.sireader.fragments.openFragment
 import atanana.com.sireader.screens.packspager.PacksPagerFragment
-import atanana.com.sireader.viewmodels.OpenPack
+import atanana.com.sireader.viewmodels.OpenPackMessage
 import atanana.com.sireader.viewmodels.ViewModelFactory
 import atanana.com.sireader.viewmodels.getViewModel
 import atanana.com.sireader.viewmodels.observe
@@ -61,7 +61,7 @@ class FileFragment : BaseFragment() {
 
         viewModel.liveBus.observe(this, Observer { action ->
             when (action) {
-                is OpenPack -> openPack(action.packId)
+                is OpenPackMessage -> openPack(action.packId)
             }
         })
 

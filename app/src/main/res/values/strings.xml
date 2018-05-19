@@ -2,12 +2,15 @@
     <string name="app_name">Si Reader</string>
     <string name="action_settings">Settings</string>
     <string name="no_files">Нет пакетов</string>
+
+    <!--errors-->
     <string name="no_file_managers_installed">Не установлено файловых менеджеров!</string>
     <string name="no_permissions_to_read_files">Нет разрешений на чтение файлов!</string>
     <string name="cannot_parse_file">Не удалось прочитать файл!</string>
     <string name="cannot_save_questions">Не удалось сохранить вопросы в базу данных!</string>
     <string name="unknown_error">Неизвестная ошибка!</string>
 
+    <!--question-->
     <string name="prefix_answer">Ответ: %s</string>
     <string name="prefix_also_answer">Зачёт: %s</string>
     <string name="prefix_not_answer">Незачёт: %s</string>
@@ -15,4 +18,5 @@
     <string name="prefix_reference">Источник: %s</string>
 
     <string name="delete_files">Удалить файлы</string>
+    <string name="files_selected">Выбрано: %d файлов</string>
 </resources>

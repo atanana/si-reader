@@ -64,10 +64,11 @@ class FilesListFragment : BaseFragment() {
 
         viewModel.liveBus.observe(this, Observer { action ->
             when (action) {
-                is OpenFile -> openFile(action.fileId)
+                is OpenFileMessage -> openFile(action.fileId)
                 is TextMessage -> processTextMessage(action)
                 is ActivityForResultMessage -> startActivityForResult(action.intent, action.requestCode)
-                is SelectionModeChange -> onSelectionModeChange(action.value)
+                is SelectionModeChangeMessage -> onSelectionModeChange(action.value)
+                is TitleMessage -> processTitleMessage(action)
             }
         })
 
@@ -77,6 +78,14 @@ class FilesListFragment : BaseFragment() {
 
         files_list.layoutManager = LinearLayoutManager(activity)
         files_list.adapter = filesAdapter
+    }
+
+    private fun processTitleMessage(message: TitleMessage) {
+        val text = when (message) {
+            is StringTitleMessage -> message.text
+            is ResourceTitleMessage -> getString(message.titleId)
+        }
+        activity?.title = text
     }
 
     private fun onSelectionModeChange(value: Boolean) {

@@ -1,6 +1,8 @@
 package atanana.com.sireader.screens.fileslist
 
 import atanana.com.sireader.database.QuestionFileEntity
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
 
 class FilesSelectionManager @Inject constructor() {
@@ -9,12 +11,18 @@ class FilesSelectionManager @Inject constructor() {
     val selectedFiles: Set<Int>
         get() = files
 
+    private val selectionModeSubject = BehaviorSubject.create<Boolean>()
+
+    val selectionModeObservable: Observable<Boolean>
+        get() = selectionModeSubject
+
     var isSelectionMode = false
         set(value) {
             field = value
             if (!value) {
                 files.clear()
             }
+            selectionModeSubject.onNext(value)
         }
 
     fun mapFiles(entities: List<QuestionFileEntity>): List<FileItem> =

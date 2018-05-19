@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.arch.lifecycle.MutableLiveData
 import android.content.Intent
+import android.content.res.Resources
 import atanana.com.sireader.CannotSaveInDatabaseException
 import atanana.com.sireader.ParseFileException
 import atanana.com.sireader.R
@@ -18,6 +19,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
 class FilesListViewModel @Inject constructor(
+        resources: Resources,
         filesDao: QuestionFilesDao,
         private val openFileHandler: OpenFileHandler,
         private val parseFileUseCase: ParseFileUseCase,
@@ -29,6 +31,7 @@ class FilesListViewModel @Inject constructor(
 
     init {
         state.value = Loading
+
         addDisposable(
                 filesDao.all()
                         .observeOn(AndroidSchedulers.mainThread())
@@ -40,13 +43,24 @@ class FilesListViewModel @Inject constructor(
                             }
                         }
         )
+
+        addDisposable(
+                selectionManager.selectionModeObservable
+                        .subscribe { isSelection ->
+                            if (isSelection) {
+                                bus.value = StringTitleMessage(resources.getString(R.string.files_selected, 0))
+                            } else {
+                                bus.value = ResourceTitleMessage(R.string.app_name)
+                            }
+                        }
+        )
     }
 
     fun onFileClick(fileId: Int) {
         if (selectionManager.isSelectionMode) {
             selectionManager.selectFile(fileId)
         } else {
-            bus.value = OpenFile(fileId)
+            bus.value = OpenFileMessage(fileId)
         }
     }
 
@@ -54,7 +68,7 @@ class FilesListViewModel @Inject constructor(
         if (!selectionManager.isSelectionMode) {
             selectionManager.isSelectionMode = true
             onFileClick(fileId)
-            bus.value = SelectionModeChange(true)
+            bus.value = SelectionModeChangeMessage(true)
         }
     }
 

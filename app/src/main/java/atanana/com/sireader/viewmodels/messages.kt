@@ -13,8 +13,14 @@ data class ResourceTextMessage(@StringRes val textId: Int) : TextMessage()
 
 data class ActivityForResultMessage(val intent: Intent, val requestCode: Int) : Action()
 
-data class OpenFile(val fileId: Int) : Action()
+data class OpenFileMessage(val fileId: Int) : Action()
 
-data class OpenPack(val packId: Int) : Action()
+data class OpenPackMessage(val packId: Int) : Action()
 
-data class SelectionModeChange(val value: Boolean) : Action()
+data class SelectionModeChangeMessage(val value: Boolean) : Action()
+
+sealed class TitleMessage : Action()
+
+data class StringTitleMessage(val text: String) : TitleMessage()
+
+data class ResourceTitleMessage(@StringRes val titleId: Int) : TitleMessage()
