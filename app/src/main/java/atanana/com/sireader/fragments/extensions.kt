@@ -3,7 +3,7 @@ package atanana.com.sireader.fragments
 import android.support.v4.app.FragmentManager
 import atanana.com.sireader.R
 
-fun FragmentManager.openFragment(fragment: BaseFragment, addToBackStack: Boolean = true) {
+fun FragmentManager.openFragment(fragment: BaseFragment<*>, addToBackStack: Boolean = true) {
     val transaction = beginTransaction()
             .setCustomAnimations(
                     if (addToBackStack) R.anim.enter_from_right else 0,

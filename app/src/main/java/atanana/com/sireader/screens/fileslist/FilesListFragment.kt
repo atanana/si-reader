@@ -1,11 +1,9 @@
 package atanana.com.sireader.screens.fileslist
 
-import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.*
-import android.widget.Toast
 import atanana.com.sireader.R
 import atanana.com.sireader.fragments.BaseFragment
 import atanana.com.sireader.fragments.openFragment
@@ -20,7 +18,7 @@ import javax.inject.Inject
 /**
  * A placeholder fragment containing a simple view.
  */
-class FilesListFragment : BaseFragment() {
+class FilesListFragment : BaseFragment<FilesListViewModel>() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -28,7 +26,7 @@ class FilesListFragment : BaseFragment() {
     @Inject
     lateinit var rxPermissions: RxPermissions
 
-    private lateinit var viewModel: FilesListViewModel
+    override lateinit var viewModel: FilesListViewModel
 
     private val fileClickListener = object : FilesListAdapter.FileClickListener {
         override fun onClick(fileId: Int) {
@@ -58,18 +56,10 @@ class FilesListFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         viewModel.state.observe(this, { state ->
             setViewState(state)
-        })
-
-        viewModel.liveBus.observe(this, Observer { action ->
-            when (action) {
-                is OpenFileMessage -> openFile(action.fileId)
-                is TextMessage -> processTextMessage(action)
-                is ActivityForResultMessage -> startActivityForResult(action.intent, action.requestCode)
-                is SelectionModeChangeMessage -> onSelectionModeChange(action.value)
-                is TitleMessage -> processTitleMessage(action)
-            }
         })
 
         fab.setOnClickListener {
@@ -80,25 +70,16 @@ class FilesListFragment : BaseFragment() {
         files_list.adapter = filesAdapter
     }
 
-    private fun processTitleMessage(message: TitleMessage) {
-        val text = when (message) {
-            is StringTitleMessage -> message.text
-            is ResourceTitleMessage -> getString(message.titleId)
+    override fun processMessage(message: Action) {
+        when (message) {
+            is OpenFileMessage -> openFile(message.fileId)
+            is SelectionModeChangeMessage -> onSelectionModeChange(message.value)
         }
-        activity?.title = text
     }
 
     private fun onSelectionModeChange(value: Boolean) {
         isSelectionMode = value
         activity?.invalidateOptionsMenu()
-    }
-
-    private fun processTextMessage(message: TextMessage) {
-        val text = when (message) {
-            is StringTextMessage -> message.text
-            is ResourceTextMessage -> getString(message.textId)
-        }
-        Toast.makeText(activity, text, Toast.LENGTH_SHORT).show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

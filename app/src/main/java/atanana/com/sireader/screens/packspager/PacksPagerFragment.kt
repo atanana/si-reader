@@ -17,14 +17,14 @@ import javax.inject.Inject
 private const val ARG_FILE_ID = "file_id"
 private const val ARG_PACK_ID = "pack_id"
 
-class PacksPagerFragment : BaseFragment() {
+class PacksPagerFragment : BaseFragment<PacksPagerViewModel>() {
     private var fileId: Int? = null
     private var packId: Int? = null
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var viewModel: PacksPagerViewModel
+    override lateinit var viewModel: PacksPagerViewModel
 
     private lateinit var packsPagesAdapter: PacksPagesAdapter
 
@@ -48,6 +48,8 @@ class PacksPagerFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         packsPagesAdapter = PacksPagesAdapter(fragmentManager!!)
         packs_pager.adapter = packsPagesAdapter
 

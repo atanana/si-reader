@@ -1,6 +1,5 @@
 package atanana.com.sireader.screens.fileinfo
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -10,10 +9,7 @@ import atanana.com.sireader.R
 import atanana.com.sireader.fragments.BaseFragment
 import atanana.com.sireader.fragments.openFragment
 import atanana.com.sireader.screens.packspager.PacksPagerFragment
-import atanana.com.sireader.viewmodels.OpenPackMessage
-import atanana.com.sireader.viewmodels.ViewModelFactory
-import atanana.com.sireader.viewmodels.getViewModel
-import atanana.com.sireader.viewmodels.observe
+import atanana.com.sireader.viewmodels.*
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_file.*
 import javax.inject.Inject
@@ -21,13 +17,13 @@ import javax.inject.Inject
 
 private const val ARG_FILE_ID = "file_id"
 
-class FileFragment : BaseFragment() {
+class FileFragment : BaseFragment<FileViewModel>() {
     private var fileId: Int? = null
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var viewModel: FileViewModel
+    override lateinit var viewModel: FileViewModel
 
     private val packsAdapter = FileInfoAdapter { packId ->
         viewModel.onPackClick(packId)
@@ -54,19 +50,21 @@ class FileFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         viewModel.file.observe(this, { state ->
             packsAdapter.packs = state.packs
             packsAdapter.info = state.file
         })
 
-        viewModel.liveBus.observe(this, Observer { action ->
-            when (action) {
-                is OpenPackMessage -> openPack(action.packId)
-            }
-        })
-
         file_info.layoutManager = LinearLayoutManager(activity)
         file_info.adapter = packsAdapter
+    }
+
+    override fun processMessage(message: Action) {
+        when (message) {
+            is OpenPackMessage -> openPack(message.packId)
+        }
     }
 
     private fun openPack(packId: Int) {

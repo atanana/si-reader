@@ -18,13 +18,13 @@ import javax.inject.Inject
 
 private const val ARG_PACK_ID = "pack_id"
 
-class PackFragment : BaseFragment() {
+class PackFragment : BaseFragment<PackViewModel>() {
     private var packId: Int? = null
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var viewModel: PackViewModel
+    override lateinit var viewModel: PackViewModel
 
     private val questionsAdapter = QuestionsAdapter { questionId ->
         viewModel.onQuestionClick(questionId)
@@ -50,6 +50,8 @@ class PackFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         viewModel.pack.observe(this, { state ->
             updatePackInfo(state.pack)
             updateQuestions(state.questions)
