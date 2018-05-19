@@ -57,7 +57,7 @@ class FilesListViewModel @Inject constructor(
 
     private fun updateSelectionTitle() {
         val selectedFilesCount = selectionManager.selectedFiles.size
-        val title = resources.getString(R.string.files_selected, selectedFilesCount)
+        val title = resources.getQuantityString(R.plurals.files_selected, selectedFilesCount, selectedFilesCount)
         bus.value = StringTitleMessage(title)
     }
 
