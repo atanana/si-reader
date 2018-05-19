@@ -4,7 +4,7 @@
     <item>
         <selector>
             <item android:state_selected="true">
-                <color android:color="@color/accent" />
+                <color android:color="@color/card_selected_background" />
             </item>
             <item>
                 <color android:color="@color/card_background" />
