@@ -57,14 +57,14 @@ class FilesListViewModel @Inject constructor(
 
     fun onFileClick(fileId: Int) {
         if (selectionManager.isSelectionMode) {
-            selectFile(fileId)
+            toggleFileSelection(fileId)
         } else {
             bus.value = OpenFileMessage(fileId)
         }
     }
 
-    private fun selectFile(fileId: Int) {
-        selectionManager.selectFile(fileId)
+    private fun toggleFileSelection(fileId: Int) {
+        selectionManager.toggleFileSelection(fileId)
         (filesData.value as? Files)?.files?.let { files ->
             filesData.value = Files(selectionManager.mapItems(files))
         }

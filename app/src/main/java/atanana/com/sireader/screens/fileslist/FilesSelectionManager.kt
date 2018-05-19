@@ -34,5 +34,11 @@ class FilesSelectionManager @Inject constructor() {
     private fun isFileSelected(entity: QuestionFileEntity) =
             isSelectionMode && files.contains(entity.id)
 
-    fun selectFile(fileId: Int) = files.add(fileId)
+    fun toggleFileSelection(fileId: Int) {
+        if (files.contains(fileId)) {
+            files.remove(fileId)
+        } else {
+            files.add(fileId)
+        }
+    }
 }
