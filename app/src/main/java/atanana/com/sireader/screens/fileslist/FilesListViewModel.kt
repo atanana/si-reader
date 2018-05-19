@@ -18,7 +18,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
 class FilesListViewModel @Inject constructor(
-        resources: Resources,
+        private val resources: Resources,
         filesDao: QuestionFilesDao,
         private val openFileHandler: OpenFileHandler,
         private val parseFileUseCase: ParseFileUseCase,
@@ -47,12 +47,18 @@ class FilesListViewModel @Inject constructor(
                 selectionManager.selectionModeObservable
                         .subscribe { isSelection ->
                             if (isSelection) {
-                                bus.value = StringTitleMessage(resources.getString(R.string.files_selected, 0))
+                                updateSelectionTitle()
                             } else {
                                 bus.value = ResourceTitleMessage(R.string.app_name)
                             }
                         }
         )
+    }
+
+    private fun updateSelectionTitle() {
+        val selectedFilesCount = selectionManager.selectedFiles.size
+        val title = resources.getString(R.string.files_selected, selectedFilesCount)
+        bus.value = StringTitleMessage(title)
     }
 
     fun onFileClick(fileId: Int) {
@@ -68,6 +74,7 @@ class FilesListViewModel @Inject constructor(
         (filesData.value as? Files)?.files?.let { files ->
             filesData.value = Files(selectionManager.mapItems(files))
         }
+        updateSelectionTitle()
     }
 
     fun onLongFileClick(fileId: Int) {
