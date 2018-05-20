@@ -5,6 +5,9 @@ import android.app.Activity
 import android.arch.lifecycle.MutableLiveData
 import android.content.Intent
 import android.content.res.Resources
+import android.support.v7.view.ActionMode
+import android.view.Menu
+import android.view.MenuItem
 import atanana.com.sireader.CannotSaveInDatabaseException
 import atanana.com.sireader.ParseFileException
 import atanana.com.sireader.R
@@ -30,6 +33,29 @@ class FilesListViewModel @Inject constructor(
 
     val state: NonNullMediatorLiveData<FilesListViewState> = filesData.nonNull()
 
+    private val callback = object : ActionMode.Callback {
+        override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+            when (item?.itemId) {
+                R.id.action_delete -> onDeleteClicked()
+            }
+            return true
+        }
+
+        override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+            mode?.menuInflater?.inflate(R.menu.menu_files, menu)
+            return true
+        }
+
+        override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+            return false
+        }
+
+        override fun onDestroyActionMode(mode: ActionMode?) {
+            selectionManager.isSelectionMode = false
+            updateFilesSelection()
+        }
+    }
+
     init {
         state.value = Loading
 
@@ -48,10 +74,10 @@ class FilesListViewModel @Inject constructor(
         addDisposable(
                 selectionManager.selectionModeObservable
                         .subscribe { isSelection ->
-                            if (isSelection) {
-                                updateSelectionTitle()
+                            bus.value = if (isSelection) {
+                                StartActionModeMessage(callback)
                             } else {
-                                bus.value = ResourceTitleMessage(R.string.app_name)
+                                StopActionModeMessage
                             }
                         }
         )
@@ -60,7 +86,7 @@ class FilesListViewModel @Inject constructor(
     private fun updateSelectionTitle() {
         val selectedFilesCount = selectionManager.selectedFiles.size
         val title = resources.getQuantityString(R.plurals.files_selected, selectedFilesCount, selectedFilesCount)
-        bus.value = StringTitleMessage(title)
+        bus.value = StringActionModeTitleMessage(title)
     }
 
     fun onFileClick(fileId: Int) {
@@ -73,17 +99,20 @@ class FilesListViewModel @Inject constructor(
 
     private fun toggleFileSelection(fileId: Int) {
         selectionManager.toggleFileSelection(fileId)
+        updateFilesSelection()
+        updateSelectionTitle()
+    }
+
+    private fun updateFilesSelection() {
         (filesData.value as? Files)?.files?.let { files ->
             filesData.value = Files(selectionManager.mapItems(files))
         }
-        updateSelectionTitle()
     }
 
     fun onLongFileClick(fileId: Int) {
         if (!selectionManager.isSelectionMode) {
             selectionManager.isSelectionMode = true
             onFileClick(fileId)
-            bus.value = SelectionModeChangeMessage(true)
         }
     }
 
@@ -124,7 +153,7 @@ class FilesListViewModel @Inject constructor(
         }
     }
 
-    fun onDeleteClicked() {
+    private fun onDeleteClicked() {
         val fileIds = selectionManager.selectedFiles.toIntArray()
         Completable.fromAction { filesDao.deleteFilesByIds(fileIds) }
                 .subscribeOn(Schedulers.io())

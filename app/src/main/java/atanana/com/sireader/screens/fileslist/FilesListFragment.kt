@@ -3,7 +3,9 @@ package atanana.com.sireader.screens.fileslist
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import atanana.com.sireader.R
 import atanana.com.sireader.fragments.BaseFragment
 import atanana.com.sireader.fragments.openFragment
@@ -40,14 +42,11 @@ class FilesListFragment : BaseFragment<FilesListViewModel>() {
 
     private val filesAdapter = FilesListAdapter(fileClickListener)
 
-    private var isSelectionMode = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidSupportInjection.inject(this)
         super.onCreate(savedInstanceState)
 
         viewModel = getViewModel(viewModelFactory)
-        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -73,13 +72,7 @@ class FilesListFragment : BaseFragment<FilesListViewModel>() {
     override fun processMessage(message: Action) {
         when (message) {
             is OpenFileMessage -> openFile(message.fileId)
-            is SelectionModeChangeMessage -> onSelectionModeChange(message.value)
         }
-    }
-
-    private fun onSelectionModeChange(value: Boolean) {
-        isSelectionMode = value
-        activity?.invalidateOptionsMenu()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -110,24 +103,6 @@ class FilesListFragment : BaseFragment<FilesListViewModel>() {
 
     private fun openFile(fileId: Int) {
         fragmentManager?.openFragment(FileFragment.newInstance(fileId))
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.menu_files, menu)
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu?) {
-        menu?.findItem(R.id.action_delete)?.isVisible = isSelectionMode
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
-            R.id.action_delete -> {
-                viewModel.onDeleteClicked()
-                true
-            }
-            else -> false
-        }
     }
 
     override val transactionTag: String
