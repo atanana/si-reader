@@ -18,6 +18,7 @@
     <string name="prefix_reference">Источник: %s</string>
 
     <string name="delete_files">Удалить файлы</string>
+    <string name="files_deleted">Файлы удалены!</string>
 
     <plurals name="files_selected">
         <item quantity="one">Выбран: %d файл</item>

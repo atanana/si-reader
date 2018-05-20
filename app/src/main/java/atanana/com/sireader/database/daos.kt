@@ -36,4 +36,7 @@ interface QuestionFilesDao {
 
     @Insert
     fun insertFile(file: QuestionFileEntity): Long
+
+    @Query("delete from files where id in (:fileIds)")
+    fun deleteFilesByIds(fileIds: IntArray)
 }

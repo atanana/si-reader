@@ -120,6 +120,16 @@ class FilesListFragment : BaseFragment<FilesListViewModel>() {
         menu?.findItem(R.id.action_delete)?.isVisible = isSelectionMode
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            R.id.action_delete -> {
+                viewModel.onDeleteClicked()
+                true
+            }
+            else -> false
+        }
+    }
+
     override val transactionTag: String
         get() = TAG
 

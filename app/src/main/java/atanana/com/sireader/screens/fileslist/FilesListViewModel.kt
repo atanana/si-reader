@@ -14,12 +14,14 @@ import atanana.com.sireader.files.OpenFileHandler
 import atanana.com.sireader.usecases.ParseFileUseCase
 import atanana.com.sireader.viewmodels.*
 import com.tbruyelle.rxpermissions2.RxPermissions
+import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class FilesListViewModel @Inject constructor(
         private val resources: Resources,
-        filesDao: QuestionFilesDao,
+        private val filesDao: QuestionFilesDao,
         private val openFileHandler: OpenFileHandler,
         private val parseFileUseCase: ParseFileUseCase,
         private val selectionManager: FilesSelectionManager
@@ -120,6 +122,15 @@ class FilesListViewModel @Inject constructor(
                             })
             )
         }
+    }
+
+    fun onDeleteClicked() {
+        val fileIds = selectionManager.selectedFiles.toIntArray()
+        Completable.fromAction { filesDao.deleteFilesByIds(fileIds) }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { bus.value = ResourceTextMessage(R.string.files_deleted) }
+        selectionManager.isSelectionMode = false
     }
 
     private fun getParsingErrorMessage(error: Throwable?): Action? =
