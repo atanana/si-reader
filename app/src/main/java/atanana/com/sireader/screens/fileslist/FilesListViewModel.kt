@@ -123,7 +123,7 @@ class FilesListViewModel @Inject constructor(
                     if (granted) {
                         tryOpenFileSelector()
                     } else {
-                        bus.value = ResourceTextMessage(R.string.no_permissions_to_read_files)
+                        bus.value = ResourceToastMessage(R.string.no_permissions_to_read_files)
                     }
                 }
     }
@@ -133,7 +133,7 @@ class FilesListViewModel @Inject constructor(
         bus.value = if (intent != null) {
             ActivityForResultMessage(intent, OPEN_FILE_REQUEST_CODE)
         } else {
-            ResourceTextMessage(R.string.no_file_managers_installed)
+            ResourceToastMessage(R.string.no_file_managers_installed)
         }
     }
 
@@ -158,15 +158,15 @@ class FilesListViewModel @Inject constructor(
         Completable.fromAction { filesDao.deleteFilesByIds(fileIds) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { bus.value = ResourceTextMessage(R.string.files_deleted) }
+                .subscribe { bus.value = ResourceToastMessage(R.string.files_deleted) }
         selectionManager.isSelectionMode = false
     }
 
     private fun getParsingErrorMessage(error: Throwable?): Action? =
             when (error) {
-                is ParseFileException -> ResourceTextMessage(R.string.cannot_parse_file)
-                is CannotSaveInDatabaseException -> ResourceTextMessage(R.string.cannot_save_questions)
-                else -> ResourceTextMessage(R.string.unknown_error)
+                is ParseFileException -> ResourceToastMessage(R.string.cannot_parse_file)
+                is CannotSaveInDatabaseException -> ResourceToastMessage(R.string.cannot_save_questions)
+                else -> ResourceToastMessage(R.string.unknown_error)
             }
 }
 

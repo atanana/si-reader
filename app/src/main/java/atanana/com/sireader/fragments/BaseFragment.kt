@@ -19,7 +19,7 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.liveBus.observe(this, Observer { action ->
             when (action) {
-                is TextMessage -> processTextMessage(action)
+                is ToastMessage -> processTextMessage(action)
                 is ActivityForResultMessage -> startActivityForResult(action.intent, action.requestCode)
                 is TitleMessage -> processTitleMessage(action)
                 is StartActionModeMessage -> actionMode = (activity as? AppCompatActivity)?.startSupportActionMode(action.callback)
@@ -41,10 +41,10 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
         activity?.title = text
     }
 
-    private fun processTextMessage(message: TextMessage) {
+    private fun processTextMessage(message: ToastMessage) {
         val text = when (message) {
-            is StringTextMessage -> message.text
-            is ResourceTextMessage -> getString(message.textId)
+            is StringToastMessage -> message.text
+            is ResourceToastMessage -> getString(message.textId)
         }
         Toast.makeText(activity, text, Toast.LENGTH_SHORT).show()
     }

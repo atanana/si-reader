@@ -6,11 +6,11 @@ import android.support.v7.view.ActionMode
 
 sealed class Action
 
-sealed class TextMessage : Action()
+sealed class ToastMessage : Action()
 
-data class StringTextMessage(val text: String) : TextMessage()
+data class StringToastMessage(val text: String) : ToastMessage()
 
-data class ResourceTextMessage(@StringRes val textId: Int) : TextMessage()
+data class ResourceToastMessage(@StringRes val textId: Int) : ToastMessage()
 
 data class ActivityForResultMessage(val intent: Intent, val requestCode: Int) : Action()
 
