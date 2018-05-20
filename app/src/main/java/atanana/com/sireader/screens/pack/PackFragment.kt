@@ -59,9 +59,6 @@ class PackFragment : BaseFragment<PackViewModel>() {
         questionsAdapter.questions = questions
     }
 
-    override val viewModelClass: Class<PackViewModel>
-        get() = PackViewModel::class.java
-
     override val transactionTag: String
         get() = TAG
 

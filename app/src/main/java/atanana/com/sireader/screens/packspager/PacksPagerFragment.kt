@@ -48,9 +48,6 @@ class PacksPagerFragment : BaseFragment<PacksPagerViewModel>() {
         })
     }
 
-    override val viewModelClass: Class<PacksPagerViewModel>
-        get() = PacksPagerViewModel::class.java
-
     override val transactionTag: String
         get() = TAG
 

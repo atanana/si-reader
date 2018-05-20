@@ -93,9 +93,6 @@ class FilesListFragment : BaseFragment<FilesListViewModel>() {
         fragmentManager?.openFragment(FileFragment.newInstance(fileId))
     }
 
-    override val viewModelClass: Class<FilesListViewModel>
-        get() = FilesListViewModel::class.java
-
     override val transactionTag: String
         get() = TAG
 

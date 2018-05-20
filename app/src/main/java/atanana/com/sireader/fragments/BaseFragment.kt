@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Toast
 import atanana.com.sireader.viewmodels.*
 import dagger.android.support.AndroidSupportInjection
+import java.lang.reflect.ParameterizedType
 import javax.inject.Inject
 
 abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
@@ -22,13 +23,13 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
 
     private var actionMode: ActionMode? = null
 
-    protected abstract val viewModelClass: Class<VM>
-
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidSupportInjection.inject(this)
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory)[viewModelClass]
+        val viewModelClass = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments.first()
+        @Suppress("UNCHECKED_CAST")
+        viewModel = ViewModelProviders.of(this, viewModelFactory)[viewModelClass as Class<VM>]
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
