@@ -7,12 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import atanana.com.sireader.R
 import atanana.com.sireader.fragments.BaseFragment
-import atanana.com.sireader.viewmodels.ViewModelFactory
-import atanana.com.sireader.viewmodels.getViewModel
 import atanana.com.sireader.viewmodels.observe
-import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_packs_pager.*
-import javax.inject.Inject
 
 private const val ARG_FILE_ID = "file_id"
 private const val ARG_PACK_ID = "pack_id"
@@ -21,18 +17,10 @@ class PacksPagerFragment : BaseFragment<PacksPagerViewModel>() {
     private var fileId: Int? = null
     private var packId: Int? = null
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    override lateinit var viewModel: PacksPagerViewModel
-
     private lateinit var packsPagesAdapter: PacksPagesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidSupportInjection.inject(this)
         super.onCreate(savedInstanceState)
-
-        viewModel = getViewModel(viewModelFactory)
 
         arguments?.let {
             fileId = it.getInt(ARG_FILE_ID)
@@ -59,6 +47,9 @@ class PacksPagerFragment : BaseFragment<PacksPagerViewModel>() {
             packs_pager.setCurrentItem(currentIndex, false)
         })
     }
+
+    override val viewModelClass: Class<PacksPagerViewModel>
+        get() = PacksPagerViewModel::class.java
 
     override val transactionTag: String
         get() = TAG

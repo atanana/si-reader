@@ -10,10 +10,11 @@ import atanana.com.sireader.R
 import atanana.com.sireader.fragments.BaseFragment
 import atanana.com.sireader.fragments.openFragment
 import atanana.com.sireader.screens.fileinfo.FileFragment
-import atanana.com.sireader.viewmodels.*
+import atanana.com.sireader.viewmodels.Action
+import atanana.com.sireader.viewmodels.OpenFileMessage
+import atanana.com.sireader.viewmodels.observe
 import atanana.com.sireader.views.gone
 import com.tbruyelle.rxpermissions2.RxPermissions
-import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_files_list.*
 import javax.inject.Inject
 
@@ -21,14 +22,8 @@ import javax.inject.Inject
  * A placeholder fragment containing a simple view.
  */
 class FilesListFragment : BaseFragment<FilesListViewModel>() {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
     @Inject
     lateinit var rxPermissions: RxPermissions
-
-    override lateinit var viewModel: FilesListViewModel
 
     private val fileClickListener = object : FilesListAdapter.FileClickListener {
         override fun onClick(fileId: Int) {
@@ -41,13 +36,6 @@ class FilesListFragment : BaseFragment<FilesListViewModel>() {
     }
 
     private val filesAdapter = FilesListAdapter(fileClickListener)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidSupportInjection.inject(this)
-        super.onCreate(savedInstanceState)
-
-        viewModel = getViewModel(viewModelFactory)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -104,6 +92,9 @@ class FilesListFragment : BaseFragment<FilesListViewModel>() {
     private fun openFile(fileId: Int) {
         fragmentManager?.openFragment(FileFragment.newInstance(fileId))
     }
+
+    override val viewModelClass: Class<FilesListViewModel>
+        get() = FilesListViewModel::class.java
 
     override val transactionTag: String
         get() = TAG

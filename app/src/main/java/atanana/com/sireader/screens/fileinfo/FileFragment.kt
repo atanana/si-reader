@@ -9,10 +9,10 @@ import atanana.com.sireader.R
 import atanana.com.sireader.fragments.BaseFragment
 import atanana.com.sireader.fragments.openFragment
 import atanana.com.sireader.screens.packspager.PacksPagerFragment
-import atanana.com.sireader.viewmodels.*
-import dagger.android.support.AndroidSupportInjection
+import atanana.com.sireader.viewmodels.Action
+import atanana.com.sireader.viewmodels.OpenPackMessage
+import atanana.com.sireader.viewmodels.observe
 import kotlinx.android.synthetic.main.fragment_file.*
-import javax.inject.Inject
 
 
 private const val ARG_FILE_ID = "file_id"
@@ -20,20 +20,12 @@ private const val ARG_FILE_ID = "file_id"
 class FileFragment : BaseFragment<FileViewModel>() {
     private var fileId: Int? = null
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    override lateinit var viewModel: FileViewModel
-
     private val packsAdapter = FileInfoAdapter { packId ->
         viewModel.onPackClick(packId)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidSupportInjection.inject(this)
         super.onCreate(savedInstanceState)
-
-        viewModel = getViewModel(viewModelFactory)
 
         arguments?.apply {
             fileId = getInt(ARG_FILE_ID)
@@ -70,6 +62,9 @@ class FileFragment : BaseFragment<FileViewModel>() {
     private fun openPack(packId: Int) {
         fragmentManager?.openFragment(PacksPagerFragment.newInstance(fileId!!, packId))
     }
+
+    override val viewModelClass: Class<FileViewModel>
+        get() = FileViewModel::class.java
 
     override val transactionTag: String
         get() = TAG

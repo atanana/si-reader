@@ -8,33 +8,21 @@ import android.view.ViewGroup
 import atanana.com.sireader.R
 import atanana.com.sireader.database.PackEntity
 import atanana.com.sireader.fragments.BaseFragment
-import atanana.com.sireader.viewmodels.ViewModelFactory
-import atanana.com.sireader.viewmodels.getViewModel
 import atanana.com.sireader.viewmodels.observe
 import atanana.com.sireader.views.optionalText
-import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_pack.*
-import javax.inject.Inject
 
 private const val ARG_PACK_ID = "pack_id"
 
 class PackFragment : BaseFragment<PackViewModel>() {
     private var packId: Int? = null
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    override lateinit var viewModel: PackViewModel
-
     private val questionsAdapter = QuestionsAdapter { questionId ->
         viewModel.onQuestionClick(questionId)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidSupportInjection.inject(this)
         super.onCreate(savedInstanceState)
-
-        viewModel = getViewModel(viewModelFactory)
 
         arguments?.apply {
             packId = getInt(ARG_PACK_ID)
@@ -70,6 +58,9 @@ class PackFragment : BaseFragment<PackViewModel>() {
     private fun updateQuestions(questions: List<QuestionViewModel>) {
         questionsAdapter.questions = questions
     }
+
+    override val viewModelClass: Class<PackViewModel>
+        get() = PackViewModel::class.java
 
     override val transactionTag: String
         get() = TAG
