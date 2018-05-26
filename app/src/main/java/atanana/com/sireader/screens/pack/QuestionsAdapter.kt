@@ -66,7 +66,7 @@ class QuestionsAdapter(
     }
 }
 
-class DiffCallback(
+private class DiffCallback(
         private val oldQuestions: List<QuestionViewModel>,
         private val newQuestion: List<QuestionViewModel>
 ) : DiffUtil.Callback() {

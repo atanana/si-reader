@@ -1,5 +1,6 @@
 package atanana.com.sireader.screens.fileslist
 
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +14,9 @@ class FilesListAdapter(
 
     var files = emptyList<FileItem>()
         set(value) {
+            val diff = DiffUtil.calculateDiff(DiffCallback(files, value), false)
             field = value
-            notifyDataSetChanged()
+            diff.dispatchUpdatesTo(this)
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -49,5 +51,22 @@ class FilesListAdapter(
     interface FileClickListener {
         fun onClick(fileId: Int)
         fun onLongClick(fileId: Int)
+    }
+}
+
+private class DiffCallback(
+        private val oldFiles: List<FileItem>,
+        private val newFiles: List<FileItem>
+) : DiffUtil.Callback() {
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldFiles[oldItemPosition].entity.id == newFiles[newItemPosition].entity.id
+    }
+
+    override fun getOldListSize(): Int = oldFiles.size
+
+    override fun getNewListSize(): Int = newFiles.size
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldFiles[oldItemPosition] == newFiles[newItemPosition]
     }
 }
