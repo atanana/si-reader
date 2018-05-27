@@ -65,7 +65,7 @@ class FileInfoAdapter(
             private val packTitle: TextView = item.findViewById(R.id.pack_title)
 
             fun bind(pack: PackEntity) {
-                packTitle.text = pack.topic
+                packTitle.text = pack.indexedTitle
                 itemView.setOnClickListener { selectPack(pack.id) }
             }
         }

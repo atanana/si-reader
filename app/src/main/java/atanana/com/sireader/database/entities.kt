@@ -38,7 +38,10 @@ data class PackEntity(
                 onDelete = ForeignKey.CASCADE
         )
         val fileId: Int
-)
+) {
+    val indexedTitle: String
+        get() = "$index. $topic"
+}
 
 @Entity(tableName = "files")
 data class QuestionFileEntity(

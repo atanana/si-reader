@@ -50,7 +50,7 @@ class PackFragment : BaseFragment<PackViewModel>() {
     }
 
     private fun updatePackInfo(pack: PackEntity) {
-        pack_title.text = pack.topic
+        pack_title.text = pack.indexedTitle
         pack_author.optionalText(pack.author)
         pack_notes.optionalText(pack.notes)
     }
