@@ -55,7 +55,7 @@ class PackFragment : BaseFragment<PackViewModel>() {
         pack_notes.optionalText(pack.notes)
     }
 
-    private fun updateQuestions(questions: List<QuestionViewModel>) {
+    private fun updateQuestions(questions: List<QuestionItem>) {
         questionsAdapter.questions = questions
     }
 

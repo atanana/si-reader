@@ -16,6 +16,7 @@
     <string name="prefix_not_answer">Незачёт: %s</string>
     <string name="prefix_comment">Комментарий: %s</string>
     <string name="prefix_reference">Источник: %s</string>
+    <string name="reserve">Запас</string>
 
     <string name="delete_files">Удалить файлы</string>
     <string name="files_deleted">Файлы удалены!</string>

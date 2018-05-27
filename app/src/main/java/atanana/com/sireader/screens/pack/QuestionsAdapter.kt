@@ -1,8 +1,12 @@
 package atanana.com.sireader.screens.pack
 
+import android.graphics.Typeface
 import android.support.annotation.StringRes
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +17,7 @@ import atanana.com.sireader.views.gone
 class QuestionsAdapter(
         private val onQuestionClick: (questionId: Int) -> Unit
 ) : RecyclerView.Adapter<QuestionsAdapter.ViewHolder>() {
-    var questions = emptyList<QuestionViewModel>()
+    var questions = emptyList<QuestionItem>()
         set(value) {
             val diffResult = DiffUtil.calculateDiff(DiffCallback(field, value), false)
             field = value
@@ -41,22 +45,30 @@ class QuestionsAdapter(
         private val reference = item.findViewById<TextView>(R.id.reference)
         private val answerLayout = item.findViewById<View>(R.id.answer_layout)
 
-        fun bind(viewModel: QuestionViewModel) {
-            questionText.text = viewModel.question.question
-            answerLayout.gone(viewModel.isClosed)
-            answer.safePrepend(viewModel.question.answer, R.string.prefix_answer)
-            alsoAnswer.safePrepend(viewModel.question.alsoAnswer, R.string.prefix_also_answer)
-            notAnswer.safePrepend(viewModel.question.notAnswer, R.string.prefix_not_answer)
-            comment.safePrepend(viewModel.question.comment, R.string.prefix_comment)
-            reference.safePrepend(viewModel.question.reference, R.string.prefix_reference)
+        fun bind(item: QuestionItem) {
+            questionText.text = createQuestionText(item)
+            answerLayout.gone(item.isClosed)
+            answer.safePrepend(item.question.answer, R.string.prefix_answer)
+            alsoAnswer.safePrepend(item.question.alsoAnswer, R.string.prefix_also_answer)
+            notAnswer.safePrepend(item.question.notAnswer, R.string.prefix_not_answer)
+            comment.safePrepend(item.question.comment, R.string.prefix_comment)
+            reference.safePrepend(item.question.reference, R.string.prefix_reference)
 
             itemView.setOnClickListener {
-                if (viewModel.isClosed) {
-                    onQuestionClick(viewModel.question.id)
+                if (item.isClosed) {
+                    onQuestionClick(item.question.id)
                 }
             }
         }
     }
+
+    private fun createQuestionText(item: QuestionItem): Spannable =
+            SpannableStringBuilder().apply {
+                val price = item.price + ". "
+                append(price)
+                setSpan(StyleSpan(Typeface.BOLD), 0, price.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                append(item.question.question)
+            }
 
     private fun TextView.safePrepend(value: String?, @StringRes prefixId: Int) {
         gone(value == null)
@@ -67,8 +79,8 @@ class QuestionsAdapter(
 }
 
 private class DiffCallback(
-        private val oldQuestions: List<QuestionViewModel>,
-        private val newQuestion: List<QuestionViewModel>
+        private val oldQuestions: List<QuestionItem>,
+        private val newQuestion: List<QuestionItem>
 ) : DiffUtil.Callback() {
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return oldQuestions[oldItemPosition].question.id == newQuestion[newItemPosition].question.id

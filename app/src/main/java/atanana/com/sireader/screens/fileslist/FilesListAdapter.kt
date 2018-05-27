@@ -43,7 +43,7 @@ class FilesListAdapter(
             itemView.setOnClickListener { clickListener.onClick(file.id) }
             itemView.setOnLongClickListener {
                 clickListener.onLongClick(file.id)
-                return@setOnLongClickListener true
+                true
             }
         }
     }

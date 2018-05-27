@@ -2,19 +2,16 @@ package atanana.com.sireader.screens.pack
 
 import android.arch.lifecycle.MutableLiveData
 import atanana.com.sireader.database.PackEntity
-import atanana.com.sireader.database.PacksDao
 import atanana.com.sireader.database.QuestionEntity
-import atanana.com.sireader.database.QuestionsDao
+import atanana.com.sireader.usecases.GetPackWithQuestions
 import atanana.com.sireader.viewmodels.BaseViewModel
 import atanana.com.sireader.viewmodels.NonNullMediatorLiveData
 import atanana.com.sireader.viewmodels.nonNull
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.BiFunction
 import javax.inject.Inject
 
 class PackViewModel @Inject constructor(
-        private val packsDao: PacksDao,
-        private val questionsDao: QuestionsDao
+        private val provider: GetPackWithQuestions
 ) : BaseViewModel() {
     private val packData = MutableLiveData<PackViewState>()
 
@@ -22,32 +19,30 @@ class PackViewModel @Inject constructor(
 
     fun loadPack(packId: Int) {
         addDisposable(
-                packsDao.pack(packId)
-                        .zipWith<List<QuestionEntity>, PackViewState>(
-                                questionsDao.questionsForPack(packId),
-                                BiFunction { pack, questions ->
-                                    val questionViewModels = questions.map { QuestionViewModel(it, true) }
-                                    PackViewState(pack, questionViewModels)
-                                }
-                        )
+                provider.getPack(packId)
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe { packData.value = it }
+                        .subscribe { (pack, questions) ->
+                            packData.value = PackViewState(pack, questions)
+                        }
         )
     }
 
     fun onQuestionClick(questionId: Int) {
         val currentState = packData.value!!
-        val newQuestions = currentState.questions.map {
-            if (it.question.id == questionId) {
-                it.copy(isClosed = false)
-            } else {
-                it
-            }
-        }
+        val newQuestions = showQuestion(questionId, currentState.questions)
         packData.value = currentState.copy(questions = newQuestions)
     }
+
+    private fun showQuestion(questionId: Int, questions: List<QuestionItem>): List<QuestionItem> =
+            questions.map {
+                if (it.question.id == questionId) {
+                    it.copy(isClosed = false)
+                } else {
+                    it
+                }
+            }
 }
 
-data class QuestionViewModel(val question: QuestionEntity, val isClosed: Boolean)
+data class QuestionItem(val question: QuestionEntity, val isClosed: Boolean, val price: String)
 
-data class PackViewState(val pack: PackEntity, val questions: List<QuestionViewModel>)
+data class PackViewState(val pack: PackEntity, val questions: List<QuestionItem>)
