@@ -30,6 +30,7 @@ data class PackEntity(
         val topic: String,
         val author: String?,
         val notes: String?,
+        val index: Int,
         @ForeignKey(
                 entity = QuestionFileEntity::class,
                 parentColumns = ["id"],

@@ -32,35 +32,46 @@ class ParseFileUseCase @Inject constructor(
 
         database.save {
             val name = fileName(uri) ?: "Unknown"
-            val fileId = filesDao.insertFile(
-                    QuestionFileEntity(0, siInfo.title, name, siInfo.notes, siInfo.editor)
-            )
-            questionPacks.forEach { pack ->
-                val packId = packsDao.insertPack(
-                        PackEntity(0, pack.topic, pack.author, pack.notes, fileId.toInt())
-                )
-                pack.questions.forEach { question ->
-                    saveQuestion(question, packId.toInt())
-                }
-            }
+            val fileId = saveFile(siInfo, name)
+            questionPacks
+                    .withIndex()
+                    .forEach { (index, pack) ->
+                        savePackWithQuestions(index, pack, fileId)
+                    }
         }
     }
             .subscribeOn(Schedulers.io())
 
-    private fun saveQuestion(question: QuestionData, packId: Int) {
-        questionsDao.insertQuestion(
-                QuestionEntity(
-                        0,
-                        question.question,
-                        question.answer,
-                        question.alsoAnswer,
-                        question.notAnswer,
-                        question.comment,
-                        question.reference,
-                        packId
-                )
-        )
+    private fun savePackWithQuestions(index: Int, pack: QuestionPack, fileId: Long) {
+        val packId = savePack(index, pack, fileId)
+        pack.questions.forEach { question ->
+            saveQuestion(question, packId.toInt())
+        }
     }
+
+    private fun savePack(index: Int, pack: QuestionPack, fileId: Long): Long =
+            packsDao.insertPack(
+                    PackEntity(0, pack.topic, pack.author, pack.notes, index + 1, fileId.toInt())
+            )
+
+    private fun saveFile(siInfo: SiInfo, name: String): Long =
+            filesDao.insertFile(
+                    QuestionFileEntity(0, siInfo.title, name, siInfo.notes, siInfo.editor)
+            )
+
+    private fun saveQuestion(question: QuestionData, packId: Int) =
+            questionsDao.insertQuestion(
+                    QuestionEntity(
+                            0,
+                            question.question,
+                            question.answer,
+                            question.alsoAnswer,
+                            question.notAnswer,
+                            question.comment,
+                            question.reference,
+                            packId
+                    )
+            )
 
     private fun Database.save(block: () -> Unit) {
         beginTransaction()
