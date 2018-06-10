@@ -29,7 +29,7 @@ ext {
     minSDKVersion = 21
     targetSdkVersion = 27
     supportLibVersion = "27.1.1"
-    constraintLayoutVersion = "1.1.0"
+    constraintLayoutVersion = "1.1.1"
     dagger2Version = "2.15"
     roomVersion = "1.1.0"
     rxJavaVersion = "2.1.10"
