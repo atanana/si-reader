@@ -8,16 +8,9 @@ import android.provider.OpenableColumns
 import atanana.com.sireader.CannotSaveInDatabaseException
 import atanana.com.sireader.ParseFileException
 import atanana.com.sireader.database.*
-import com.atanana.si_parser.QuestionData
-import com.atanana.si_parser.QuestionPack
-import com.atanana.si_parser.QuestionPackTokenizer
-import com.atanana.si_parser.SiInfo
-import com.atanana.si_parser.parsing.InfoParser
-import com.atanana.si_parser.parsing.QuestionPackParser
+import com.atanana.si_parser.*
 import io.reactivex.Completable
 import io.reactivex.schedulers.Schedulers
-import org.apache.poi.hwpf.HWPFDocument
-import org.apache.poi.hwpf.extractor.WordExtractor
 import javax.inject.Inject
 
 class ParseFileUseCase @Inject constructor(
@@ -102,18 +95,10 @@ class ParseFileUseCase @Inject constructor(
                         }
                     }
 
-    private fun parseFile(uri: Uri): Pair<SiInfo, List<QuestionPack>> {
+    private fun parseFile(uri: Uri): FileParseResult {
         try {
             contentResolver.openInputStream(uri).use {
-                val document = HWPFDocument(it)
-                val wordExtractor = WordExtractor(document)
-                val text = wordExtractor.text
-                val tokens = QuestionPackTokenizer.process(text)
-                val siInfo = InfoParser.parse(tokens.first())
-                val questionPacks = tokens.drop(1).map {
-                    QuestionPackParser.parse(it)
-                }
-                return Pair(siInfo, questionPacks)
+                return Parser().parse(it)
             }
         } catch (e: Exception) {
             throw ParseFileException()
