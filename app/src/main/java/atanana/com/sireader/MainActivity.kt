@@ -3,6 +3,7 @@ package atanana.com.sireader
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import atanana.com.sireader.fragments.hasFragment
 import atanana.com.sireader.fragments.openFragment
 import atanana.com.sireader.screens.fileslist.FilesListFragment
 import dagger.android.AndroidInjection
@@ -25,6 +26,8 @@ class MainActivity : HasSupportFragmentInjector, AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        supportFragmentManager.openFragment(FilesListFragment(), false)
+        if (!supportFragmentManager.hasFragment()) {
+            supportFragmentManager.openFragment(FilesListFragment(), false)
+        }
     }
 }
