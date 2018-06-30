@@ -40,10 +40,10 @@ class PackFragment : BaseFragment<PackViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.pack.observe(this, { state ->
+        viewModel.pack.observe(this) { state ->
             updatePackInfo(state.pack)
             updateQuestions(state.questions)
-        })
+        }
 
         questions_list.layoutManager = LinearLayoutManager(activity)
         questions_list.adapter = questionsAdapter

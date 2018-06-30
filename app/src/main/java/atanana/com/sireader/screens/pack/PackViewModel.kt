@@ -18,13 +18,15 @@ class PackViewModel @Inject constructor(
     val pack: NonNullMediatorLiveData<PackViewState> = packData.nonNull()
 
     fun loadPack(packId: Int) {
-        addDisposable(
-                provider.getPack(packId)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe { (pack, questions) ->
-                            packData.value = PackViewState(pack, questions)
-                        }
-        )
+        if (packData.value == null) {
+            addDisposable(
+                    provider.getPack(packId)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe { (pack, questions) ->
+                                packData.value = PackViewState(pack, questions)
+                            }
+            )
+        }
     }
 
     fun onQuestionClick(questionId: Int) {
