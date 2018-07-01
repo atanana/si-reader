@@ -45,9 +45,9 @@ class FilesListFragment : BaseFragment<FilesListViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.state.observe(this, { state ->
+        viewModel.state.observe(this) { state ->
             setViewState(state)
-        })
+        }
 
         fab.setOnClickListener {
             viewModel.fabClicked(rxPermissions)

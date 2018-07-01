@@ -30,10 +30,6 @@ class FileFragment : BaseFragment<FileViewModel>() {
         arguments?.apply {
             fileId = getInt(ARG_FILE_ID)
         }
-
-        fileId?.let {
-            viewModel.loadFileInfo(it)
-        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -51,6 +47,13 @@ class FileFragment : BaseFragment<FileViewModel>() {
 
         file_info.layoutManager = LinearLayoutManager(activity)
         file_info.adapter = packsAdapter
+    }
+
+    override fun onResume() {
+        super.onResume()
+        fileId?.let {
+            viewModel.loadFileInfo(it)
+        }
     }
 
     override fun processMessage(message: Action) {
