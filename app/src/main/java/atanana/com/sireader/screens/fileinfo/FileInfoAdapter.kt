@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import atanana.com.sireader.R
 import atanana.com.sireader.SiReaderException
-import atanana.com.sireader.database.PackEntity
 import atanana.com.sireader.database.QuestionFileEntity
 import atanana.com.sireader.screens.fileinfo.FileInfoAdapter.ViewHolder.FileInfoViewHolder
 import atanana.com.sireader.screens.fileinfo.FileInfoAdapter.ViewHolder.PackViewHolder
@@ -21,7 +20,7 @@ class FileInfoAdapter(
         const val TYPE_PACK = 1
     }
 
-    var packs = emptyList<PackEntity>()
+    var packs = emptyList<PackItem>()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -64,9 +63,9 @@ class FileInfoAdapter(
         class PackViewHolder(item: View, private val selectPack: (Int) -> Unit) : ViewHolder(item) {
             private val packTitle: TextView = item.findViewById(R.id.pack_title)
 
-            fun bind(pack: PackEntity) {
-                packTitle.text = pack.indexedTitle
-                itemView.setOnClickListener { selectPack(pack.id) }
+            fun bind(item: PackItem) {
+                packTitle.text = item.pack.indexedTitle
+                itemView.setOnClickListener { selectPack(item.pack.id) }
             }
         }
 

@@ -2,20 +2,17 @@ package atanana.com.sireader.screens.fileinfo
 
 import android.arch.lifecycle.MutableLiveData
 import atanana.com.sireader.database.PackEntity
-import atanana.com.sireader.database.PacksDao
 import atanana.com.sireader.database.QuestionFileEntity
-import atanana.com.sireader.database.QuestionFilesDao
+import atanana.com.sireader.usecases.GetFileInfoWithPacks
 import atanana.com.sireader.viewmodels.BaseViewModel
 import atanana.com.sireader.viewmodels.NonNullMediatorLiveData
 import atanana.com.sireader.viewmodels.OpenPackMessage
 import atanana.com.sireader.viewmodels.nonNull
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.BiFunction
 import javax.inject.Inject
 
 class FileViewModel @Inject constructor(
-        private val filesDao: QuestionFilesDao,
-        private val packsDao: PacksDao
+        private val provider: GetFileInfoWithPacks
 ) : BaseViewModel() {
     private val fileData = MutableLiveData<FileViewState>()
 
@@ -23,13 +20,11 @@ class FileViewModel @Inject constructor(
 
     fun loadFileInfo(fileId: Int) {
         addDisposable(
-                filesDao.file(fileId)
-                        .zipWith<List<PackEntity>, FileViewState>(
-                                packsDao.packForFile(fileId),
-                                BiFunction { file, packs -> FileViewState(file, packs) }
-                        )
+                provider.getInfo(fileId)
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe { fileData.value = it }
+                        .subscribe { (fileInfo, packs) ->
+                            fileData.value = FileViewState(fileInfo, packs)
+                        }
         )
     }
 
@@ -38,4 +33,6 @@ class FileViewModel @Inject constructor(
     }
 }
 
-data class FileViewState(val file: QuestionFileEntity, val packs: List<PackEntity>)
+data class FileViewState(val file: QuestionFileEntity, val packs: List<PackItem>)
+
+data class PackItem(val pack: PackEntity, val lastRead: Boolean)

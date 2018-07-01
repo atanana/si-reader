@@ -44,10 +44,10 @@ class FileFragment : BaseFragment<FileViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.file.observe(this, { state ->
+        viewModel.file.observe(this) { state ->
             packsAdapter.packs = state.packs
             packsAdapter.info = state.file
-        })
+        }
 
         file_info.layoutManager = LinearLayoutManager(activity)
         file_info.adapter = packsAdapter
