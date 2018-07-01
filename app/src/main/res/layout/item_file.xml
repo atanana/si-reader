@@ -6,19 +6,35 @@
 
     <TextView
         android:id="@+id/file_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/default_margin"
         android:textColor="@android:color/black"
         android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/star"
+        app:layout_constraintStart_toStartOf="parent"
         tools:text="test pack name" />
 
     <TextView
         android:id="@+id/file_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        app:layout_constraintEnd_toEndOf="@+id/file_title"
         app:layout_constraintStart_toStartOf="@+id/file_title"
         app:layout_constraintTop_toBottomOf="@+id/file_title"
         tools:text="test_pack.doc" />
+
+    <ImageView
+        android:id="@+id/star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/default_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_star_white"
+        tools:ignore="ContentDescription" />
 
 </android.support.constraint.ConstraintLayout>
