@@ -1,15 +1,19 @@
 package atanana.com.sireader.screens.fileinfo
 
+import android.support.v4.content.ContextCompat
+import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import atanana.com.sireader.R
 import atanana.com.sireader.SiReaderException
 import atanana.com.sireader.database.QuestionFileEntity
 import atanana.com.sireader.screens.fileinfo.FileInfoAdapter.ViewHolder.FileInfoViewHolder
 import atanana.com.sireader.screens.fileinfo.FileInfoAdapter.ViewHolder.PackViewHolder
+import atanana.com.sireader.views.invisible
 import atanana.com.sireader.views.optionalText
 
 class FileInfoAdapter(
@@ -62,10 +66,17 @@ class FileInfoAdapter(
     sealed class ViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         class PackViewHolder(item: View, private val selectPack: (Int) -> Unit) : ViewHolder(item) {
             private val packTitle: TextView = item.findViewById(R.id.pack_title)
+            private val star: ImageView = item.findViewById(R.id.star)
+
+            init {
+                val accentColor = ContextCompat.getColor(item.context, R.color.accent)
+                DrawableCompat.setTint(star.drawable, accentColor)
+            }
 
             fun bind(item: PackItem) {
                 packTitle.text = item.pack.indexedTitle
                 itemView.setOnClickListener { selectPack(item.pack.id) }
+                star.invisible(!item.lastRead)
             }
         }
 
