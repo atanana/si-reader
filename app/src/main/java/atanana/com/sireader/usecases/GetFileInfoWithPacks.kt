@@ -18,9 +18,14 @@ class GetFileInfoWithPacks @Inject constructor(
 
     private fun zipFileWithPacks(): BiFunction<QuestionFileEntity, List<PackEntity>, Pair<QuestionFileEntity, List<PackItem>>> {
         return BiFunction { file, packs ->
-            Pair(file, packs.map { PackItem(it, true) })
+            Pair(file, mapPacks(packs, file.lastReadPackId))
         }
     }
+
+    private fun mapPacks(packs: List<PackEntity>, lastReadPackId: Int?) =
+            packs.map {
+                PackItem(it, it.id == lastReadPackId)
+            }
 
     private fun packs(fileId: Int) = packsDao.packForFile(fileId)
 

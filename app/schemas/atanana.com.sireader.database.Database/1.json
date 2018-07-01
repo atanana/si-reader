@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "f0f547a58f6ab820ce40c20061baf5c7",
+    "identityHash": "0df5c9d5c89809ffb761c2985fc2ede1",
     "entities": [
       {
         "tableName": "questions",
@@ -118,7 +118,7 @@
       },
       {
         "tableName": "files",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `filename` TEXT NOT NULL, `notes` TEXT, `editor` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `filename` TEXT NOT NULL, `notes` TEXT, `editor` TEXT, `lastReadPackId` INTEGER)",
         "fields": [
           {
             "fieldPath": "id",
@@ -149,6 +149,12 @@
             "columnName": "editor",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "lastReadPackId",
+            "columnName": "lastReadPackId",
+            "affinity": "INTEGER",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -163,7 +169,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"f0f547a58f6ab820ce40c20061baf5c7\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"0df5c9d5c89809ffb761c2985fc2ede1\")"
     ]
   }
 }

@@ -50,5 +50,6 @@ data class QuestionFileEntity(
         val title: String,
         val filename: String,
         val notes: String?,
-        val editor: String?
+        val editor: String?,
+        val lastReadPackId: Int? = null
 )
