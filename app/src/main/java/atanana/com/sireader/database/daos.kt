@@ -39,4 +39,7 @@ interface QuestionFilesDao {
 
     @Query("delete from files where id in (:fileIds)")
     fun deleteFilesByIds(fileIds: IntArray)
+
+    @Query("update files set lastReadPackId = :packId where id = :fileId")
+    fun updateLastReadPack(fileId: Int, packId: Int)
 }
