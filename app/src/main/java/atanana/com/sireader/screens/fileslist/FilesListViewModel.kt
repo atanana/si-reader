@@ -14,6 +14,7 @@ import atanana.com.sireader.R
 import atanana.com.sireader.database.QuestionFilesDao
 import atanana.com.sireader.files.OPEN_FILE_REQUEST_CODE
 import atanana.com.sireader.files.OpenFileHandler
+import atanana.com.sireader.usecases.GetFilesItems
 import atanana.com.sireader.usecases.ParseFileUseCase
 import atanana.com.sireader.viewmodels.*
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -27,7 +28,8 @@ class FilesListViewModel @Inject constructor(
         private val filesDao: QuestionFilesDao,
         private val openFileHandler: OpenFileHandler,
         private val parseFileUseCase: ParseFileUseCase,
-        private val selectionManager: FilesSelectionManager
+        private val selectionManager: FilesSelectionManager,
+        getFilesItems: GetFilesItems
 ) : BaseViewModel() {
     private val filesData = MutableLiveData<FilesListViewState>()
 
@@ -60,13 +62,13 @@ class FilesListViewModel @Inject constructor(
         state.value = Loading
 
         addDisposable(
-                filesDao.all()
+                getFilesItems.getFiles()
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe { entities ->
-                            filesData.value = if (entities.isEmpty()) {
+                        .subscribe { files ->
+                            filesData.value = if (files.isEmpty()) {
                                 NoFiles
                             } else {
-                                Files(selectionManager.mapFiles(entities))
+                                Files(selectionManager.mapItems(files))
                             }
                         }
         )
@@ -117,15 +119,17 @@ class FilesListViewModel @Inject constructor(
     }
 
     fun fabClicked(rxPermissions: RxPermissions) {
-        rxPermissions
-                .request(Manifest.permission.READ_EXTERNAL_STORAGE)
-                .subscribe { granted ->
-                    if (granted) {
-                        tryOpenFileSelector()
-                    } else {
-                        bus.value = ResourceToastMessage(R.string.no_permissions_to_read_files)
-                    }
-                }
+        addDisposable(
+                rxPermissions
+                        .request(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        .subscribe { granted ->
+                            if (granted) {
+                                tryOpenFileSelector()
+                            } else {
+                                bus.value = ResourceToastMessage(R.string.no_permissions_to_read_files)
+                            }
+                        }
+        )
     }
 
     private fun tryOpenFileSelector() {
@@ -155,10 +159,12 @@ class FilesListViewModel @Inject constructor(
 
     private fun onDeleteClicked() {
         val fileIds = selectionManager.selectedFiles.toIntArray()
-        Completable.fromAction { filesDao.deleteFilesByIds(fileIds) }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { bus.value = ResourceToastMessage(R.string.files_deleted) }
+        addDisposable(
+                Completable.fromAction { filesDao.deleteFilesByIds(fileIds) }
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe { bus.value = ResourceToastMessage(R.string.files_deleted) }
+        )
         selectionManager.isSelectionMode = false
     }
 
