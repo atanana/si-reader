@@ -144,16 +144,18 @@ class FilesListViewModel @Inject constructor(
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == OPEN_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
             val uri = data.data
-            val oldState = filesData.value
-            filesData.value = Loading
-            addDisposable(
-                    parseFileUseCase.process(uri)
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({}, { error ->
-                                filesData.value = oldState
-                                bus.value = getParsingErrorMessage(error)
-                            })
-            )
+            if (uri != null) {
+                val oldState = filesData.value
+                filesData.value = Loading
+                addDisposable(
+                        parseFileUseCase.process(uri)
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe({}, { error ->
+                                    filesData.value = oldState
+                                    bus.value = getParsingErrorMessage(error)
+                                })
+                )
+            }
         }
     }
 

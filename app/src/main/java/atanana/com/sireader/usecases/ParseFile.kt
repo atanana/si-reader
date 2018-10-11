@@ -97,8 +97,8 @@ class ParseFileUseCase @Inject constructor(
 
     private fun parseFile(uri: Uri): FileParseResult {
         try {
-            contentResolver.openInputStream(uri).use {
-                return Parser().parse(it)
+            contentResolver.openInputStream(uri).use { stream ->
+                return Parser().parse(stream!!)
             }
         } catch (e: Exception) {
             throw ParseFileException()
