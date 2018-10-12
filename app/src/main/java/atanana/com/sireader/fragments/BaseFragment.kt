@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.view.ActionMode
 import android.view.View
 import android.widget.Toast
+import atanana.com.sireader.MainActivity
 import atanana.com.sireader.viewmodels.*
 import dagger.android.support.AndroidSupportInjection
 import java.lang.reflect.ParameterizedType
@@ -58,5 +59,12 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
         })
     }
 
+    override fun onStart() {
+        super.onStart()
+        (context as? MainActivity)?.setToolbarVisibility(isToolbarVisible)
+    }
+
     protected open fun processMessage(message: Action) {}
+
+    open val isToolbarVisible: Boolean = false
 }

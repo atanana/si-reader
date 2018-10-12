@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import atanana.com.sireader.fragments.hasFragment
 import atanana.com.sireader.fragments.openFragment
 import atanana.com.sireader.screens.fileslist.FilesListFragment
+import atanana.com.sireader.views.gone
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -29,5 +30,9 @@ class MainActivity : HasSupportFragmentInjector, AppCompatActivity() {
         if (!supportFragmentManager.hasFragment()) {
             supportFragmentManager.openFragment(FilesListFragment(), false)
         }
+    }
+
+    fun setToolbarVisibility(isVisible: Boolean) {
+        toolbar.gone(!isVisible)
     }
 }
