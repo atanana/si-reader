@@ -9,6 +9,7 @@ const val OPEN_FILE_REQUEST_CODE = 100
 
 class OpenFileHandler @Inject constructor(private val context: Context) {
     private val docType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("doc")
+    private val txtType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("txt")
 
     fun openFileIntent(): Intent? {
         val intent = createIntent()
@@ -21,7 +22,8 @@ class OpenFileHandler @Inject constructor(private val context: Context) {
 
     private fun createIntent(): Intent {
         return Intent()
-                .setAction(Intent.ACTION_GET_CONTENT)
-                .setType(docType)
+            .setAction(Intent.ACTION_GET_CONTENT)
+            .setType("*/*")
+            .putExtra(Intent.EXTRA_MIME_TYPES, arrayOf(docType, txtType))
     }
 }
