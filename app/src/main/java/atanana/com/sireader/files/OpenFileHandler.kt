@@ -4,9 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.webkit.MimeTypeMap
 import javax.inject.Inject
+import javax.inject.Singleton
 
 const val OPEN_FILE_REQUEST_CODE = 100
 
+@Singleton
 class OpenFileHandler @Inject constructor(private val context: Context) {
     private val docType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("doc")
     private val txtType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("txt")

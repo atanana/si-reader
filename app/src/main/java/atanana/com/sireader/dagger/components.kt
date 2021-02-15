@@ -20,7 +20,7 @@ import javax.inject.Singleton
 @Module
 class FragmentModule {
     @Provides
-    fun provideActivity(fragment: FilesListFragment): Activity = (fragment.activity as Activity?)!!
+    fun provideActivity(fragment: FilesListFragment): Activity = fragment.requireActivity()
 }
 
 @Module

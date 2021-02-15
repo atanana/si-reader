@@ -26,8 +26,7 @@ class ParseFileUseCase @Inject constructor(
         database.save {
             val name = fileName(uri) ?: "Unknown"
             val fileId = saveFile(siInfo, name)
-            questionPacks
-                    .withIndex()
+            questionPacks.withIndex()
                     .forEach { (index, pack) ->
                         savePackWithQuestions(index, pack, fileId)
                     }
@@ -98,7 +97,7 @@ class ParseFileUseCase @Inject constructor(
     private fun parseFile(uri: Uri): FileParseResult {
         try {
             contentResolver.openInputStream(uri).use {
-                return Parser().parse(it)
+                return Parser().parse(it, DocumentType.DOC)
             }
         } catch (e: Exception) {
             throw ParseFileException()

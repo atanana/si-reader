@@ -1,8 +1,8 @@
 package atanana.com.sireader.screens.packspager
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
 import atanana.com.sireader.database.PackEntity
 import atanana.com.sireader.screens.pack.PackFragment
 

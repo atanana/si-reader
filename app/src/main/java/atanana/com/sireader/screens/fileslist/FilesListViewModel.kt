@@ -2,12 +2,12 @@ package atanana.com.sireader.screens.fileslist
 
 import android.Manifest
 import android.app.Activity
-import android.arch.lifecycle.MutableLiveData
 import android.content.Intent
 import android.content.res.Resources
-import android.support.v7.view.ActionMode
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.view.ActionMode
+import androidx.lifecycle.MutableLiveData
 import atanana.com.sireader.CannotSaveInDatabaseException
 import atanana.com.sireader.ParseFileException
 import atanana.com.sireader.R
@@ -142,17 +142,17 @@ class FilesListViewModel @Inject constructor(
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == OPEN_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
-            val uri = data.data
+        if (requestCode == OPEN_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            val uri = data?.data ?: return
             val oldState = filesData.value
             filesData.value = Loading
             addDisposable(
-                    parseFileUseCase.process(uri)
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({}, { error ->
-                                filesData.value = oldState
-                                bus.value = getParsingErrorMessage(error)
-                            })
+                parseFileUseCase.process(uri)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({}, { error ->
+                        filesData.value = oldState
+                        bus.value = getParsingErrorMessage(error)
+                    })
             )
         }
     }

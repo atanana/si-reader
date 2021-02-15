@@ -2,8 +2,8 @@ package atanana.com.sireader.viewmodels
 
 import android.content.Intent
 import android.content.res.Resources
-import android.support.annotation.StringRes
-import android.support.v7.view.ActionMode
+import androidx.annotation.StringRes
+import androidx.appcompat.view.ActionMode
 import atanana.com.sireader.SiReaderException
 
 sealed class Action

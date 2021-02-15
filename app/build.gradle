@@ -55,10 +55,13 @@ dexcount {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
-    implementation "com.android.support.constraint:constraint-layout:${rootProject.ext.constraintLayoutVersion}"
-    implementation "com.android.support:design:${rootProject.ext.supportLibVersion}"
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "androidx.appcompat:appcompat:${rootProject.ext.appCompatVersion}"
+    implementation "androidx.constraintlayout:constraintlayout:${rootProject.ext.constraintLayoutVersion}"
+    implementation "com.google.android.material:material:${rootProject.ext.materialVersion}"
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
+    implementation 'androidx.viewpager:viewpager:1.0.0'
 
     // dagger
     implementation "com.google.dagger:dagger-android:${rootProject.ext.dagger2Version}"
@@ -71,20 +74,21 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:${rootProject.ext.rxJavaVersion}"
 
     // room
-    implementation "android.arch.persistence.room:runtime:${rootProject.ext.roomVersion}"
-    kapt "android.arch.persistence.room:compiler:${rootProject.ext.roomVersion}"
-    implementation "android.arch.persistence.room:rxjava2:${rootProject.ext.roomVersion}"
+    implementation "androidx.room:room-runtime:${rootProject.ext.roomVersion}"
+    kapt "androidx.room:room-compiler:${rootProject.ext.roomVersion}"
+    implementation "androidx.room:room-rxjava2:${rootProject.ext.roomVersion}"
 
-    // liveData
-    implementation "android.arch.lifecycle:extensions:${rootProject.ext.liveDataVersion}"
-    implementation "android.arch.lifecycle:reactivestreams:${rootProject.ext.liveDataVersion}"
+    // livecycle
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:${rootProject.ext.livecycleVersion}"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${rootProject.ext.livecycleVersion}"
 
     //poi
     implementation group: 'org.apache.poi', name: 'poi-scratchpad', version: rootProject.ext.poiVersion
 
     //rxPermissions
     implementation "com.tbruyelle.rxpermissions2:rxpermissions:${rootProject.ext.rxPermissionsVersion}@aar"
+
     testImplementation "junit:junit:${rootProject.ext.junitVersion}"
-    androidTestImplementation "com.android.support.test:runner:${rootProject.ext.testRunnerVersion}"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:${rootProject.ext.testEspressoVersion}"
+    androidTestImplementation "androidx.test:runner:${rootProject.ext.testRunnerVersion}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${rootProject.ext.testEspressoVersion}"
 }

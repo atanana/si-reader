@@ -1,6 +1,6 @@
 package atanana.com.sireader.fragments
 
-import android.support.v4.app.FragmentManager
+import androidx.fragment.app.FragmentManager
 import atanana.com.sireader.R
 
 fun FragmentManager.openFragment(fragment: BaseFragment<*>, addToBackStack: Boolean = true) {

@@ -1,7 +1,7 @@
 package atanana.com.sireader.dagger
 
-import android.arch.persistence.room.Room
 import android.content.Context
+import androidx.room.Room
 import atanana.com.sireader.database.Database
 import atanana.com.sireader.database.PacksDao
 import atanana.com.sireader.database.QuestionFilesDao

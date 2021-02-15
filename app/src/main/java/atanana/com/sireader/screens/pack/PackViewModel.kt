@@ -1,6 +1,6 @@
 package atanana.com.sireader.screens.pack
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import atanana.com.sireader.database.PackEntity
 import atanana.com.sireader.database.QuestionEntity
 import atanana.com.sireader.usecases.GetPackWithQuestions

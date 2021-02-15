@@ -1,13 +1,13 @@
 package atanana.com.sireader.fragments
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.view.ActionMode
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.ActionMode
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import atanana.com.sireader.viewmodels.*
 import dagger.android.support.AndroidSupportInjection
 import java.lang.reflect.ParameterizedType
@@ -29,11 +29,11 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
 
         val viewModelClass = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments.first()
         @Suppress("UNCHECKED_CAST")
-        viewModel = ViewModelProviders.of(this, viewModelFactory)[viewModelClass as Class<VM>]
+        viewModel = ViewModelProvider(this, viewModelFactory)[viewModelClass as Class<VM>]
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.liveBus.observe(this, Observer { action ->
+        viewModel.liveBus.observe(viewLifecycleOwner, Observer { action ->
             when (action) {
                 is ToastMessage -> {
                     Toast.makeText(activity, action.text(resources), Toast.LENGTH_SHORT).show()

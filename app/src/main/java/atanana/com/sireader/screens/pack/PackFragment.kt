@@ -1,10 +1,10 @@
 package atanana.com.sireader.screens.pack
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import atanana.com.sireader.R
 import atanana.com.sireader.database.PackEntity
 import atanana.com.sireader.fragments.BaseFragment

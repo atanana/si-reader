@@ -1,26 +1,25 @@
 package atanana.com.sireader
 
-import android.app.Activity
 import android.app.Application
 import atanana.com.sireader.dagger.DaggerAppComponent
 import dagger.android.AndroidInjector
-import dagger.android.HasActivityInjector
 import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
 
-class App : Application(), HasActivityInjector {
+class App : Application(), HasAndroidInjector {
     @Inject
-    lateinit var dispatchingActivityInjector: DispatchingAndroidInjector<Activity>
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
     override fun onCreate() {
         super.onCreate()
         DaggerAppComponent
-                .builder()
-                .applicationContext(this)
-                .build()
-                .inject(this)
+            .builder()
+            .applicationContext(this)
+            .build()
+            .inject(this)
     }
 
-    override fun activityInjector(): AndroidInjector<Activity> = dispatchingActivityInjector
+    override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
 }

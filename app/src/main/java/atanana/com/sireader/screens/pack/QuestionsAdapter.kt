@@ -1,9 +1,6 @@
 package atanana.com.sireader.screens.pack
 
 import android.graphics.Typeface
-import android.support.annotation.StringRes
-import android.support.v7.util.DiffUtil
-import android.support.v7.widget.RecyclerView
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
@@ -11,6 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.StringRes
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import atanana.com.sireader.R
 import atanana.com.sireader.views.gone
 
