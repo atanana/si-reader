@@ -5,6 +5,7 @@ import android.content.ContentResolver.SCHEME_CONTENT
 import android.content.ContentResolver.SCHEME_FILE
 import android.net.Uri
 import android.provider.OpenableColumns
+import android.webkit.MimeTypeMap
 import atanana.com.sireader.CannotSaveInDatabaseException
 import atanana.com.sireader.ParseFileException
 import atanana.com.sireader.database.*
@@ -97,10 +98,20 @@ class ParseFileUseCase @Inject constructor(
     private fun parseFile(uri: Uri): FileParseResult {
         try {
             contentResolver.openInputStream(uri).use {
-                return Parser().parse(it, DocumentType.DOC)
+                val documentType = getDocumentType(uri)
+                return Parser().parse(it, documentType)
             }
         } catch (e: Exception) {
             throw ParseFileException()
+        }
+    }
+
+    private fun getDocumentType(uri: Uri): DocumentType {
+        val extension = MimeTypeMap.getFileExtensionFromUrl(uri.path)
+        return if ("doc".equals(extension, ignoreCase = true)) {
+            DocumentType.DOC
+        } else {
+            DocumentType.TXT
         }
     }
 }
