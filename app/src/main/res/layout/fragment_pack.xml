@@ -1,33 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background"
-    tools:context=".screens.pack.PackFragment">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        tools:context=".screens.pack.PackFragment">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/pack_info"
-        style="@style/HeaderItem">
+    <LinearLayout
+            android:id="@+id/pack_info"
+            style="@style/HeaderItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/pack_title"
-            style="@style/TitleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            tools:text="test pack title" />
+                android:id="@+id/pack_title"
+                style="@style/TitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                tools:text="test pack title" />
 
         <TextView
-            android:id="@+id/pack_author"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/default_margin"
-            android:textColor="@android:color/white"
-            app:layout_constraintStart_toStartOf="@+id/pack_title"
-            app:layout_constraintTop_toBottomOf="@+id/pack_title"
-            tools:text="test pack author" />
+                android:id="@+id/pack_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin"
+                android:textColor="@android:color/white"
+                tools:text="test pack author" />
 
         <TextView
                 android:id="@+id/pack_notes"
@@ -36,11 +38,9 @@
                 android:layout_marginTop="@dimen/default_margin"
                 android:textColor="@android:color/white"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="@+id/pack_author"
-                app:layout_constraintTop_toBottomOf="@+id/pack_title"
                 tools:text="test file notes" />
 
-    </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/questions_list"
@@ -52,4 +52,4 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
