@@ -17,5 +17,3 @@ fun FragmentManager.openFragment(fragment: BaseFragment<*>, addToBackStack: Bool
     }
     transaction.commit()
 }
-
-fun FragmentManager.hasFragment(): Boolean = findFragmentById(R.id.fragment) != null
