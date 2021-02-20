@@ -93,6 +93,8 @@ class FilesListFragment : BaseFragment<FilesListViewModel>() {
         fragmentManager?.openFragment(FileFragment.newInstance(fileId))
     }
 
+    override val isToolbarVisible = true
+
     override val transactionTag: String
         get() = TAG
 
