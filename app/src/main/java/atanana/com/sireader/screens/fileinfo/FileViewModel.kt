@@ -1,6 +1,7 @@
 package atanana.com.sireader.screens.fileinfo
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import atanana.com.sireader.database.PackEntity
 import atanana.com.sireader.database.QuestionFileEntity
 import atanana.com.sireader.usecases.GetFileInfoWithPacks
@@ -8,7 +9,8 @@ import atanana.com.sireader.viewmodels.BaseViewModel
 import atanana.com.sireader.viewmodels.NonNullMediatorLiveData
 import atanana.com.sireader.viewmodels.OpenPackMessage
 import atanana.com.sireader.viewmodels.nonNull
-import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class FileViewModel @Inject constructor(
@@ -19,13 +21,12 @@ class FileViewModel @Inject constructor(
     val file: NonNullMediatorLiveData<FileViewState> = fileData.nonNull()
 
     fun loadFileInfo(fileId: Int) {
-        addDisposable(
-                provider.getInfo(fileId)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe { (fileInfo, packs) ->
-                            fileData.value = FileViewState(fileInfo, packs)
-                        }
-        )
+        viewModelScope.launch {
+            provider.getInfo(fileId)
+                .collect { (fileInfo, packs) ->
+                    fileData.value = FileViewState(fileInfo, packs)
+                }
+        }
     }
 
     fun onPackClick(packId: Int) {

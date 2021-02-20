@@ -1,6 +1,7 @@
 package atanana.com.sireader.screens.pack
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import atanana.com.sireader.database.PackEntity
 import atanana.com.sireader.database.QuestionEntity
 import atanana.com.sireader.usecases.GetPackWithQuestions
@@ -8,12 +9,13 @@ import atanana.com.sireader.usecases.UpdateLastRead
 import atanana.com.sireader.viewmodels.BaseViewModel
 import atanana.com.sireader.viewmodels.NonNullMediatorLiveData
 import atanana.com.sireader.viewmodels.nonNull
-import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PackViewModel @Inject constructor(
-        private val provider: GetPackWithQuestions,
-        private val updateLastRead: UpdateLastRead
+    private val provider: GetPackWithQuestions,
+    private val updateLastRead: UpdateLastRead
 ) : BaseViewModel() {
     private val packData = MutableLiveData<PackViewState>()
 
@@ -21,13 +23,11 @@ class PackViewModel @Inject constructor(
 
     fun loadPack(packId: Int) {
         if (packData.value == null) {
-            addDisposable(
-                    provider.getPack(packId)
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe { (pack, questions) ->
-                                packData.value = PackViewState(pack, questions)
-                            }
-            )
+            viewModelScope.launch {
+                provider.getPack(packId).collect { (pack, questions) ->
+                    packData.value = PackViewState(pack, questions)
+                }
+            }
         }
     }
 
@@ -39,13 +39,13 @@ class PackViewModel @Inject constructor(
     }
 
     private fun showQuestion(questionId: Int, questions: List<QuestionItem>): List<QuestionItem> =
-            questions.map {
-                if (it.question.id == questionId) {
-                    it.copy(isClosed = false)
-                } else {
-                    it
-                }
+        questions.map {
+            if (it.question.id == questionId) {
+                it.copy(isClosed = false)
+            } else {
+                it
             }
+        }
 }
 
 data class QuestionItem(val question: QuestionEntity, val isClosed: Boolean, val price: String)

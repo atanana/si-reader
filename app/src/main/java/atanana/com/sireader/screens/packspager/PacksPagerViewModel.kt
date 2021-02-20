@@ -1,12 +1,15 @@
 package atanana.com.sireader.screens.packspager
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import atanana.com.sireader.database.PackEntity
 import atanana.com.sireader.database.PacksDao
 import atanana.com.sireader.viewmodels.BaseViewModel
 import atanana.com.sireader.viewmodels.NonNullMediatorLiveData
 import atanana.com.sireader.viewmodels.nonNull
-import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PacksPagerViewModel @Inject constructor(
@@ -17,12 +20,11 @@ class PacksPagerViewModel @Inject constructor(
     val packs: NonNullMediatorLiveData<PacksViewState> = packsData.nonNull()
 
     fun loadPacks(fileId: Int, currentPackId: Int) {
-        addDisposable(
-                packsDao.packForFile(fileId)
-                        .map { packs -> PacksViewState(packs, currentPackId) }
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe { packsData.value = it }
-        )
+        viewModelScope.launch {
+            packsDao.packForFile(fileId)
+                .map { packs -> PacksViewState(packs, currentPackId) }
+                .collect { packsData.value = it }
+        }
     }
 }
 

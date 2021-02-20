@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.view.ActionMode
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import atanana.com.sireader.CannotSaveInDatabaseException
 import atanana.com.sireader.ParseFileException
 import atanana.com.sireader.R
@@ -21,6 +22,8 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class FilesListViewModel @Inject constructor(
@@ -61,27 +64,25 @@ class FilesListViewModel @Inject constructor(
     init {
         state.value = Loading
 
-        addDisposable(
-                getFilesItems.getFiles()
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe { files ->
-                            filesData.value = if (files.isEmpty()) {
-                                NoFiles
-                            } else {
-                                Files(selectionManager.mapItems(files))
-                            }
-                        }
-        )
+        viewModelScope.launch {
+            getFilesItems.getFiles().collect { files ->
+                filesData.value = if (files.isEmpty()) {
+                    NoFiles
+                } else {
+                    Files(selectionManager.mapItems(files))
+                }
+            }
+        }
 
         addDisposable(
-                selectionManager.selectionModeObservable
-                        .subscribe { isSelection ->
-                            bus.value = if (isSelection) {
-                                StartActionModeMessage(callback)
-                            } else {
-                                StopActionModeMessage
-                            }
-                        }
+            selectionManager.selectionModeObservable
+                .subscribe { isSelection ->
+                    bus.value = if (isSelection) {
+                        StartActionModeMessage(callback)
+                    } else {
+                        StopActionModeMessage
+                    }
+                }
         )
     }
 
@@ -168,12 +169,12 @@ class FilesListViewModel @Inject constructor(
         selectionManager.isSelectionMode = false
     }
 
-    private fun getParsingErrorMessage(error: Throwable?): Action? =
-            when (error) {
-                is ParseFileException -> ResourceToastMessage(R.string.cannot_parse_file)
-                is CannotSaveInDatabaseException -> ResourceToastMessage(R.string.cannot_save_questions)
-                else -> ResourceToastMessage(R.string.unknown_error)
-            }
+    private fun getParsingErrorMessage(error: Throwable?): Action =
+        when (error) {
+            is ParseFileException -> ResourceToastMessage(R.string.cannot_parse_file)
+            is CannotSaveInDatabaseException -> ResourceToastMessage(R.string.cannot_save_questions)
+            else -> ResourceToastMessage(R.string.unknown_error)
+        }
 }
 
 sealed class FilesListViewState
