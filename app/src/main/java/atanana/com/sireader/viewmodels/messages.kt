@@ -21,7 +21,7 @@ fun Action.text(resources: Resources): String {
     return when (this) {
         is StringTextMessage -> value
         is ResourceTextMessage -> resources.getString(value)
-        else -> throw SiReaderException("Action ${this} has no text!")
+        else -> throw SiReaderException("Action $this has no text!")
     }
 }
 
