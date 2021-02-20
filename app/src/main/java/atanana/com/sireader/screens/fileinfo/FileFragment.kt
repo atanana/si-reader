@@ -1,28 +1,29 @@
 package atanana.com.sireader.screens.fileinfo
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import atanana.com.sireader.R
+import atanana.com.sireader.databinding.FragmentFileBinding
 import atanana.com.sireader.fragments.BaseFragment
 import atanana.com.sireader.fragments.openFragment
 import atanana.com.sireader.screens.packspager.PacksPagerFragment
 import atanana.com.sireader.viewmodels.Action
 import atanana.com.sireader.viewmodels.OpenPackMessage
 import atanana.com.sireader.viewmodels.observe
-import kotlinx.android.synthetic.main.fragment_file.*
+import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 
 
 private const val ARG_FILE_ID = "file_id"
 
-class FileFragment : BaseFragment<FileViewModel>() {
+class FileFragment : BaseFragment<FileViewModel>(R.layout.fragment_file) {
     private var fileId: Int? = null
 
     private val packsAdapter = FileInfoAdapter { packId ->
         viewModel.onPackClick(packId)
     }
+
+    private val binding by viewBinding(FragmentFileBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,11 +31,6 @@ class FileFragment : BaseFragment<FileViewModel>() {
         arguments?.apply {
             fileId = getInt(ARG_FILE_ID)
         }
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_file, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,8 +41,8 @@ class FileFragment : BaseFragment<FileViewModel>() {
             packsAdapter.info = state.file
         }
 
-        file_info.layoutManager = LinearLayoutManager(activity)
-        file_info.adapter = packsAdapter
+        binding.fileInfo.layoutManager = LinearLayoutManager(activity)
+        binding.fileInfo.adapter = packsAdapter
     }
 
     override fun onResume() {
@@ -59,11 +55,12 @@ class FileFragment : BaseFragment<FileViewModel>() {
     override fun processMessage(message: Action) {
         when (message) {
             is OpenPackMessage -> openPack(message.packId)
+            else -> Unit
         }
     }
 
     private fun openPack(packId: Int) {
-        fragmentManager?.openFragment(PacksPagerFragment.newInstance(fileId!!, packId))
+        parentFragmentManager.openFragment(PacksPagerFragment.newInstance(fileId!!, packId))
     }
 
     override val transactionTag: String

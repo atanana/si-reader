@@ -1,25 +1,26 @@
 package atanana.com.sireader.screens.pack
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import atanana.com.sireader.R
 import atanana.com.sireader.database.PackEntity
+import atanana.com.sireader.databinding.FragmentPackBinding
 import atanana.com.sireader.fragments.BaseFragment
 import atanana.com.sireader.viewmodels.observe
 import atanana.com.sireader.views.optionalText
-import kotlinx.android.synthetic.main.fragment_pack.*
+import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 
 private const val ARG_PACK_ID = "pack_id"
 
-class PackFragment : BaseFragment<PackViewModel>() {
+class PackFragment : BaseFragment<PackViewModel>(R.layout.fragment_pack) {
     private var packId: Int? = null
 
     private val questionsAdapter = QuestionsAdapter { questionId ->
         viewModel.onQuestionClick(questionId)
     }
+
+    private val binding by viewBinding(FragmentPackBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,10 +34,6 @@ class PackFragment : BaseFragment<PackViewModel>() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_pack, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -45,14 +42,14 @@ class PackFragment : BaseFragment<PackViewModel>() {
             updateQuestions(state.questions)
         }
 
-        questions_list.layoutManager = LinearLayoutManager(activity)
-        questions_list.adapter = questionsAdapter
+        binding.questionsList.layoutManager = LinearLayoutManager(activity)
+        binding.questionsList.adapter = questionsAdapter
     }
 
     private fun updatePackInfo(pack: PackEntity) {
-        pack_title.text = pack.indexedTitle
-        pack_author.optionalText(pack.author)
-        pack_notes.optionalText(pack.notes)
+        binding.packTitle.text = pack.indexedTitle
+        binding.packAuthor.optionalText(pack.author)
+        binding.packNotes.optionalText(pack.notes)
     }
 
     private fun updateQuestions(questions: List<QuestionItem>) {

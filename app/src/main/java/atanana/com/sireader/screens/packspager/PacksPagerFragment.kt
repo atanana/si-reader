@@ -2,22 +2,23 @@ package atanana.com.sireader.screens.packspager
 
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import atanana.com.sireader.R
+import atanana.com.sireader.databinding.FragmentPacksPagerBinding
 import atanana.com.sireader.fragments.BaseFragment
 import atanana.com.sireader.viewmodels.observe
-import kotlinx.android.synthetic.main.fragment_packs_pager.*
+import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 
 private const val ARG_FILE_ID = "file_id"
 private const val ARG_PACK_ID = "pack_id"
 
-class PacksPagerFragment : BaseFragment<PacksPagerViewModel>() {
+class PacksPagerFragment : BaseFragment<PacksPagerViewModel>(R.layout.fragment_packs_pager) {
     private var fileId: Int? = null
     private var packId: Int? = null
 
     private lateinit var packsPagesAdapter: PacksPagesAdapter
+
+    private val binding by viewBinding(FragmentPacksPagerBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,21 +31,16 @@ class PacksPagerFragment : BaseFragment<PacksPagerViewModel>() {
         viewModel.loadPacks(fileId!!, packId!!)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_packs_pager, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        packsPagesAdapter = PacksPagesAdapter(fragmentManager!!)
-        packs_pager.adapter = packsPagesAdapter
+        packsPagesAdapter = PacksPagesAdapter(parentFragmentManager)
+        binding.packsPager.adapter = packsPagesAdapter
 
         viewModel.packs.observe(this, { state ->
             packsPagesAdapter.packs = state.packs
             val currentIndex = state.packs.indexOfFirst { it.id == state.currentPackId }
-            packs_pager.setCurrentItem(currentIndex, false)
+            binding.packsPager.setCurrentItem(currentIndex, false)
         })
     }
 
