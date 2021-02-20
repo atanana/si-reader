@@ -5,18 +5,19 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import atanana.com.sireader.R
+import atanana.com.sireader.databinding.ItemQuestionBinding
 import atanana.com.sireader.views.gone
 
 class QuestionsAdapter(
         private val onQuestionClick: (questionId: Int) -> Unit
 ) : RecyclerView.Adapter<QuestionsAdapter.ViewHolder>() {
+
     var questions = emptyList<QuestionItem>()
         set(value) {
             val diffResult = DiffUtil.calculateDiff(DiffCallback(field, value), false)
@@ -25,9 +26,9 @@ class QuestionsAdapter(
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_question, parent, false)
-        return ViewHolder(view)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ItemQuestionBinding.inflate(inflater, parent, false)
+        return ViewHolder(binding)
     }
 
     override fun getItemCount(): Int = questions.size
@@ -36,23 +37,16 @@ class QuestionsAdapter(
         holder.bind(questions[position])
     }
 
-    inner class ViewHolder(item: View) : RecyclerView.ViewHolder(item) {
-        private val questionText = item.findViewById<TextView>(R.id.question_text)
-        private val answer = item.findViewById<TextView>(R.id.answer)
-        private val alsoAnswer = item.findViewById<TextView>(R.id.also_answer)
-        private val notAnswer = item.findViewById<TextView>(R.id.not_answer)
-        private val comment = item.findViewById<TextView>(R.id.comment)
-        private val reference = item.findViewById<TextView>(R.id.reference)
-        private val answerLayout = item.findViewById<View>(R.id.answer_layout)
+    inner class ViewHolder(private val binding: ItemQuestionBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: QuestionItem) {
-            questionText.text = createQuestionText(item)
-            answerLayout.gone(item.isClosed)
-            answer.safePrepend(item.question.answer, R.string.prefix_answer)
-            alsoAnswer.safePrepend(item.question.alsoAnswer, R.string.prefix_also_answer)
-            notAnswer.safePrepend(item.question.notAnswer, R.string.prefix_not_answer)
-            comment.safePrepend(item.question.comment, R.string.prefix_comment)
-            reference.safePrepend(item.question.reference, R.string.prefix_reference)
+            binding.questionText.text = createQuestionText(item)
+            binding.answerLayout.gone(item.isClosed)
+            binding.answer.safePrepend(item.question.answer, R.string.prefix_answer)
+            binding.alsoAnswer.safePrepend(item.question.alsoAnswer, R.string.prefix_also_answer)
+            binding.notAnswer.safePrepend(item.question.notAnswer, R.string.prefix_not_answer)
+            binding.comment.safePrepend(item.question.comment, R.string.prefix_comment)
+            binding.reference.safePrepend(item.question.reference, R.string.prefix_reference)
 
             itemView.setOnClickListener {
                 if (item.isClosed) {
