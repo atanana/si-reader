@@ -26,15 +26,13 @@ class ParseFileUseCase @Inject constructor(
         withContext(Dispatchers.Default) {
             val (siInfo, questionPacks) = parseFile(uri)
 
-            withContext(Dispatchers.IO) {
-                database.save {
-                    val name = fileName(uri) ?: "Unknown"
-                    val fileId = saveFile(siInfo, name)
-                    questionPacks.withIndex()
-                        .forEach { (index, pack) ->
-                            savePackWithQuestions(index, pack, fileId)
-                        }
-                }
+            database.save {
+                val name = fileName(uri) ?: "Unknown"
+                val fileId = saveFile(siInfo, name)
+                questionPacks.withIndex()
+                    .forEach { (index, pack) ->
+                        savePackWithQuestions(index, pack, fileId)
+                    }
             }
         }
     }
@@ -70,11 +68,13 @@ class ParseFileUseCase @Inject constructor(
             )
         )
 
-    private fun Database.save(block: () -> Unit) {
-        try {
-            runInTransaction(block)
-        } catch (e: Exception) {
-            throw CannotSaveInDatabaseException()
+    private suspend fun Database.save(block: () -> Unit) {
+        withContext(Dispatchers.IO) {
+            try {
+                runInTransaction(block)
+            } catch (e: Exception) {
+                throw CannotSaveInDatabaseException()
+            }
         }
     }
 
