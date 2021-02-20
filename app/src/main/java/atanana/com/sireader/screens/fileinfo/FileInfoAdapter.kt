@@ -1,24 +1,17 @@
 package atanana.com.sireader.screens.fileinfo
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
-import atanana.com.sireader.R
 import atanana.com.sireader.SiReaderException
 import atanana.com.sireader.database.QuestionFileEntity
-import atanana.com.sireader.screens.fileinfo.FileInfoAdapter.ViewHolder.FileInfoViewHolder
-import atanana.com.sireader.screens.fileinfo.FileInfoAdapter.ViewHolder.PackViewHolder
-import atanana.com.sireader.views.invisible
-import atanana.com.sireader.views.optionalText
+import atanana.com.sireader.databinding.ItemFileInfoBinding
+import atanana.com.sireader.databinding.ItemPackBinding
 
 class FileInfoAdapter(
-        private val selectPack: (Int) -> Unit
-) : RecyclerView.Adapter<FileInfoAdapter.ViewHolder>() {
+    private val selectPack: (Int) -> Unit
+) : RecyclerView.Adapter<FileViewHolder>() {
+
     companion object {
         const val TYPE_FILE_INFO = 0
         const val TYPE_PACK = 1
@@ -37,22 +30,24 @@ class FileInfoAdapter(
         }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FileViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
-            TYPE_FILE_INFO -> FileInfoViewHolder(inflateView(parent, R.layout.item_file_info))
-            TYPE_PACK -> PackViewHolder(inflateView(parent, R.layout.item_pack), selectPack)
+            TYPE_FILE_INFO -> {
+                val binding = ItemFileInfoBinding.inflate(inflater, parent, false)
+                FileInfoViewHolder(binding)
+            }
+            TYPE_PACK -> {
+                val binding = ItemPackBinding.inflate(inflater, parent, false)
+                PackViewHolder(binding, selectPack)
+            }
             else -> throw SiReaderException("Unknown view type!")
         }
     }
 
-    private fun inflateView(parent: ViewGroup, resource: Int): View {
-        return LayoutInflater.from(parent.context)
-                .inflate(resource, parent, false)
-    }
-
     override fun getItemCount(): Int = packs.size + 1
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FileViewHolder, position: Int) {
         when (holder) {
             is PackViewHolder -> holder.bind(packs[position - 1])
             is FileInfoViewHolder -> info?.let { holder.bind(it) }
@@ -61,37 +56,5 @@ class FileInfoAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return if (position == 0) TYPE_FILE_INFO else TYPE_PACK
-    }
-
-    sealed class ViewHolder(item: View) : RecyclerView.ViewHolder(item) {
-        class PackViewHolder(item: View, private val selectPack: (Int) -> Unit) : ViewHolder(item) {
-            private val packTitle: TextView = item.findViewById(R.id.pack_title)
-            private val star: ImageView = item.findViewById(R.id.star)
-
-            init {
-                val accentColor = ContextCompat.getColor(item.context, R.color.accent)
-                DrawableCompat.setTint(star.drawable, accentColor)
-            }
-
-            fun bind(item: PackItem) {
-                packTitle.text = item.pack.indexedTitle
-                itemView.setOnClickListener { selectPack(item.pack.id) }
-                star.invisible(!item.lastRead)
-            }
-        }
-
-        class FileInfoViewHolder(item: View) : ViewHolder(item) {
-            private val fileTitle: TextView = item.findViewById(R.id.file_title)
-            private val fileName: TextView = item.findViewById(R.id.file_name)
-            private val fileNotes: TextView = item.findViewById(R.id.file_notes)
-            private val fileEditors: TextView = item.findViewById(R.id.file_editors)
-
-            fun bind(fileEntity: QuestionFileEntity) {
-                fileTitle.text = fileEntity.title
-                fileName.text = fileEntity.filename
-                fileNotes.optionalText(fileEntity.notes)
-                fileEditors.optionalText(fileEntity.editor)
-            }
-        }
     }
 }
