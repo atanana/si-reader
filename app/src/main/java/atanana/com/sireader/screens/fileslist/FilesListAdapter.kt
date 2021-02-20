@@ -1,20 +1,16 @@
 package atanana.com.sireader.screens.fileslist
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import atanana.com.sireader.R
+import atanana.com.sireader.databinding.ItemFileBinding
 import atanana.com.sireader.views.invisible
 
-class FilesListAdapter(
-        private val clickListener: FileClickListener
-) : RecyclerView.Adapter<FilesListAdapter.ViewHolder>() {
+class FilesListAdapter(private val clickListener: FileClickListener) : RecyclerView.Adapter<FilesListAdapter.ViewHolder>() {
 
     var files = emptyList<FileItem>()
         set(value) {
@@ -24,9 +20,9 @@ class FilesListAdapter(
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_file, parent, false)
-        return ViewHolder(view)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ItemFileBinding.inflate(inflater, parent, false)
+        return ViewHolder(binding)
     }
 
     override fun getItemCount(): Int = files.size
@@ -35,22 +31,19 @@ class FilesListAdapter(
         holder.bind(files[position])
     }
 
-    inner class ViewHolder(item: View) : RecyclerView.ViewHolder(item) {
-        private val fileTitle: TextView = item.findViewById(R.id.file_title)
-        private val fileName: TextView = item.findViewById(R.id.file_name)
-        private val star: ImageView = item.findViewById(R.id.star)
+    inner class ViewHolder(private val binding: ItemFileBinding) : RecyclerView.ViewHolder(binding.root) {
 
         init {
-            val accentColor = ContextCompat.getColor(item.context, R.color.accent)
-            DrawableCompat.setTint(star.drawable, accentColor)
+            val accentColor = ContextCompat.getColor(itemView.context, R.color.accent)
+            DrawableCompat.setTint(binding.star.drawable, accentColor)
         }
 
         fun bind(item: FileItem) {
             val file = item.entity
-            fileTitle.text = file.title
-            fileName.text = file.filename
+            binding.fileTitle.text = file.title
+            binding.fileName.text = file.filename
             itemView.isSelected = item.isSelected
-            star.invisible(!item.lastRead)
+            binding.star.invisible(!item.lastRead)
             itemView.setOnClickListener { clickListener.onClick(file.id) }
             itemView.setOnLongClickListener {
                 clickListener.onLongClick(file.id)
@@ -69,6 +62,7 @@ private class DiffCallback(
         private val oldFiles: List<FileItem>,
         private val newFiles: List<FileItem>
 ) : DiffUtil.Callback() {
+
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return oldFiles[oldItemPosition].entity.id == newFiles[newItemPosition].entity.id
     }
