@@ -60,6 +60,7 @@ class FilesListFragment : BaseFragment<FilesListViewModel>() {
     override fun processMessage(message: Action) {
         when (message) {
             is OpenFileMessage -> openFile(message.fileId)
+            else -> Unit
         }
     }
 
@@ -90,7 +91,7 @@ class FilesListFragment : BaseFragment<FilesListViewModel>() {
     }
 
     private fun openFile(fileId: Int) {
-        fragmentManager?.openFragment(FileFragment.newInstance(fileId))
+        parentFragmentManager.openFragment(FileFragment.newInstance(fileId))
     }
 
     override val isToolbarVisible = true
