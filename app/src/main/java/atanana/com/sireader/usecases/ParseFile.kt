@@ -99,7 +99,7 @@ class ParseFileUseCase @Inject constructor(
         try {
             contentResolver.openInputStream(uri).use {
                 val documentType = getDocumentType(uri)
-                return Parser().parse(it, documentType)
+                return Parser().parse(it!!, documentType)
             }
         } catch (e: Exception) {
             throw ParseFileException()
