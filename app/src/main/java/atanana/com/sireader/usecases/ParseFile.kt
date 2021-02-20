@@ -67,14 +67,10 @@ class ParseFileUseCase @Inject constructor(
             )
 
     private fun Database.save(block: () -> Unit) {
-        beginTransaction()
         try {
-            block()
-            setTransactionSuccessful()
+            runInTransaction(block)
         } catch (e: Exception) {
             throw CannotSaveInDatabaseException()
-        } finally {
-            endTransaction()
         }
     }
 

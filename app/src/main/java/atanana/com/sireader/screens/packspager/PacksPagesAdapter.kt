@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import atanana.com.sireader.database.PackEntity
 import atanana.com.sireader.screens.pack.PackFragment
 
-class PacksPagesAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager) {
+class PacksPagesAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     var packs = emptyList<PackEntity>()
         set(value) {
             field = value
