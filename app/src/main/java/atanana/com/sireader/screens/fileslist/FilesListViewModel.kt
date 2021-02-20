@@ -27,12 +27,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class FilesListViewModel @Inject constructor(
-        private val resources: Resources,
-        private val filesDao: QuestionFilesDao,
-        private val openFileHandler: OpenFileHandler,
-        private val parseFileUseCase: ParseFileUseCase,
-        private val selectionManager: FilesSelectionManager,
-        getFilesItems: GetFilesItems
+    private val resources: Resources,
+    private val filesDao: QuestionFilesDao,
+    private val openFileHandler: OpenFileHandler,
+    private val parseFileUseCase: ParseFileUseCase,
+    private val selectionManager: FilesSelectionManager,
+    getFilesItems: GetFilesItems
 ) : BaseViewModel() {
     private val filesData = MutableLiveData<FilesListViewState>()
 
@@ -121,15 +121,15 @@ class FilesListViewModel @Inject constructor(
 
     fun fabClicked(rxPermissions: RxPermissions) {
         addDisposable(
-                rxPermissions
-                        .request(Manifest.permission.READ_EXTERNAL_STORAGE)
-                        .subscribe { granted ->
-                            if (granted) {
-                                tryOpenFileSelector()
-                            } else {
-                                bus.value = ResourceToastMessage(R.string.no_permissions_to_read_files)
-                            }
-                        }
+            rxPermissions
+                .request(Manifest.permission.READ_EXTERNAL_STORAGE)
+                .subscribe { granted ->
+                    if (granted) {
+                        tryOpenFileSelector()
+                    } else {
+                        bus.value = ResourceToastMessage(R.string.no_permissions_to_read_files)
+                    }
+                }
         )
     }
 
@@ -147,24 +147,24 @@ class FilesListViewModel @Inject constructor(
             val uri = data?.data ?: return
             val oldState = filesData.value
             filesData.value = Loading
-            addDisposable(
-                parseFileUseCase.process(uri)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({}, { error ->
-                        filesData.value = oldState
-                        bus.value = getParsingErrorMessage(error)
-                    })
-            )
+            viewModelScope.launch {
+                try {
+                    parseFileUseCase.process(uri)
+                } catch (e: Exception) {
+                    filesData.value = oldState!!
+                    bus.value = getParsingErrorMessage(e)
+                }
+            }
         }
     }
 
     private fun onDeleteClicked() {
         val fileIds = selectionManager.selectedFiles.toIntArray()
         addDisposable(
-                Completable.fromAction { filesDao.deleteFilesByIds(fileIds) }
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe { bus.value = ResourceToastMessage(R.string.files_deleted) }
+            Completable.fromAction { filesDao.deleteFilesByIds(fileIds) }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { bus.value = ResourceToastMessage(R.string.files_deleted) }
         )
         selectionManager.isSelectionMode = false
     }
