@@ -19,11 +19,10 @@ import atanana.com.sireader.usecases.GetFilesItems
 import atanana.com.sireader.usecases.ParseFileUseCase
 import atanana.com.sireader.viewmodels.*
 import com.tbruyelle.rxpermissions2.RxPermissions
-import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class FilesListViewModel @Inject constructor(
@@ -160,12 +159,12 @@ class FilesListViewModel @Inject constructor(
 
     private fun onDeleteClicked() {
         val fileIds = selectionManager.selectedFiles.toIntArray()
-        addDisposable(
-            Completable.fromAction { filesDao.deleteFilesByIds(fileIds) }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { bus.value = ResourceToastMessage(R.string.files_deleted) }
-        )
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                filesDao.deleteFilesByIds(fileIds)
+            }
+            bus.value = ResourceToastMessage(R.string.files_deleted)
+        }
         selectionManager.isSelectionMode = false
     }
 
