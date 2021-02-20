@@ -3,6 +3,7 @@ package atanana.com.sireader.screens.fileslist
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import atanana.com.sireader.R
 import atanana.com.sireader.databinding.FragmentFilesListBinding
@@ -13,16 +14,12 @@ import atanana.com.sireader.viewmodels.Action
 import atanana.com.sireader.viewmodels.OpenFileMessage
 import atanana.com.sireader.viewmodels.observe
 import atanana.com.sireader.views.gone
-import com.tbruyelle.rxpermissions2.RxPermissions
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
-import javax.inject.Inject
 
 /**
  * A placeholder fragment containing a simple view.
  */
 class FilesListFragment : BaseFragment<FilesListViewModel>(R.layout.fragment_files_list) {
-    @Inject
-    lateinit var rxPermissions: RxPermissions
 
     private val fileClickListener = object : FilesListAdapter.FileClickListener {
         override fun onClick(fileId: Int) {
@@ -38,6 +35,10 @@ class FilesListFragment : BaseFragment<FilesListViewModel>(R.layout.fragment_fil
 
     private val binding by viewBinding(FragmentFilesListBinding::bind)
 
+    private val requestPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+        viewModel.onPermissionResult(isGranted)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -46,7 +47,7 @@ class FilesListFragment : BaseFragment<FilesListViewModel>(R.layout.fragment_fil
         }
 
         binding.fab.setOnClickListener {
-            viewModel.fabClicked(rxPermissions)
+            viewModel.fabClicked(requireActivity(), requestPermission)
         }
 
         binding.filesList.layoutManager = LinearLayoutManager(activity)

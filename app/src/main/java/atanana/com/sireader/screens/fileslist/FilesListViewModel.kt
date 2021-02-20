@@ -6,7 +6,9 @@ import android.content.Intent
 import android.content.res.Resources
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.view.ActionMode
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import atanana.com.sireader.CannotSaveInDatabaseException
@@ -17,8 +19,8 @@ import atanana.com.sireader.files.OPEN_FILE_REQUEST_CODE
 import atanana.com.sireader.files.OpenFileHandler
 import atanana.com.sireader.usecases.GetFilesItems
 import atanana.com.sireader.usecases.ParseFileUseCase
+import atanana.com.sireader.utils.checkPermission
 import atanana.com.sireader.viewmodels.*
-import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -117,18 +119,26 @@ class FilesListViewModel @Inject constructor(
         }
     }
 
-    fun fabClicked(rxPermissions: RxPermissions) {
-        addDisposable(
-            rxPermissions
-                .request(Manifest.permission.READ_EXTERNAL_STORAGE)
-                .subscribe { granted ->
-                    if (granted) {
-                        tryOpenFileSelector()
-                    } else {
-                        bus.value = ResourceToastMessage(R.string.no_permissions_to_read_files)
-                    }
-                }
-        )
+    fun fabClicked(activity: Activity, request: ActivityResultLauncher<String>) {
+        when {
+            activity.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE) -> {
+                tryOpenFileSelector()
+            }
+            ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_EXTERNAL_STORAGE) -> {
+                bus.value = ResourceToastMessage(R.string.unknown_error)//todo
+            }
+            else -> {
+                request.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            }
+        }
+    }
+
+    fun onPermissionResult(isGranted: Boolean) {
+        if (isGranted) {
+            tryOpenFileSelector()
+        } else {
+            bus.value = ResourceToastMessage(R.string.no_permissions_to_read_files)
+        }
     }
 
     private fun tryOpenFileSelector() {
