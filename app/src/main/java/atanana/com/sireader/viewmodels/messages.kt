@@ -52,3 +52,5 @@ data class ResourceActionModeTitleMessage(@StringRes override val value: Int) : 
 data class StartActionModeMessage(val callback: ActionMode.Callback) : Action()
 
 object StopActionModeMessage : Action()
+
+object ReadStoragePermissionExplanation : Action()

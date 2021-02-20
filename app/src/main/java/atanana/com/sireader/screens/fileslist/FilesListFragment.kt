@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import atanana.com.sireader.R
 import atanana.com.sireader.databinding.FragmentFilesListBinding
@@ -12,6 +13,7 @@ import atanana.com.sireader.fragments.openFragment
 import atanana.com.sireader.screens.fileinfo.FileFragment
 import atanana.com.sireader.viewmodels.Action
 import atanana.com.sireader.viewmodels.OpenFileMessage
+import atanana.com.sireader.viewmodels.ReadStoragePermissionExplanation
 import atanana.com.sireader.viewmodels.observe
 import atanana.com.sireader.views.gone
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
@@ -57,8 +59,18 @@ class FilesListFragment : BaseFragment<FilesListViewModel>(R.layout.fragment_fil
     override fun processMessage(message: Action) {
         when (message) {
             is OpenFileMessage -> openFile(message.fileId)
+            ReadStoragePermissionExplanation -> showReadStorageExplanation()
             else -> Unit
         }
+    }
+
+    private fun showReadStorageExplanation() {
+        AlertDialog.Builder(requireContext())
+            .setMessage(R.string.read_storage_explanation)
+            .setPositiveButton(R.string.allow_permission) { _, _ -> viewModel.requestReadStorage(requestPermission) }
+            .setNegativeButton(R.string.deny_permission) { _, _ -> }
+            .create()
+            .show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

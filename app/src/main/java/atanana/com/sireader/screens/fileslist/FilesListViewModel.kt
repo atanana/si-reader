@@ -125,12 +125,16 @@ class FilesListViewModel @Inject constructor(
                 tryOpenFileSelector()
             }
             ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_EXTERNAL_STORAGE) -> {
-                bus.value = ResourceToastMessage(R.string.unknown_error)//todo
+                bus.value = ReadStoragePermissionExplanation
             }
             else -> {
-                request.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                requestReadStorage(request)
             }
         }
+    }
+
+    fun requestReadStorage(request: ActivityResultLauncher<String>) {
+        request.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
     }
 
     fun onPermissionResult(isGranted: Boolean) {

@@ -21,6 +21,11 @@
     <string name="delete_files">Удалить файлы</string>
     <string name="files_deleted">Файлы удалены!</string>
 
+    <!--permissions-->
+    <string name="read_storage_explanation">Приложению необходимо разрешение на чтение хранилища для получения пакетов</string>
+    <string name="allow_permission">Разрешить</string>
+    <string name="deny_permission">Запретить</string>
+
     <plurals name="files_selected">
         <item quantity="one">Выбран: %d файл</item>
         <item quantity="other">Выбрано: %d файла</item>
