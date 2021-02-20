@@ -33,7 +33,9 @@ class PackViewModel @Inject constructor(
 
     fun onQuestionClick(questionId: Int) {
         val currentState = packData.value!!
-        updateLastRead.update(currentState.pack)
+        viewModelScope.launch {
+            updateLastRead.update(currentState.pack)
+        }
         val newQuestions = showQuestion(questionId, currentState.questions)
         packData.value = currentState.copy(questions = newQuestions)
     }
