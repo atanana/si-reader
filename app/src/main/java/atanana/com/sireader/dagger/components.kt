@@ -28,7 +28,7 @@ internal abstract class InjectorsModule {
     @ContributesAndroidInjector()
     abstract fun filesListActivity(): MainActivity
 
-    @ContributesAndroidInjector(modules = [FragmentModule::class, RxPermissionsModule::class])
+    @ContributesAndroidInjector(modules = [FragmentModule::class])
     abstract fun filesListFragment(): FilesListFragment
 
     @ContributesAndroidInjector

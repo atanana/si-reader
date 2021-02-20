@@ -86,10 +86,6 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:${rootProject.ext.dagger2Version}"
     kapt "com.google.dagger:dagger-android-processor:${rootProject.ext.dagger2Version}"
 
-    // rxJava
-    implementation "io.reactivex.rxjava2:rxandroid:${rootProject.ext.rxAndroidVersion}"
-    implementation "io.reactivex.rxjava2:rxjava:${rootProject.ext.rxJavaVersion}"
-
     // room
     implementation "androidx.room:room-runtime:${rootProject.ext.roomVersion}"
     implementation "androidx.room:room-ktx:${rootProject.ext.roomVersion}"
@@ -101,9 +97,6 @@ dependencies {
 
     //poi
     implementation group: 'org.apache.poi', name: 'poi-scratchpad', version: rootProject.ext.poiVersion
-
-    //rxPermissions
-    implementation "com.tbruyelle.rxpermissions2:rxpermissions:${rootProject.ext.rxPermissionsVersion}@aar"
 
     testImplementation "junit:junit:${rootProject.ext.junitVersion}"
     androidTestImplementation "androidx.test:runner:${rootProject.ext.testRunnerVersion}"

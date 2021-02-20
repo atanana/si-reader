@@ -33,11 +33,8 @@ ext {
     constraintLayoutVersion = "2.0.4"
     dagger2Version = "2.29.1"
     roomVersion = "2.2.6"
-    rxJavaVersion = "2.2.20"
-    rxAndroidVersion = "2.1.1"
     livecycleVersion = "2.3.0"
     poiVersion = "3.17"
-    rxPermissionsVersion = "0.9.5"
     appCompatVersion = "1.2.0"
 
     //test
