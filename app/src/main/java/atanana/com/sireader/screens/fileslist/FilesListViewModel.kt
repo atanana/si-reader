@@ -73,16 +73,15 @@ class FilesListViewModel @Inject constructor(
             }
         }
 
-        addDisposable(
-            selectionManager.selectionModeObservable
-                .subscribe { isSelection ->
-                    bus.value = if (isSelection) {
-                        StartActionModeMessage(callback)
-                    } else {
-                        StopActionModeMessage
-                    }
+        viewModelScope.launch {
+            selectionManager.selectionMode.collect { isSelection ->
+                bus.value = if (isSelection) {
+                    StartActionModeMessage(callback)
+                } else {
+                    StopActionModeMessage
                 }
-        )
+            }
+        }
     }
 
     private fun updateSelectionTitle() {
