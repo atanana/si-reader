@@ -92,7 +92,6 @@ dependencies {
     kapt "androidx.room:room-compiler:${rootProject.ext.roomVersion}"
 
     // livecycle
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:${rootProject.ext.livecycleVersion}"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${rootProject.ext.livecycleVersion}"
 
     //poi
