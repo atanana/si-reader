@@ -21,7 +21,7 @@ class PackViewModel @Inject constructor(
     val pack: StateFlow<PackViewState?> = _pack
 
     fun loadPack(packId: Int) {
-        if (_pack.value == null) {
+        if (_pack.value?.pack?.id != packId) {
             viewModelScope.launch {
                 provider.getPack(packId).collect { (pack, questions) ->
                     _pack.value = PackViewState(pack, questions)
