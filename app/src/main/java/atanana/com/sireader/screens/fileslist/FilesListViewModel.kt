@@ -2,10 +2,11 @@ package atanana.com.sireader.screens.fileslist
 
 import android.Manifest
 import android.app.Activity
-import android.content.Intent
 import android.content.res.Resources
+import android.net.Uri
 import android.view.Menu
 import android.view.MenuItem
+import android.webkit.MimeTypeMap
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.view.ActionMode
 import androidx.core.app.ActivityCompat
@@ -15,8 +16,6 @@ import atanana.com.sireader.CannotSaveInDatabaseException
 import atanana.com.sireader.ParseFileException
 import atanana.com.sireader.R
 import atanana.com.sireader.database.QuestionFilesDao
-import atanana.com.sireader.files.OPEN_FILE_REQUEST_CODE
-import atanana.com.sireader.files.OpenFileHandler
 import atanana.com.sireader.usecases.GetFilesItems
 import atanana.com.sireader.usecases.ParseFileUseCase
 import atanana.com.sireader.utils.checkPermission
@@ -30,11 +29,16 @@ import javax.inject.Inject
 class FilesListViewModel @Inject constructor(
     private val resources: Resources,
     private val filesDao: QuestionFilesDao,
-    private val openFileHandler: OpenFileHandler,
     private val parseFileUseCase: ParseFileUseCase,
     private val selectionManager: FilesSelectionManager,
     getFilesItems: GetFilesItems
 ) : BaseViewModel() {
+
+    companion object {
+        private val FILE_TYPES = listOf("doc", "txt")
+            .mapNotNull { MimeTypeMap.getSingleton().getMimeTypeFromExtension(it) }
+    }
+
     private val filesData = MutableLiveData<FilesListViewState>()
 
     val state: NonNullMediatorLiveData<FilesListViewState> = filesData.nonNull()
@@ -122,7 +126,7 @@ class FilesListViewModel @Inject constructor(
     fun fabClicked(activity: Activity, request: ActivityResultLauncher<String>) {
         when {
             activity.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE) -> {
-                tryOpenFileSelector()
+                openFileSelector()
             }
             ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_EXTERNAL_STORAGE) -> {
                 bus.value = ReadStoragePermissionExplanation
@@ -139,33 +143,26 @@ class FilesListViewModel @Inject constructor(
 
     fun onPermissionResult(isGranted: Boolean) {
         if (isGranted) {
-            tryOpenFileSelector()
+            openFileSelector()
         } else {
             bus.value = ResourceToastMessage(R.string.no_permissions_to_read_files)
         }
     }
 
-    private fun tryOpenFileSelector() {
-        val intent = openFileHandler.openFileIntent()
-        bus.value = if (intent != null) {
-            ActivityForResultMessage(intent, OPEN_FILE_REQUEST_CODE)
-        } else {
-            ResourceToastMessage(R.string.no_file_managers_installed)
-        }
+    private fun openFileSelector() {
+        bus.value = OpenFilePicker(FILE_TYPES)
     }
 
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == OPEN_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            val uri = data?.data ?: return
-            val oldState = filesData.value
-            filesData.value = Loading
-            viewModelScope.launch {
-                try {
-                    parseFileUseCase.process(uri)
-                } catch (e: Exception) {
-                    filesData.value = oldState!!
-                    bus.value = getParsingErrorMessage(e)
-                }
+    fun processFile(uri: Uri?) {
+        uri ?: return
+        val oldState = filesData.value
+        filesData.value = Loading
+        viewModelScope.launch {
+            try {
+                parseFileUseCase.process(uri)
+            } catch (e: Exception) {
+                filesData.value = oldState!!
+                bus.value = getParsingErrorMessage(e)
             }
         }
     }

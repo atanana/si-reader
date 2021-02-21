@@ -1,6 +1,5 @@
 package atanana.com.sireader.screens.fileslist
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
@@ -11,10 +10,7 @@ import atanana.com.sireader.databinding.FragmentFilesListBinding
 import atanana.com.sireader.fragments.BaseFragment
 import atanana.com.sireader.fragments.openFragment
 import atanana.com.sireader.screens.fileinfo.FileFragment
-import atanana.com.sireader.viewmodels.Action
-import atanana.com.sireader.viewmodels.OpenFileMessage
-import atanana.com.sireader.viewmodels.ReadStoragePermissionExplanation
-import atanana.com.sireader.viewmodels.observe
+import atanana.com.sireader.viewmodels.*
 import atanana.com.sireader.views.gone
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 
@@ -41,6 +37,10 @@ class FilesListFragment : BaseFragment<FilesListViewModel>(R.layout.fragment_fil
         viewModel.onPermissionResult(isGranted)
     }
 
+    private val requestFile = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        viewModel.processFile(uri)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -60,6 +60,7 @@ class FilesListFragment : BaseFragment<FilesListViewModel>(R.layout.fragment_fil
         when (message) {
             is OpenFileMessage -> openFile(message.fileId)
             ReadStoragePermissionExplanation -> showReadStorageExplanation()
+            is OpenFilePicker -> requestFile.launch(message.types.toTypedArray())
             else -> Unit
         }
     }
@@ -71,10 +72,6 @@ class FilesListFragment : BaseFragment<FilesListViewModel>(R.layout.fragment_fil
             .setNegativeButton(R.string.deny_permission) { _, _ -> }
             .create()
             .show()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        viewModel.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun setViewState(state: FilesListViewState) {

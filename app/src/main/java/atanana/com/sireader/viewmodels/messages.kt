@@ -54,3 +54,5 @@ data class StartActionModeMessage(val callback: ActionMode.Callback) : Action()
 object StopActionModeMessage : Action()
 
 object ReadStoragePermissionExplanation : Action()
+
+data class OpenFilePicker(val types: List<String>) : Action()
