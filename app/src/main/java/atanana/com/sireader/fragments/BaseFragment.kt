@@ -7,7 +7,6 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import atanana.com.sireader.MainActivity
 import atanana.com.sireader.viewmodels.*
@@ -35,13 +34,10 @@ abstract class BaseFragment<VM : BaseViewModel>(@LayoutRes resId: Int) : Fragmen
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.liveBus.observe(viewLifecycleOwner, Observer { action ->
+        viewModel.liveBus.observe(viewLifecycleOwner, { action ->
             when (action) {
                 is ToastMessage -> {
                     Toast.makeText(activity, action.text(resources), Toast.LENGTH_SHORT).show()
-                }
-                is TitleMessage -> {
-                    activity?.title = action.text(resources)
                 }
                 is StartActionModeMessage -> {
                     actionMode = (activity as? AppCompatActivity)?.startSupportActionMode(action.callback)

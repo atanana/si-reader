@@ -34,12 +34,6 @@ data class OpenFileMessage(val fileId: Int) : Action()
 
 data class OpenPackMessage(val packId: Int) : Action()
 
-sealed class TitleMessage : Action()
-
-data class StringTitleMessage(override val value: String) : TitleMessage(), StringTextMessage
-
-data class ResourceTitleMessage(@StringRes override val value: Int) : TitleMessage(), ResourceTextMessage
-
 sealed class ActionModeTitleMessage : Action()
 
 data class StringActionModeTitleMessage(override val value: String) : ActionModeTitleMessage(), StringTextMessage
