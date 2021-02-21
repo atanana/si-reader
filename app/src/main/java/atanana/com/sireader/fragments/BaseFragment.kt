@@ -40,9 +40,6 @@ abstract class BaseFragment<VM : BaseViewModel>(@LayoutRes resId: Int) : Fragmen
                 is ToastMessage -> {
                     Toast.makeText(activity, action.text(resources), Toast.LENGTH_SHORT).show()
                 }
-                is ActivityForResultMessage -> {
-                    startActivityForResult(action.intent, action.requestCode)
-                }
                 is TitleMessage -> {
                     activity?.title = action.text(resources)
                 }

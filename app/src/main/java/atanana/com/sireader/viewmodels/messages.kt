@@ -1,6 +1,5 @@
 package atanana.com.sireader.viewmodels
 
-import android.content.Intent
 import android.content.res.Resources
 import androidx.annotation.StringRes
 import androidx.appcompat.view.ActionMode
@@ -30,8 +29,6 @@ sealed class ToastMessage : Action()
 data class StringToastMessage(override val value: String) : ToastMessage(), StringTextMessage
 
 data class ResourceToastMessage(@StringRes override val value: Int) : ToastMessage(), ResourceTextMessage
-
-data class ActivityForResultMessage(val intent: Intent, val requestCode: Int) : Action()
 
 data class OpenFileMessage(val fileId: Int) : Action()
 
