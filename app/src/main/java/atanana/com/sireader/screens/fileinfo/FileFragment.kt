@@ -49,9 +49,7 @@ class FileFragment : BaseFragment<FileViewModel>(R.layout.fragment_file) {
 
     override fun onResume() {
         super.onResume()
-        fileId?.let {
-            viewModel.loadFileInfo(it)
-        }
+
     }
 
     override fun processMessage(message: Action) {

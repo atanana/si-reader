@@ -8,12 +8,12 @@ import atanana.com.sireader.viewmodels.BaseViewModel
 import atanana.com.sireader.viewmodels.OpenPackMessage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 class FileViewModel @Inject constructor(
-        private val provider: GetFileInfoWithPacks
+    private val provider: GetFileInfoWithPacks
 ) : BaseViewModel() {
 
     private val _file = MutableStateFlow<FileViewState?>(null)
@@ -21,12 +21,9 @@ class FileViewModel @Inject constructor(
 
     fun loadFileInfo(fileId: Int) {
         if (_file.value?.file?.id != fileId) {
-            viewModelScope.launch {
-                provider.getInfo(fileId)
-                    .collect { (fileInfo, packs) ->
-                        _file.value = FileViewState(fileInfo, packs)
-                    }
-            }
+            provider.getInfo(fileId)
+                .onEach { (fileInfo, packs) -> _file.value = FileViewState(fileInfo, packs) }
+                .launchIn(viewModelScope)
         }
     }
 
