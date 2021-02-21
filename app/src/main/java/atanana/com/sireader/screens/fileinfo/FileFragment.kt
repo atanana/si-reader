@@ -31,6 +31,7 @@ class FileFragment : BaseFragment<FileViewModel>(R.layout.fragment_file) {
         super.onCreate(savedInstanceState)
 
         fileId = arguments?.getInt(ARG_FILE_ID)
+        viewModel.loadFileInfo(fileId!!)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,11 +45,6 @@ class FileFragment : BaseFragment<FileViewModel>(R.layout.fragment_file) {
             packsAdapter.packs = state.packs
             packsAdapter.info = state.file
         }.launchIn(viewLifecycleOwner.lifecycleScope)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.loadFileInfo(fileId!!)
     }
 
     override fun processMessage(message: Action) {

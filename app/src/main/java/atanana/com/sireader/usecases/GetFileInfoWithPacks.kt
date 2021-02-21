@@ -6,7 +6,7 @@ import atanana.com.sireader.database.QuestionFileEntity
 import atanana.com.sireader.database.QuestionFilesDao
 import atanana.com.sireader.screens.fileinfo.PackItem
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.zip
+import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
 class GetFileInfoWithPacks @Inject constructor(
@@ -14,7 +14,7 @@ class GetFileInfoWithPacks @Inject constructor(
     private val packsDao: PacksDao
 ) {
     fun getInfo(fileId: Int): Flow<Pair<QuestionFileEntity, List<PackItem>>> =
-        file(fileId).zip(packs(fileId)) { file, packs ->
+        file(fileId).combine(packs(fileId)) { file, packs ->
             Pair(file, mapPacks(packs, file.lastReadPackId))
         }
 

@@ -20,9 +20,11 @@ class FileViewModel @Inject constructor(
     val file: StateFlow<FileViewState?> = _file
 
     fun loadFileInfo(fileId: Int) {
-        provider.getInfo(fileId)
-            .onEach { (fileInfo, packs) -> _file.value = FileViewState(fileInfo, packs) }
-            .launchIn(viewModelScope)
+        if (_file.value?.file?.id != fileId) {
+            provider.getInfo(fileId)
+                .onEach { (fileInfo, packs) -> _file.value = FileViewState(fileInfo, packs) }
+                .launchIn(viewModelScope)
+        }
     }
 
     fun onPackClick(packId: Int) {
