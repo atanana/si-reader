@@ -1,14 +1,13 @@
 package atanana.com.sireader.screens.fileinfo
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import atanana.com.sireader.database.PackEntity
 import atanana.com.sireader.database.QuestionFileEntity
 import atanana.com.sireader.usecases.GetFileInfoWithPacks
 import atanana.com.sireader.viewmodels.BaseViewModel
-import atanana.com.sireader.viewmodels.NonNullMediatorLiveData
 import atanana.com.sireader.viewmodels.OpenPackMessage
-import atanana.com.sireader.viewmodels.nonNull
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,15 +15,16 @@ import javax.inject.Inject
 class FileViewModel @Inject constructor(
         private val provider: GetFileInfoWithPacks
 ) : BaseViewModel() {
-    private val fileData = MutableLiveData<FileViewState>()
 
-    val file: NonNullMediatorLiveData<FileViewState> = fileData.nonNull()
+    private val _file = MutableStateFlow<FileViewState?>(null)
+
+    val file: StateFlow<FileViewState?> = _file
 
     fun loadFileInfo(fileId: Int) {
         viewModelScope.launch {
             provider.getInfo(fileId)
                 .collect { (fileInfo, packs) ->
-                    fileData.value = FileViewState(fileInfo, packs)
+                    _file.value = FileViewState(fileInfo, packs)
                 }
         }
     }

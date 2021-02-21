@@ -2,6 +2,7 @@ package atanana.com.sireader.screens.fileinfo
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import atanana.com.sireader.R
 import atanana.com.sireader.databinding.FragmentFileBinding
@@ -10,8 +11,9 @@ import atanana.com.sireader.fragments.openFragment
 import atanana.com.sireader.screens.packspager.PacksPagerFragment
 import atanana.com.sireader.viewmodels.Action
 import atanana.com.sireader.viewmodels.OpenPackMessage
-import atanana.com.sireader.viewmodels.observe
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 
 private const val ARG_FILE_ID = "file_id"
@@ -28,21 +30,23 @@ class FileFragment : BaseFragment<FileViewModel>(R.layout.fragment_file) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        arguments?.apply {
-            fileId = getInt(ARG_FILE_ID)
-        }
+        fileId = arguments?.getInt(ARG_FILE_ID)
+        viewModel.loadFileInfo(fileId!!)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.file.observe(this) { state ->
-            packsAdapter.packs = state.packs
-            packsAdapter.info = state.file
-        }
-
         binding.fileInfo.layoutManager = LinearLayoutManager(activity)
         binding.fileInfo.adapter = packsAdapter
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.file.collect { state ->
+                state ?: return@collect
+                packsAdapter.packs = state.packs
+                packsAdapter.info = state.file
+            }
+        }
     }
 
     override fun onResume() {
