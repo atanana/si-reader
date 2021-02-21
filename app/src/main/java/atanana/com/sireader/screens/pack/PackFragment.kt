@@ -2,14 +2,16 @@ package atanana.com.sireader.screens.pack
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import atanana.com.sireader.R
 import atanana.com.sireader.database.PackEntity
 import atanana.com.sireader.databinding.FragmentPackBinding
 import atanana.com.sireader.fragments.BaseFragment
-import atanana.com.sireader.viewmodels.observe
 import atanana.com.sireader.views.optionalText
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 private const val ARG_PACK_ID = "pack_id"
 
@@ -37,13 +39,16 @@ class PackFragment : BaseFragment<PackViewModel>(R.layout.fragment_pack) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.pack.observe(this) { state ->
-            updatePackInfo(state.pack)
-            updateQuestions(state.questions)
-        }
-
         binding.questionsList.layoutManager = LinearLayoutManager(activity)
         binding.questionsList.adapter = questionsAdapter
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.pack.collect { state ->
+                state ?: return@collect
+                updatePackInfo(state.pack)
+                updateQuestions(state.questions)
+            }
+        }
     }
 
     private fun updatePackInfo(pack: PackEntity) {
