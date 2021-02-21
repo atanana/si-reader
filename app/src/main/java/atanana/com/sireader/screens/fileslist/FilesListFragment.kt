@@ -4,15 +4,21 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import atanana.com.sireader.R
 import atanana.com.sireader.databinding.FragmentFilesListBinding
 import atanana.com.sireader.fragments.BaseFragment
 import atanana.com.sireader.fragments.openFragment
 import atanana.com.sireader.screens.fileinfo.FileFragment
-import atanana.com.sireader.viewmodels.*
+import atanana.com.sireader.viewmodels.Action
+import atanana.com.sireader.viewmodels.OpenFileMessage
+import atanana.com.sireader.viewmodels.OpenFilePicker
+import atanana.com.sireader.viewmodels.ReadStoragePermissionExplanation
 import atanana.com.sireader.views.gone
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 /**
  * A placeholder fragment containing a simple view.
@@ -44,16 +50,16 @@ class FilesListFragment : BaseFragment<FilesListViewModel>(R.layout.fragment_fil
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.state.observe(this) { state ->
-            setViewState(state)
-        }
-
         binding.fab.setOnClickListener {
             viewModel.fabClicked(requireActivity(), requestPermission)
         }
 
         binding.filesList.layoutManager = LinearLayoutManager(activity)
         binding.filesList.adapter = filesAdapter
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.state.collect { state -> setViewState(state) }
+        }
     }
 
     override fun processMessage(message: Action) {

@@ -10,7 +10,6 @@ import android.webkit.MimeTypeMap
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.view.ActionMode
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import atanana.com.sireader.CannotSaveInDatabaseException
 import atanana.com.sireader.ParseFileException
@@ -21,6 +20,8 @@ import atanana.com.sireader.usecases.ParseFileUseCase
 import atanana.com.sireader.utils.checkPermission
 import atanana.com.sireader.viewmodels.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -39,9 +40,8 @@ class FilesListViewModel @Inject constructor(
             .mapNotNull { MimeTypeMap.getSingleton().getMimeTypeFromExtension(it) }
     }
 
-    private val filesData = MutableLiveData<FilesListViewState>()
-
-    val state: NonNullMediatorLiveData<FilesListViewState> = filesData.nonNull()
+    private val _files = MutableStateFlow<FilesListViewState>(Loading)
+    val state: StateFlow<FilesListViewState> = _files
 
     private val callback = object : ActionMode.Callback {
         override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
@@ -67,11 +67,9 @@ class FilesListViewModel @Inject constructor(
     }
 
     init {
-        state.value = Loading
-
         viewModelScope.launch {
             getFilesItems.getFiles().collect { files ->
-                filesData.value = if (files.isEmpty()) {
+                _files.value = if (files.isEmpty()) {
                     NoFiles
                 } else {
                     Files(selectionManager.mapItems(files))
@@ -111,9 +109,8 @@ class FilesListViewModel @Inject constructor(
     }
 
     private fun updateFilesSelection() {
-        (filesData.value as? Files)?.files?.let { files ->
-            filesData.value = Files(selectionManager.mapItems(files))
-        }
+        val files = (_files.value as? Files)?.files ?: return
+        _files.value = Files(selectionManager.mapItems(files))
     }
 
     fun onLongFileClick(fileId: Int) {
@@ -155,13 +152,13 @@ class FilesListViewModel @Inject constructor(
 
     fun processFile(uri: Uri?) {
         uri ?: return
-        val oldState = filesData.value
-        filesData.value = Loading
+        val oldState = _files.value
+        _files.value = Loading
         viewModelScope.launch {
             try {
                 parseFileUseCase.process(uri)
             } catch (e: Exception) {
-                filesData.value = oldState!!
+                _files.value = oldState
                 bus.value = getParsingErrorMessage(e)
             }
         }

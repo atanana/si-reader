@@ -17,7 +17,6 @@ class FileViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private val _file = MutableStateFlow<FileViewState?>(null)
-
     val file: StateFlow<FileViewState?> = _file
 
     fun loadFileInfo(fileId: Int) {
