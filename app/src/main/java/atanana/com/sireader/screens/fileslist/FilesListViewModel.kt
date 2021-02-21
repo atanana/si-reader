@@ -79,11 +79,12 @@ class FilesListViewModel @Inject constructor(
 
         viewModelScope.launch {
             selectionManager.selectionMode.collect { isSelection ->
-                bus.value = if (isSelection) {
+                val action = if (isSelection) {
                     StartActionModeMessage(callback)
                 } else {
                     StopActionModeMessage
                 }
+                sendAction(action)
             }
         }
     }
@@ -91,14 +92,14 @@ class FilesListViewModel @Inject constructor(
     private fun updateSelectionTitle() {
         val selectedFilesCount = selectionManager.selectedFiles.size
         val title = resources.getQuantityString(R.plurals.files_selected, selectedFilesCount, selectedFilesCount)
-        bus.value = StringActionModeTitleMessage(title)
+        sendAction(StringActionModeTitleMessage(title))
     }
 
     fun onFileClick(fileId: Int) {
         if (selectionManager.isSelectionMode) {
             toggleFileSelection(fileId)
         } else {
-            bus.value = OpenFileMessage(fileId)
+            sendAction(OpenFileMessage(fileId))
         }
     }
 
@@ -126,7 +127,7 @@ class FilesListViewModel @Inject constructor(
                 openFileSelector()
             }
             ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_EXTERNAL_STORAGE) -> {
-                bus.value = ReadStoragePermissionExplanation
+                sendAction(ReadStoragePermissionExplanation)
             }
             else -> {
                 requestReadStorage(request)
@@ -142,12 +143,12 @@ class FilesListViewModel @Inject constructor(
         if (isGranted) {
             openFileSelector()
         } else {
-            bus.value = ResourceToastMessage(R.string.no_permissions_to_read_files)
+            sendAction(ResourceToastMessage(R.string.no_permissions_to_read_files))
         }
     }
 
     private fun openFileSelector() {
-        bus.value = OpenFilePicker(FILE_TYPES)
+        sendAction(OpenFilePicker(FILE_TYPES))
     }
 
     fun processFile(uri: Uri?) {
@@ -159,7 +160,8 @@ class FilesListViewModel @Inject constructor(
                 parseFileUseCase.process(uri)
             } catch (e: Exception) {
                 _files.value = oldState
-                bus.value = getParsingErrorMessage(e)
+                val action = getParsingErrorMessage(e)
+                sendAction(action)
             }
         }
     }
@@ -170,7 +172,7 @@ class FilesListViewModel @Inject constructor(
             withContext(Dispatchers.IO) {
                 filesDao.deleteFilesByIds(fileIds)
             }
-            bus.value = ResourceToastMessage(R.string.files_deleted)
+            sendAction(ResourceToastMessage(R.string.files_deleted))
         }
         selectionManager.isSelectionMode = false
     }

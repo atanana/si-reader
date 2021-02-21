@@ -28,7 +28,7 @@ class FileViewModel @Inject constructor(
     }
 
     fun onPackClick(packId: Int) {
-        bus.value = OpenPackMessage(packId)
+        sendAction(OpenPackMessage(packId))
     }
 }
 

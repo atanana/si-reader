@@ -8,9 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import atanana.com.sireader.MainActivity
 import atanana.com.sireader.viewmodels.*
 import dagger.android.support.AndroidSupportInjection
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import java.lang.reflect.ParameterizedType
 import javax.inject.Inject
 
@@ -34,7 +37,7 @@ abstract class BaseFragment<VM : BaseViewModel>(@LayoutRes resId: Int) : Fragmen
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.liveBus.observe(viewLifecycleOwner, { action ->
+        viewModel.bus.onEach { action ->
             when (action) {
                 is ToastMessage -> {
                     Toast.makeText(activity, action.text(resources), Toast.LENGTH_SHORT).show()
@@ -48,9 +51,9 @@ abstract class BaseFragment<VM : BaseViewModel>(@LayoutRes resId: Int) : Fragmen
                 is ActionModeTitleMessage -> {
                     actionMode?.title = action.text(resources)
                 }
-                else -> processMessage(action!!)
+                else -> processMessage(action)
             }
-        })
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override fun onStart() {
