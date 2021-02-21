@@ -12,8 +12,8 @@ import atanana.com.sireader.screens.packspager.PacksPagerFragment
 import atanana.com.sireader.viewmodels.Action
 import atanana.com.sireader.viewmodels.OpenPackMessage
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 
 private const val ARG_FILE_ID = "file_id"
@@ -40,13 +40,11 @@ class FileFragment : BaseFragment<FileViewModel>(R.layout.fragment_file) {
         binding.fileInfo.layoutManager = LinearLayoutManager(activity)
         binding.fileInfo.adapter = packsAdapter
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.file.collect { state ->
-                state ?: return@collect
-                packsAdapter.packs = state.packs
-                packsAdapter.info = state.file
-            }
-        }
+        viewModel.file.onEach { state ->
+            state ?: return@onEach
+            packsAdapter.packs = state.packs
+            packsAdapter.info = state.file
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override fun onResume() {

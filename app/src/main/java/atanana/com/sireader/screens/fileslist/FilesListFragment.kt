@@ -17,8 +17,8 @@ import atanana.com.sireader.viewmodels.OpenFilePicker
 import atanana.com.sireader.viewmodels.ReadStoragePermissionExplanation
 import atanana.com.sireader.views.gone
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 /**
  * A placeholder fragment containing a simple view.
@@ -57,9 +57,8 @@ class FilesListFragment : BaseFragment<FilesListViewModel>(R.layout.fragment_fil
         binding.filesList.layoutManager = LinearLayoutManager(activity)
         binding.filesList.adapter = filesAdapter
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.state.collect { state -> setViewState(state) }
-        }
+        viewModel.state.onEach { state -> setViewState(state) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override fun processMessage(message: Action) {

@@ -10,8 +10,8 @@ import atanana.com.sireader.databinding.FragmentPackBinding
 import atanana.com.sireader.fragments.BaseFragment
 import atanana.com.sireader.views.optionalText
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 private const val ARG_PACK_ID = "pack_id"
 
@@ -42,13 +42,11 @@ class PackFragment : BaseFragment<PackViewModel>(R.layout.fragment_pack) {
         binding.questionsList.layoutManager = LinearLayoutManager(activity)
         binding.questionsList.adapter = questionsAdapter
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.pack.collect { state ->
-                state ?: return@collect
-                updatePackInfo(state.pack)
-                updateQuestions(state.questions)
-            }
-        }
+        viewModel.pack.onEach { state ->
+            state ?: return@onEach
+            updatePackInfo(state.pack)
+            updateQuestions(state.questions)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun updatePackInfo(pack: PackEntity) {

@@ -8,8 +8,8 @@ import atanana.com.sireader.R
 import atanana.com.sireader.databinding.FragmentPacksPagerBinding
 import atanana.com.sireader.fragments.BaseFragment
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 private const val ARG_FILE_ID = "file_id"
 private const val ARG_PACK_ID = "pack_id"
@@ -39,14 +39,12 @@ class PacksPagerFragment : BaseFragment<PacksPagerViewModel>(R.layout.fragment_p
         packsPagesAdapter = PacksPagesAdapter(parentFragmentManager)
         binding.packsPager.adapter = packsPagesAdapter
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.packs.collect { state ->
-                state ?: return@collect
-                packsPagesAdapter.packs = state.packs
-                val currentIndex = state.packs.indexOfFirst { it.id == state.currentPackId }
-                binding.packsPager.setCurrentItem(currentIndex, false)
-            }
-        }
+        viewModel.packs.onEach { state ->
+            state ?: return@onEach
+            packsPagesAdapter.packs = state.packs
+            val currentIndex = state.packs.indexOfFirst { it.id == state.currentPackId }
+            binding.packsPager.setCurrentItem(currentIndex, false)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override val transactionTag: String
