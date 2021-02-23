@@ -12,11 +12,11 @@ android {
 //            keyPassword RELEASE_KEY_PASSWORD
 //        }
 //    }
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion 28
     defaultConfig {
         applicationId "atanana.com.sireader"
-        minSdkVersion rootProject.ext.minSDKVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion 21
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -67,37 +67,34 @@ dexcount {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.core:core-ktx:1.3.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
-    implementation "androidx.appcompat:appcompat:${rootProject.ext.appCompatVersion}"
-    implementation "androidx.constraintlayout:constraintlayout:${rootProject.ext.constraintLayoutVersion}"
-    implementation "com.google.android.material:material:${rootProject.ext.materialVersion}"
+    implementation "androidx.appcompat:appcompat:1.2.0"
+    implementation "androidx.constraintlayout:constraintlayout:2.0.4"
+    implementation "com.google.android.material:material:1.3.0"
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
     implementation 'androidx.activity:activity-ktx:1.2.0'
     implementation 'androidx.fragment:fragment-ktx:1.3.0'
     implementation "androidx.viewpager2:viewpager2:1.0.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0"
 
     implementation 'com.github.Zhuinden:fragmentviewbindingdelegate-kt:1.0.0'
 
-    // dagger
-    implementation "com.google.dagger:dagger-android:${rootProject.ext.dagger2Version}"
-    implementation "com.google.dagger:dagger-android-support:${rootProject.ext.dagger2Version}"
-    kapt "com.google.dagger:dagger-compiler:${rootProject.ext.dagger2Version}"
-    kapt "com.google.dagger:dagger-android-processor:${rootProject.ext.dagger2Version}"
+    def dagger2Version = "2.29.1"
+    implementation "com.google.dagger:dagger-android:${dagger2Version}"
+    implementation "com.google.dagger:dagger-android-support:${dagger2Version}"
+    kapt "com.google.dagger:dagger-compiler:${dagger2Version}"
+    kapt "com.google.dagger:dagger-android-processor:${dagger2Version}"
 
-    // room
-    implementation "androidx.room:room-runtime:${rootProject.ext.roomVersion}"
-    implementation "androidx.room:room-ktx:${rootProject.ext.roomVersion}"
-    kapt "androidx.room:room-compiler:${rootProject.ext.roomVersion}"
+    def roomVersion = "2.2.6"
+    implementation "androidx.room:room-runtime:${roomVersion}"
+    implementation "androidx.room:room-ktx:${roomVersion}"
+    kapt "androidx.room:room-compiler:${roomVersion}"
 
-    // livecycle
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${rootProject.ext.livecycleVersion}"
+    implementation group: 'org.apache.poi', name: 'poi-scratchpad', version: '3.17'
 
-    //poi
-    implementation group: 'org.apache.poi', name: 'poi-scratchpad', version: rootProject.ext.poiVersion
-
-    testImplementation "junit:junit:${rootProject.ext.junitVersion}"
-    androidTestImplementation "androidx.test:runner:${rootProject.ext.testRunnerVersion}"
-    androidTestImplementation "androidx.test.espresso:espresso-core:${rootProject.ext.testEspressoVersion}"
+    testImplementation "junit:junit:4.13.1"
+    androidTestImplementation "androidx.test:runner:1.3.0"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.3.0"
 }

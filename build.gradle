@@ -24,27 +24,6 @@ allprojects {
     }
 }
 
-ext {
-    //app
-    compileSdkVersion = 28
-    minSDKVersion = 21
-    targetSdkVersion = 28
-    materialVersion = "1.3.0"
-    constraintLayoutVersion = "2.0.4"
-    dagger2Version = "2.29.1"
-    roomVersion = "2.2.6"
-    livecycleVersion = "2.3.0"
-    poiVersion = "3.17"
-    appCompatVersion = "1.2.0"
-
-    //test
-    junitVersion = "4.13.1"
-
-    //testImpl
-    testRunnerVersion = "1.3.0"
-    testEspressoVersion = "3.3.0"
-}
-
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
