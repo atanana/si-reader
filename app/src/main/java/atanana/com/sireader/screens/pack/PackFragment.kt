@@ -24,8 +24,6 @@ class PackFragment : BaseFragment<PackViewModel>(R.layout.fragment_pack) {
     @Inject
     lateinit var viewModelFactory: PackViewModel.Factory
 
-    private var packId: Int? = null
-
     private val questionsAdapter = QuestionsAdapter { questionId ->
         viewModel.onQuestionClick(questionId)
     }
@@ -35,9 +33,9 @@ class PackFragment : BaseFragment<PackViewModel>(R.layout.fragment_pack) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        packId = arguments?.getInt(ARG_PACK_ID)
+        val packId = arguments?.getInt(ARG_PACK_ID)!!
         viewModel = createViewModel {
-            viewModelFactory.create(packId!!)
+            viewModelFactory.create(packId)
         }
     }
 
