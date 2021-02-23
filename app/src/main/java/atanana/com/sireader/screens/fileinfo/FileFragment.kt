@@ -16,12 +16,17 @@ import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
 
 private const val ARG_FILE_ID = "file_id"
 
 @AndroidEntryPoint
 class FileFragment : BaseFragment<FileViewModel>(R.layout.fragment_file) {
+
+    @Inject
+    lateinit var viewModelFactory: FileViewModel.Factory
+
     private var fileId: Int? = null
 
     private val packsAdapter = FileInfoAdapter { packId ->
@@ -34,8 +39,9 @@ class FileFragment : BaseFragment<FileViewModel>(R.layout.fragment_file) {
         super.onCreate(savedInstanceState)
 
         fileId = arguments?.getInt(ARG_FILE_ID)
-        viewModel = createViewModel()
-        viewModel.loadFileInfo(fileId!!)
+        viewModel = createViewModel {
+            viewModelFactory.create(fileId!!)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

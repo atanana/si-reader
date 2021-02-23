@@ -6,28 +6,29 @@ import atanana.com.sireader.database.QuestionFileEntity
 import atanana.com.sireader.usecases.GetFileInfoWithPacks
 import atanana.com.sireader.viewmodels.BaseViewModel
 import atanana.com.sireader.viewmodels.OpenPackMessage
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
-@HiltViewModel
-class FileViewModel @Inject constructor(
-    private val provider: GetFileInfoWithPacks
+class FileViewModel(
+    provider: GetFileInfoWithPacks,
+    fileId: Int
 ) : BaseViewModel() {
 
     private val _file = MutableStateFlow<FileViewState?>(null)
     val file: Flow<FileViewState> = _file.filterNotNull()
 
-    fun loadFileInfo(fileId: Int) {
-        if (_file.value?.file?.id != fileId) {
-            provider.getInfo(fileId)
-                .onEach { (fileInfo, packs) -> _file.value = FileViewState(fileInfo, packs) }
-                .launchIn(viewModelScope)
-        }
+    init {
+        provider.getInfo(fileId)
+            .onEach { (fileInfo, packs) -> _file.value = FileViewState(fileInfo, packs) }
+            .launchIn(viewModelScope)
     }
 
     fun onPackClick(packId: Int) {
         sendAction(OpenPackMessage(packId))
+    }
+
+    class Factory @Inject constructor(private val provider: GetFileInfoWithPacks) {
+        fun create(fileId: Int) = FileViewModel(provider, fileId)
     }
 }
 
