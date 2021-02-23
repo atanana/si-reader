@@ -36,7 +36,7 @@ class PacksPagerFragment : BaseFragment<PacksPagerViewModel>(R.layout.fragment_p
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        packsPagesAdapter = PacksPagesAdapter(parentFragmentManager)
+        packsPagesAdapter = PacksPagesAdapter(this)
         binding.packsPager.adapter = packsPagesAdapter
 
         viewModel.packs.onEach { state ->
