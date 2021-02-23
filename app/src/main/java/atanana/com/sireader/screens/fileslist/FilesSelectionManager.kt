@@ -11,7 +11,7 @@ class FilesSelectionManager @Inject constructor() {
     val selectedFiles: Set<Int>
         get() = files
 
-    private val _selectionMode = MutableStateFlow<Boolean>(false)
+    private val _selectionMode = MutableStateFlow(false)
 
     val selectionMode: StateFlow<Boolean> = _selectionMode
 

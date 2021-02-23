@@ -26,8 +26,6 @@ fun Action.text(resources: Resources): String {
 
 sealed class ToastMessage : Action()
 
-data class StringToastMessage(override val value: String) : ToastMessage(), StringTextMessage
-
 data class ResourceToastMessage(@StringRes override val value: Int) : ToastMessage(), ResourceTextMessage
 
 data class OpenFileMessage(val fileId: Int) : Action()
@@ -37,8 +35,6 @@ data class OpenPackMessage(val packId: Int) : Action()
 sealed class ActionModeTitleMessage : Action()
 
 data class StringActionModeTitleMessage(override val value: String) : ActionModeTitleMessage(), StringTextMessage
-
-data class ResourceActionModeTitleMessage(@StringRes override val value: Int) : ActionModeTitleMessage(), ResourceTextMessage
 
 data class StartActionModeMessage(val callback: ActionMode.Callback) : Action()
 

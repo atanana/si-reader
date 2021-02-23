@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class GetFilesItems @Inject() constructor(
+class GetFilesItems @Inject constructor(
     private val filesDao: QuestionFilesDao,
     private val prefs: Prefs
 ) {
