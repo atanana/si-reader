@@ -44,7 +44,6 @@ class PacksPagerFragment : BaseFragment<PacksPagerViewModel>(R.layout.fragment_p
         binding.packsPager.adapter = packsPagesAdapter
 
         viewModel.packs.onEach { state ->
-            state ?: return@onEach
             packsPagesAdapter.packs = state.packs
             val currentIndex = state.packs.indexOfFirst { it.id == state.currentPackId }
             binding.packsPager.setCurrentItem(currentIndex, false)

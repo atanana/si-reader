@@ -47,7 +47,6 @@ class PackFragment : BaseFragment<PackViewModel>(R.layout.fragment_pack) {
         binding.questionsList.adapter = questionsAdapter
 
         viewModel.pack.onEach { state ->
-            state ?: return@onEach
             updatePackInfo(state.pack)
             updateQuestions(state.questions)
         }.launchIn(viewLifecycleOwner.lifecycleScope)

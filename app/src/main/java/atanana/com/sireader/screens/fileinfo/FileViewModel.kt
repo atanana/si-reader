@@ -7,10 +7,7 @@ import atanana.com.sireader.usecases.GetFileInfoWithPacks
 import atanana.com.sireader.viewmodels.BaseViewModel
 import atanana.com.sireader.viewmodels.OpenPackMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,7 +16,7 @@ class FileViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private val _file = MutableStateFlow<FileViewState?>(null)
-    val file: StateFlow<FileViewState?> = _file
+    val file: Flow<FileViewState> = _file.filterNotNull()
 
     fun loadFileInfo(fileId: Int) {
         if (_file.value?.file?.id != fileId) {

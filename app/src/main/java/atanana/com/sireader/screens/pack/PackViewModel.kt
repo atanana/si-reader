@@ -7,9 +7,10 @@ import atanana.com.sireader.usecases.GetPackWithQuestions
 import atanana.com.sireader.usecases.UpdateLastRead
 import atanana.com.sireader.viewmodels.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,7 +21,7 @@ class PackViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private val _pack = MutableStateFlow<PackViewState?>(null)
-    val pack: StateFlow<PackViewState?> = _pack
+    val pack: Flow<PackViewState> = _pack.filterNotNull()
 
     fun loadPack(packId: Int) {
         if (_pack.value?.pack?.id != packId) {

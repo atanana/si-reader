@@ -45,7 +45,6 @@ class FileFragment : BaseFragment<FileViewModel>(R.layout.fragment_file) {
         binding.fileInfo.adapter = packsAdapter
 
         viewModel.file.onEach { state ->
-            state ?: return@onEach
             packsAdapter.packs = state.packs
             packsAdapter.info = state.file
         }.launchIn(viewLifecycleOwner.lifecycleScope)
