@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import atanana.com.sireader.R
 import atanana.com.sireader.databinding.FragmentFileBinding
 import atanana.com.sireader.fragments.BaseFragment
+import atanana.com.sireader.fragments.createViewModel
 import atanana.com.sireader.fragments.openFragment
 import atanana.com.sireader.screens.packspager.PacksPagerFragment
 import atanana.com.sireader.viewmodels.Action
@@ -20,7 +21,7 @@ import kotlinx.coroutines.flow.onEach
 private const val ARG_FILE_ID = "file_id"
 
 @AndroidEntryPoint
-class FileFragment : BaseFragment<FileViewModel>(R.layout.fragment_file, FileViewModel::class) {
+class FileFragment : BaseFragment<FileViewModel>(R.layout.fragment_file) {
     private var fileId: Int? = null
 
     private val packsAdapter = FileInfoAdapter { packId ->
@@ -33,6 +34,7 @@ class FileFragment : BaseFragment<FileViewModel>(R.layout.fragment_file, FileVie
         super.onCreate(savedInstanceState)
 
         fileId = arguments?.getInt(ARG_FILE_ID)
+        viewModel = createViewModel()
         viewModel.loadFileInfo(fileId!!)
     }
 

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import atanana.com.sireader.R
 import atanana.com.sireader.databinding.FragmentFilesListBinding
 import atanana.com.sireader.fragments.BaseFragment
+import atanana.com.sireader.fragments.createViewModel
 import atanana.com.sireader.fragments.openFragment
 import atanana.com.sireader.screens.fileinfo.FileFragment
 import atanana.com.sireader.viewmodels.Action
@@ -25,7 +26,7 @@ import kotlinx.coroutines.flow.onEach
  * A placeholder fragment containing a simple view.
  */
 @AndroidEntryPoint
-class FilesListFragment : BaseFragment<FilesListViewModel>(R.layout.fragment_files_list, FilesListViewModel::class) {
+class FilesListFragment : BaseFragment<FilesListViewModel>(R.layout.fragment_files_list) {
 
     private val fileClickListener = object : FilesListAdapter.FileClickListener {
         override fun onClick(fileId: Int) {
@@ -47,6 +48,11 @@ class FilesListFragment : BaseFragment<FilesListViewModel>(R.layout.fragment_fil
 
     private val requestFile = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
         viewModel.processFile(uri)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = createViewModel()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

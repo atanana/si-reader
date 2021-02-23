@@ -7,6 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import atanana.com.sireader.R
 import atanana.com.sireader.databinding.FragmentPacksPagerBinding
 import atanana.com.sireader.fragments.BaseFragment
+import atanana.com.sireader.fragments.createViewModel
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -16,7 +17,7 @@ private const val ARG_FILE_ID = "file_id"
 private const val ARG_PACK_ID = "pack_id"
 
 @AndroidEntryPoint
-class PacksPagerFragment : BaseFragment<PacksPagerViewModel>(R.layout.fragment_packs_pager, PacksPagerViewModel::class) {
+class PacksPagerFragment : BaseFragment<PacksPagerViewModel>(R.layout.fragment_packs_pager) {
     private var fileId: Int? = null
     private var packId: Int? = null
 
@@ -32,6 +33,7 @@ class PacksPagerFragment : BaseFragment<PacksPagerViewModel>(R.layout.fragment_p
             packId = it.getInt(ARG_PACK_ID)
         }
 
+        viewModel = createViewModel()
         viewModel.loadPacks(fileId!!, packId!!)
     }
 

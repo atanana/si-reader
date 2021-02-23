@@ -8,6 +8,7 @@ import atanana.com.sireader.R
 import atanana.com.sireader.database.PackEntity
 import atanana.com.sireader.databinding.FragmentPackBinding
 import atanana.com.sireader.fragments.BaseFragment
+import atanana.com.sireader.fragments.createViewModel
 import atanana.com.sireader.views.optionalText
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,7 +18,7 @@ import kotlinx.coroutines.flow.onEach
 private const val ARG_PACK_ID = "pack_id"
 
 @AndroidEntryPoint
-class PackFragment : BaseFragment<PackViewModel>(R.layout.fragment_pack, PackViewModel::class) {
+class PackFragment : BaseFragment<PackViewModel>(R.layout.fragment_pack) {
     private var packId: Int? = null
 
     private val questionsAdapter = QuestionsAdapter { questionId ->
@@ -33,6 +34,7 @@ class PackFragment : BaseFragment<PackViewModel>(R.layout.fragment_pack, PackVie
             packId = getInt(ARG_PACK_ID)
         }
 
+        viewModel = createViewModel()
         packId?.let {
             viewModel.loadPack(it)
         }
