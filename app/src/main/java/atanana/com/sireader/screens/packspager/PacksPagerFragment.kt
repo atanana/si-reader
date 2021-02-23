@@ -12,14 +12,16 @@ import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
 private const val ARG_FILE_ID = "file_id"
 private const val ARG_PACK_ID = "pack_id"
 
 @AndroidEntryPoint
 class PacksPagerFragment : BaseFragment<PacksPagerViewModel>(R.layout.fragment_packs_pager) {
-    private var fileId: Int? = null
-    private var packId: Int? = null
+
+    @Inject
+    lateinit var viewModelFactory: PacksPagerViewModel.Factory
 
     private lateinit var packsPagesAdapter: PacksPagesAdapter
 
@@ -28,13 +30,16 @@ class PacksPagerFragment : BaseFragment<PacksPagerViewModel>(R.layout.fragment_p
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        arguments?.let {
-            fileId = it.getInt(ARG_FILE_ID)
-            packId = it.getInt(ARG_PACK_ID)
+        val params = getViewModelParams()
+        viewModel = createViewModel {
+            viewModelFactory.create(params)
         }
+    }
 
-        viewModel = createViewModel()
-        viewModel.loadPacks(fileId!!, packId!!)
+    private fun getViewModelParams(): PacksPagerViewModel.Params {
+        val fileId = arguments?.getInt(ARG_FILE_ID)!!
+        val packId = arguments?.getInt(ARG_PACK_ID)!!
+        return PacksPagerViewModel.Params(fileId, packId)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
