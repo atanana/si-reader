@@ -20,6 +20,7 @@
 
     <string name="delete_files">Удалить файлы</string>
     <string name="files_deleted">Файлы удалены!</string>
+    <string name="add_file">Добавить файл</string>
 
     <!--permissions-->
     <string name="read_storage_explanation">Приложению необходимо разрешение на чтение хранилища для получения пакетов</string>
