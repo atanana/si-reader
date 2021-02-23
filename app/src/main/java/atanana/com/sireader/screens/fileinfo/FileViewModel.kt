@@ -6,12 +6,14 @@ import atanana.com.sireader.database.QuestionFileEntity
 import atanana.com.sireader.usecases.GetFileInfoWithPacks
 import atanana.com.sireader.viewmodels.BaseViewModel
 import atanana.com.sireader.viewmodels.OpenPackMessage
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.*
-import javax.inject.Inject
 
-class FileViewModel(
+class FileViewModel @AssistedInject constructor(
     provider: GetFileInfoWithPacks,
-    fileId: Int
+    @Assisted fileId: Int
 ) : BaseViewModel() {
 
     private val _file = MutableStateFlow<FileViewState?>(null)
@@ -27,8 +29,9 @@ class FileViewModel(
         sendAction(OpenPackMessage(packId))
     }
 
-    class Factory @Inject constructor(private val provider: GetFileInfoWithPacks) {
-        fun create(fileId: Int) = FileViewModel(provider, fileId)
+    @AssistedFactory
+    interface Factory {
+        fun create(fileId: Int): FileViewModel
     }
 }
 
