@@ -7,34 +7,19 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import atanana.com.sireader.MainActivity
 import atanana.com.sireader.viewmodels.*
-import dagger.android.support.AndroidSupportInjection
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import java.lang.reflect.ParameterizedType
-import javax.inject.Inject
 
 abstract class BaseFragment<VM : BaseViewModel>(@LayoutRes resId: Int) : Fragment(resId) {
     abstract val transactionTag: String
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    protected lateinit var viewModel: VM
+    protected val viewModel: VM by viewModels()
 
     private var actionMode: ActionMode? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidSupportInjection.inject(this)
-        super.onCreate(savedInstanceState)
-
-        val viewModelClass = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments.first()
-        @Suppress("UNCHECKED_CAST")
-        viewModel = ViewModelProvider(this, viewModelFactory)[viewModelClass as Class<VM>]
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.bus.onEach { action ->

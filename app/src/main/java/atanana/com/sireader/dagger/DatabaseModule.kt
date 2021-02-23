@@ -8,13 +8,17 @@ import atanana.com.sireader.database.QuestionFilesDao
 import atanana.com.sireader.database.QuestionsDao
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 class DatabaseModule {
     @Provides
     @Singleton
-    fun provideDatabase(context: Context): Database {
+    fun provideDatabase(@ApplicationContext context: Context): Database {
         return Room.databaseBuilder(context, Database::class.java, "si_reader_db").build()
     }
 

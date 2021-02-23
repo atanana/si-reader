@@ -19,6 +19,7 @@ import atanana.com.sireader.usecases.GetFilesItems
 import atanana.com.sireader.usecases.ParseFileUseCase
 import atanana.com.sireader.utils.checkPermission
 import atanana.com.sireader.viewmodels.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -27,6 +28,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@HiltViewModel
 class FilesListViewModel @Inject constructor(
     private val resources: Resources,
     private val filesDao: QuestionFilesDao,

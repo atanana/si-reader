@@ -17,12 +17,14 @@ import atanana.com.sireader.viewmodels.OpenFilePicker
 import atanana.com.sireader.viewmodels.ReadStoragePermissionExplanation
 import atanana.com.sireader.views.gone
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 /**
  * A placeholder fragment containing a simple view.
  */
+@AndroidEntryPoint
 class FilesListFragment : BaseFragment<FilesListViewModel>(R.layout.fragment_files_list) {
 
     private val fileClickListener = object : FilesListAdapter.FileClickListener {

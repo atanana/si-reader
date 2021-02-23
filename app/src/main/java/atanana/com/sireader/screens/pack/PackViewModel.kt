@@ -6,12 +6,14 @@ import atanana.com.sireader.database.QuestionEntity
 import atanana.com.sireader.usecases.GetPackWithQuestions
 import atanana.com.sireader.usecases.UpdateLastRead
 import atanana.com.sireader.viewmodels.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class PackViewModel @Inject constructor(
     private val provider: GetPackWithQuestions,
     private val updateLastRead: UpdateLastRead

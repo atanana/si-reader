@@ -10,11 +10,13 @@ import atanana.com.sireader.databinding.FragmentPackBinding
 import atanana.com.sireader.fragments.BaseFragment
 import atanana.com.sireader.views.optionalText
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 private const val ARG_PACK_ID = "pack_id"
 
+@AndroidEntryPoint
 class PackFragment : BaseFragment<PackViewModel>(R.layout.fragment_pack) {
     private var packId: Int? = null
 
@@ -67,10 +69,10 @@ class PackFragment : BaseFragment<PackViewModel>(R.layout.fragment_pack) {
 
         @JvmStatic
         fun newInstance(packId: Int) =
-                PackFragment().apply {
-                    arguments = Bundle().apply {
-                        putInt(ARG_PACK_ID, packId)
-                    }
+            PackFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(ARG_PACK_ID, packId)
                 }
+            }
     }
 }

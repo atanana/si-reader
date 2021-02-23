@@ -8,12 +8,14 @@ import atanana.com.sireader.R
 import atanana.com.sireader.databinding.FragmentPacksPagerBinding
 import atanana.com.sireader.fragments.BaseFragment
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 private const val ARG_FILE_ID = "file_id"
 private const val ARG_PACK_ID = "pack_id"
 
+@AndroidEntryPoint
 class PacksPagerFragment : BaseFragment<PacksPagerViewModel>(R.layout.fragment_packs_pager) {
     private var fileId: Int? = null
     private var packId: Int? = null
@@ -55,11 +57,11 @@ class PacksPagerFragment : BaseFragment<PacksPagerViewModel>(R.layout.fragment_p
 
         @JvmStatic
         fun newInstance(fileId: Int, packId: Int) =
-                PacksPagerFragment().apply {
-                    arguments = Bundle().apply {
-                        putInt(ARG_FILE_ID, fileId)
-                        putInt(ARG_PACK_ID, packId)
-                    }
+            PacksPagerFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(ARG_FILE_ID, fileId)
+                    putInt(ARG_PACK_ID, packId)
                 }
+            }
     }
 }

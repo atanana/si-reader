@@ -5,12 +5,16 @@ import android.content.Context
 import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 
 @Module
+@InstallIn(SingletonComponent::class)
 class ContextModule {
     @Provides
-    fun provideContentResolver(context: Context): ContentResolver = context.contentResolver
+    fun provideContentResolver(@ApplicationContext context: Context): ContentResolver = context.contentResolver
 
     @Provides
-    fun provideResources(context: Context): Resources = context.resources
+    fun provideResources(@ApplicationContext context: Context): Resources = context.resources
 }

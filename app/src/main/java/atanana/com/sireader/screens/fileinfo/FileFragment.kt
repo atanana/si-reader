@@ -12,12 +12,14 @@ import atanana.com.sireader.screens.packspager.PacksPagerFragment
 import atanana.com.sireader.viewmodels.Action
 import atanana.com.sireader.viewmodels.OpenPackMessage
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 
 private const val ARG_FILE_ID = "file_id"
 
+@AndroidEntryPoint
 class FileFragment : BaseFragment<FileViewModel>(R.layout.fragment_file) {
     private var fileId: Int? = null
 
@@ -66,10 +68,10 @@ class FileFragment : BaseFragment<FileViewModel>(R.layout.fragment_file) {
 
         @JvmStatic
         fun newInstance(fileId: Int) =
-                FileFragment().apply {
-                    arguments = Bundle().apply {
-                        putInt(ARG_FILE_ID, fileId)
-                    }
+            FileFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(ARG_FILE_ID, fileId)
                 }
+            }
     }
 }
