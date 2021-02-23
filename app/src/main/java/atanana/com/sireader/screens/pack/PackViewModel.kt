@@ -6,31 +6,25 @@ import atanana.com.sireader.database.QuestionEntity
 import atanana.com.sireader.usecases.GetPackWithQuestions
 import atanana.com.sireader.usecases.UpdateLastRead
 import atanana.com.sireader.viewmodels.BaseViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.filterNotNull
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class PackViewModel @Inject constructor(
-    private val provider: GetPackWithQuestions,
-    private val updateLastRead: UpdateLastRead
+class PackViewModel @AssistedInject constructor(
+    provider: GetPackWithQuestions,
+    private val updateLastRead: UpdateLastRead,
+    @Assisted packId: Int
 ) : BaseViewModel() {
 
     private val _pack = MutableStateFlow<PackViewState?>(null)
     val pack: Flow<PackViewState> = _pack.filterNotNull()
 
-    fun loadPack(packId: Int) {
-        if (_pack.value?.pack?.id != packId) {
-            viewModelScope.launch {
-                provider.getPack(packId).collect { (pack, questions) ->
-                    _pack.value = PackViewState(pack, questions)
-                }
-            }
-        }
+    init {
+        provider.getPack(packId).onEach { (pack, questions) ->
+            _pack.value = PackViewState(pack, questions)
+        }.launchIn(viewModelScope)
     }
 
     fun onQuestionClick(questionId: Int) {
@@ -50,6 +44,11 @@ class PackViewModel @Inject constructor(
                 it
             }
         }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(packId: Int): PackViewModel
+    }
 }
 
 data class QuestionItem(val question: QuestionEntity, val isClosed: Boolean, val price: String)

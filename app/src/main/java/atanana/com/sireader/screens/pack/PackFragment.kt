@@ -14,11 +14,16 @@ import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
 private const val ARG_PACK_ID = "pack_id"
 
 @AndroidEntryPoint
 class PackFragment : BaseFragment<PackViewModel>(R.layout.fragment_pack) {
+
+    @Inject
+    lateinit var viewModelFactory: PackViewModel.Factory
+
     private var packId: Int? = null
 
     private val questionsAdapter = QuestionsAdapter { questionId ->
@@ -30,13 +35,9 @@ class PackFragment : BaseFragment<PackViewModel>(R.layout.fragment_pack) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        arguments?.apply {
-            packId = getInt(ARG_PACK_ID)
-        }
-
-        viewModel = createViewModel()
-        packId?.let {
-            viewModel.loadPack(it)
+        packId = arguments?.getInt(ARG_PACK_ID)
+        viewModel = createViewModel {
+            viewModelFactory.create(packId!!)
         }
     }
 
