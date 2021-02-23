@@ -7,17 +7,18 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.createViewModelLazy
 import androidx.lifecycle.lifecycleScope
 import atanana.com.sireader.MainActivity
 import atanana.com.sireader.viewmodels.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlin.reflect.KClass
 
-abstract class BaseFragment<VM : BaseViewModel>(@LayoutRes resId: Int) : Fragment(resId) {
+abstract class BaseFragment<VM : BaseViewModel>(@LayoutRes resId: Int, vmClass: KClass<VM>) : Fragment(resId) {
     abstract val transactionTag: String
 
-    protected val viewModel: VM by viewModels()
+    protected val viewModel: VM by createViewModelLazy(vmClass, { viewModelStore }, null)
 
     private var actionMode: ActionMode? = null
 

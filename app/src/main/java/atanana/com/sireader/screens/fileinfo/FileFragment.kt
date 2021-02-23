@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.onEach
 private const val ARG_FILE_ID = "file_id"
 
 @AndroidEntryPoint
-class FileFragment : BaseFragment<FileViewModel>(R.layout.fragment_file) {
+class FileFragment : BaseFragment<FileViewModel>(R.layout.fragment_file, FileViewModel::class) {
     private var fileId: Int? = null
 
     private val packsAdapter = FileInfoAdapter { packId ->

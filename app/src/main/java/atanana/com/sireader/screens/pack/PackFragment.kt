@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.onEach
 private const val ARG_PACK_ID = "pack_id"
 
 @AndroidEntryPoint
-class PackFragment : BaseFragment<PackViewModel>(R.layout.fragment_pack) {
+class PackFragment : BaseFragment<PackViewModel>(R.layout.fragment_pack, PackViewModel::class) {
     private var packId: Int? = null
 
     private val questionsAdapter = QuestionsAdapter { questionId ->

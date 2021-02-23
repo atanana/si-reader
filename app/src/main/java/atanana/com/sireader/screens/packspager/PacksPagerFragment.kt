@@ -16,7 +16,7 @@ private const val ARG_FILE_ID = "file_id"
 private const val ARG_PACK_ID = "pack_id"
 
 @AndroidEntryPoint
-class PacksPagerFragment : BaseFragment<PacksPagerViewModel>(R.layout.fragment_packs_pager) {
+class PacksPagerFragment : BaseFragment<PacksPagerViewModel>(R.layout.fragment_packs_pager, PacksPagerViewModel::class) {
     private var fileId: Int? = null
     private var packId: Int? = null
 

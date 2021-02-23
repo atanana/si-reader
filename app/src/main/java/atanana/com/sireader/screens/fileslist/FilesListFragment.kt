@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.onEach
  * A placeholder fragment containing a simple view.
  */
 @AndroidEntryPoint
-class FilesListFragment : BaseFragment<FilesListViewModel>(R.layout.fragment_files_list) {
+class FilesListFragment : BaseFragment<FilesListViewModel>(R.layout.fragment_files_list, FilesListViewModel::class) {
 
     private val fileClickListener = object : FilesListAdapter.FileClickListener {
         override fun onClick(fileId: Int) {
