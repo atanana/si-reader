@@ -12,11 +12,11 @@ android {
 //            keyPassword RELEASE_KEY_PASSWORD
 //        }
 //    }
-    compileSdkVersion 28
+    compileSdkVersion 30
     defaultConfig {
         applicationId "atanana.com.sireader"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
