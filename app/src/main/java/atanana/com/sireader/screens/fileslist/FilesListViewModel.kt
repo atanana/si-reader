@@ -14,25 +14,23 @@ import androidx.lifecycle.viewModelScope
 import atanana.com.sireader.CannotSaveInDatabaseException
 import atanana.com.sireader.ParseFileException
 import atanana.com.sireader.R
-import atanana.com.sireader.database.QuestionFilesDao
+import atanana.com.sireader.usecases.DeleteFiles
 import atanana.com.sireader.usecases.GetFilesItems
 import atanana.com.sireader.usecases.ParseFile
 import atanana.com.sireader.utils.checkPermission
 import atanana.com.sireader.viewmodels.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class FilesListViewModel @Inject constructor(
     private val resources: Resources,
-    private val filesDao: QuestionFilesDao,
     private val parseFileUseCase: ParseFile,
+    private val deleteFilesUseCase: DeleteFiles,
     private val selectionManager: FilesSelectionManager,
     getFilesItems: GetFilesItems
 ) : BaseViewModel() {
@@ -171,9 +169,7 @@ class FilesListViewModel @Inject constructor(
     private fun onDeleteClicked() {
         val fileIds = selectionManager.selectedFiles.toIntArray()
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                filesDao.deleteFilesByIds(fileIds)
-            }
+            deleteFilesUseCase.process(fileIds)
             sendAction(ResourceToastMessage(R.string.files_deleted))
         }
         selectionManager.isSelectionMode = false
