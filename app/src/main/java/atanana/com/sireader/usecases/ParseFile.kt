@@ -24,7 +24,7 @@ class ParseFile @Inject constructor(
 
     suspend fun process(uri: Uri) {
         withContext(Dispatchers.Default) {
-            val (siInfo, questionPacks) = parseFile(uri)
+            val (siInfo, questionPacks) = parse(uri)
 
             database.save {
                 val name = fileName(uri) ?: "Unknown"
@@ -95,7 +95,7 @@ class ParseFile @Inject constructor(
                 }
             }
 
-    private fun parseFile(uri: Uri): FileParseResult {
+    private fun parse(uri: Uri): FileParseResult {
         try {
             contentResolver.openInputStream(uri).use {
                 val documentType = getDocumentType(uri)
