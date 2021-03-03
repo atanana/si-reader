@@ -14,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class ParseFileUseCase @Inject constructor(
+class ParseFile @Inject constructor(
     private val questionsDao: QuestionsDao,
     private val packsDao: PacksDao,
     private val filesDao: QuestionFilesDao,

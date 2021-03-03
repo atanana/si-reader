@@ -16,7 +16,7 @@ import atanana.com.sireader.ParseFileException
 import atanana.com.sireader.R
 import atanana.com.sireader.database.QuestionFilesDao
 import atanana.com.sireader.usecases.GetFilesItems
-import atanana.com.sireader.usecases.ParseFileUseCase
+import atanana.com.sireader.usecases.ParseFile
 import atanana.com.sireader.utils.checkPermission
 import atanana.com.sireader.viewmodels.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,7 +32,7 @@ import javax.inject.Inject
 class FilesListViewModel @Inject constructor(
     private val resources: Resources,
     private val filesDao: QuestionFilesDao,
-    private val parseFileUseCase: ParseFileUseCase,
+    private val parseFileUseCase: ParseFile,
     private val selectionManager: FilesSelectionManager,
     getFilesItems: GetFilesItems
 ) : BaseViewModel() {
