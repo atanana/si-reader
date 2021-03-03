@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import atanana.com.sireader.R
+import atanana.com.sireader.database.QuestionFileEntity
 import atanana.com.sireader.databinding.FragmentFileBinding
 import atanana.com.sireader.fragments.BaseFragment
 import atanana.com.sireader.fragments.createViewModel
@@ -12,6 +13,7 @@ import atanana.com.sireader.fragments.openFragment
 import atanana.com.sireader.screens.packspager.PacksPagerFragment
 import atanana.com.sireader.viewmodels.Action
 import atanana.com.sireader.viewmodels.OpenPackMessage
+import atanana.com.sireader.views.optionalText
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -52,8 +54,15 @@ class FileFragment : BaseFragment<FileViewModel>(R.layout.fragment_file) {
 
         viewModel.file.onEach { state ->
             packsAdapter.packs = state.packs
-            packsAdapter.info = state.file
+            bindFileInfo(state.file)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
+    private fun bindFileInfo(file: QuestionFileEntity) {
+        binding.header.fileTitle.text = file.title
+        binding.header.fileName.text = file.filename
+        binding.header.fileNotes.optionalText(file.notes)
+        binding.header.fileEditors.optionalText(file.editor)
     }
 
     override fun processMessage(message: Action) {
