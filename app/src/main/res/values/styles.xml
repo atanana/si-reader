@@ -34,8 +34,7 @@
 
     <style name="HeaderItem" parent="ListItem">
         <item name="android:layout_margin">0dp</item>
-        <item name="android:elevation">@dimen/app_bar_elevation</item>
-        <item name="android:background">@color/primary_dark</item>
+        <item name="android:background">@color/primary</item>
     </style>
 
     <style name="TitleText">
