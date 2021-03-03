@@ -1,7 +1,7 @@
 package atanana.com.sireader
 
-open class SiReaderException(message: String? = null, cause: Throwable? = null) : RuntimeException(message, cause)
+open class SiReaderException(message: String? = null) : RuntimeException(message)
 
-class ParseFileException(cause: Throwable) : SiReaderException(cause = cause)
+class ParseFileException : SiReaderException()
 
-class CannotSaveInDatabaseException(cause: Throwable) : SiReaderException(cause = cause)
+class CannotSaveInDatabaseException : SiReaderException()
