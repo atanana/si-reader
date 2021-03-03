@@ -7,6 +7,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.getkeepsafe.dexcount'
 apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
 //    signingConfigs {
@@ -103,6 +104,9 @@ dependencies {
     implementation "androidx.room:room-runtime:${roomVersion}"
     implementation "androidx.room:room-ktx:${roomVersion}"
     kapt "androidx.room:room-compiler:${roomVersion}"
+
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
     implementation group: 'org.apache.poi', name: 'poi-scratchpad', version: '3.17'
 

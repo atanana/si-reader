@@ -4,6 +4,7 @@ package atanana.com.sireader.screens.packspager
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import atanana.com.sireader.R
 import atanana.com.sireader.databinding.FragmentPacksPagerBinding
 import atanana.com.sireader.fragments.BaseFragment
@@ -14,14 +15,13 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-private const val ARG_FILE_ID = "file_id"
-private const val ARG_PACK_ID = "pack_id"
-
 @AndroidEntryPoint
 class PacksPagerFragment : BaseFragment<PacksPagerViewModel>(R.layout.fragment_packs_pager) {
 
     @Inject
     lateinit var viewModelFactory: PacksPagerViewModel.Factory
+
+    private val args: PacksPagerFragmentArgs by navArgs()
 
     private lateinit var packsPagesAdapter: PacksPagesAdapter
 
@@ -37,9 +37,7 @@ class PacksPagerFragment : BaseFragment<PacksPagerViewModel>(R.layout.fragment_p
     }
 
     private fun getViewModelParams(): PacksPagerViewModel.Params {
-        val fileId = arguments?.getInt(ARG_FILE_ID)!!
-        val packId = arguments?.getInt(ARG_PACK_ID)!!
-        return PacksPagerViewModel.Params(fileId, packId)
+        return PacksPagerViewModel.Params(args.fileId, args.packId)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,21 +51,5 @@ class PacksPagerFragment : BaseFragment<PacksPagerViewModel>(R.layout.fragment_p
             val currentIndex = state.packs.indexOfFirst { it.id == state.currentPackId }
             binding.packsPager.setCurrentItem(currentIndex, false)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
-    }
-
-    override val transactionTag: String
-        get() = TAG
-
-    companion object {
-        const val TAG = "PacksPagerFragment"
-
-        @JvmStatic
-        fun newInstance(fileId: Int, packId: Int) =
-            PacksPagerFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_FILE_ID, fileId)
-                    putInt(ARG_PACK_ID, packId)
-                }
-            }
     }
 }

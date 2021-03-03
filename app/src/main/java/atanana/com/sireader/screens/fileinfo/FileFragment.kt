@@ -3,14 +3,14 @@ package atanana.com.sireader.screens.fileinfo
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import atanana.com.sireader.R
 import atanana.com.sireader.database.QuestionFileEntity
 import atanana.com.sireader.databinding.FragmentFileBinding
 import atanana.com.sireader.fragments.BaseFragment
 import atanana.com.sireader.fragments.createViewModel
-import atanana.com.sireader.fragments.openFragment
-import atanana.com.sireader.screens.packspager.PacksPagerFragment
 import atanana.com.sireader.viewmodels.Action
 import atanana.com.sireader.viewmodels.OpenPackMessage
 import atanana.com.sireader.views.optionalText
@@ -21,15 +21,13 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 
-private const val ARG_FILE_ID = "file_id"
-
 @AndroidEntryPoint
 class FileFragment : BaseFragment<FileViewModel>(R.layout.fragment_file) {
 
     @Inject
     lateinit var viewModelFactory: FileViewModel.Factory
 
-    private var fileId: Int? = null
+    private val args: FileFragmentArgs by navArgs()
 
     private val packsAdapter = FileInfoAdapter { packId ->
         viewModel.onPackClick(packId)
@@ -40,9 +38,8 @@ class FileFragment : BaseFragment<FileViewModel>(R.layout.fragment_file) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        fileId = arguments?.getInt(ARG_FILE_ID)
         viewModel = createViewModel {
-            viewModelFactory.create(fileId!!)
+            viewModelFactory.create(args.fileId)
         }
     }
 
@@ -73,21 +70,7 @@ class FileFragment : BaseFragment<FileViewModel>(R.layout.fragment_file) {
     }
 
     private fun openPack(packId: Int) {
-        parentFragmentManager.openFragment(PacksPagerFragment.newInstance(fileId!!, packId))
-    }
-
-    override val transactionTag: String
-        get() = TAG
-
-    companion object {
-        const val TAG = "FileFragment"
-
-        @JvmStatic
-        fun newInstance(fileId: Int) =
-            FileFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_FILE_ID, fileId)
-                }
-            }
+        val direction = FileFragmentDirections.openPack(args.fileId, packId)
+        findNavController().navigate(direction)
     }
 }

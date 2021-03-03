@@ -61,12 +61,8 @@ class PackFragment : BaseFragment<PackViewModel>(R.layout.fragment_pack) {
         questionsAdapter.questions = questions
     }
 
-    override val transactionTag: String
-        get() = TAG
 
     companion object {
-        const val TAG = "PackFragment"
-
         @JvmStatic
         fun newInstance(packId: Int) =
             PackFragment().apply {

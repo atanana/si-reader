@@ -6,13 +6,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import atanana.com.sireader.R
 import atanana.com.sireader.databinding.FragmentFilesListBinding
 import atanana.com.sireader.fragments.BaseFragment
 import atanana.com.sireader.fragments.createViewModel
-import atanana.com.sireader.fragments.openFragment
-import atanana.com.sireader.screens.fileinfo.FileFragment
 import atanana.com.sireader.viewmodels.Action
 import atanana.com.sireader.viewmodels.OpenFileMessage
 import atanana.com.sireader.viewmodels.OpenFilePicker
@@ -115,13 +114,7 @@ class FilesListFragment : BaseFragment<FilesListViewModel>(R.layout.fragment_fil
     }
 
     private fun openFile(fileId: Int) {
-        parentFragmentManager.openFragment(FileFragment.newInstance(fileId))
-    }
-
-    override val transactionTag: String
-        get() = TAG
-
-    companion object {
-        const val TAG = "FilesListFragment"
+        val direction = FilesListFragmentDirections.openFile(fileId)
+        findNavController().navigate(direction)
     }
 }

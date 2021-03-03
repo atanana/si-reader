@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    app:startDestination="@id/filesListFragment">
+
+    <fragment
+        android:id="@+id/filesListFragment"
+        android:name="atanana.com.sireader.screens.fileslist.FilesListFragment"
+        android:label="FilesListFragment">
+        <action
+            android:id="@+id/openFile"
+            app:destination="@id/fileFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fileFragment"
+        android:name="atanana.com.sireader.screens.fileinfo.FileFragment"
+        android:label="FileFragment">
+
+        <argument
+            android:name="fileId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+
+        <action
+            android:id="@+id/openPack"
+            app:destination="@id/packsPagerFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/packsPagerFragment"
+        android:name="atanana.com.sireader.screens.packspager.PacksPagerFragment"
+        android:label="fragment_packs_pager"
+        tools:layout="@layout/fragment_packs_pager">
+
+        <argument
+            android:name="fileId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+
+        <argument
+            android:name="packId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+
+    </fragment>
+</navigation>

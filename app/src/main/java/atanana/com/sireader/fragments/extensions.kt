@@ -1,19 +1,8 @@
 package atanana.com.sireader.fragments
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import atanana.com.sireader.R
-
-fun FragmentManager.openFragment(fragment: BaseFragment<*>, addToBackStack: Boolean = true) {
-    val transaction = beginTransaction()
-        .replace(R.id.fragment, fragment, fragment.transactionTag)
-    if (addToBackStack) {
-        transaction.addToBackStack(fragment.transactionTag)
-    }
-    transaction.commit()
-}
 
 inline fun <reified VM : ViewModel> Fragment.createViewModel(noinline provider: (() -> VM)? = null): VM {
     val factory = if (provider != null) {
