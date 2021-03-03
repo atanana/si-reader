@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import atanana.com.sireader.R
@@ -67,6 +68,8 @@ class FilesListFragment : BaseFragment<FilesListViewModel>(R.layout.fragment_fil
 
         viewModel.state.onEach { state -> setViewState(state) }
             .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        (requireActivity() as? AppCompatActivity)?.setSupportActionBar(binding.toolbar)
     }
 
     override fun processMessage(message: Action) {
@@ -114,8 +117,6 @@ class FilesListFragment : BaseFragment<FilesListViewModel>(R.layout.fragment_fil
     private fun openFile(fileId: Int) {
         parentFragmentManager.openFragment(FileFragment.newInstance(fileId))
     }
-
-    override val isToolbarVisible = true
 
     override val transactionTag: String
         get() = TAG

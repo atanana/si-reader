@@ -39,21 +39,5 @@ abstract class BaseFragment<VM : BaseViewModel>(@LayoutRes resId: Int) : Fragmen
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-    override fun onStart() {
-        super.onStart()
-        toggleToolbar()
-    }
-
-    private fun toggleToolbar() {
-        val activity = requireActivity() as? AppCompatActivity ?: return
-        if (isToolbarVisible) {
-            activity.supportActionBar?.show()
-        } else {
-            activity.supportActionBar?.hide()
-        }
-    }
-
     protected open fun processMessage(message: Action) {}
-
-    open val isToolbarVisible: Boolean = false
 }
