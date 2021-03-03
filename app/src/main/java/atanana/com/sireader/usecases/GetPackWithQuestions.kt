@@ -16,6 +16,12 @@ class GetPackWithQuestions @Inject constructor(
     private val questionsDao: QuestionsDao,
     private val resources: Resources
 ) {
+
+    companion object {
+        private const val MAX_QUESTIONS_WITH_PRICE = 5
+        private const val PRICE_MULTIPLICATIVE = 10
+    }
+
     fun getPack(packId: Int): Flow<Pair<PackEntity, List<QuestionItem>>> =
         pack(packId).zip(questions(packId)) { pack, questions ->
             Pair(pack, mapQuestions(questions))
@@ -33,8 +39,8 @@ class GetPackWithQuestions @Inject constructor(
             }
 
     private fun calculateQuestionPrice(index: Int): String =
-        if (index < 5) {
-            ((index + 1) * 10).toString()
+        if (index < MAX_QUESTIONS_WITH_PRICE) {
+            ((index + 1) * PRICE_MULTIPLICATIVE).toString()
         } else {
             resources.getString(R.string.reserve)
         }
