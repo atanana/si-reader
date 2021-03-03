@@ -73,7 +73,7 @@ class ParseFileUseCase @Inject constructor(
             try {
                 runInTransaction(block)
             } catch (e: Exception) {
-                throw CannotSaveInDatabaseException()
+                throw CannotSaveInDatabaseException(e)
             }
         }
     }
@@ -102,7 +102,7 @@ class ParseFileUseCase @Inject constructor(
                 return Parser().parse(it!!, documentType)
             }
         } catch (e: Exception) {
-            throw ParseFileException()
+            throw ParseFileException(e)
         }
     }
 
