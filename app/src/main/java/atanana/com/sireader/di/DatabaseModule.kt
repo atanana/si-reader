@@ -1,4 +1,4 @@
-package atanana.com.sireader.dagger
+package atanana.com.sireader.di
 
 import android.content.Context
 import androidx.room.Room

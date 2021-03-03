@@ -1,4 +1,4 @@
-package atanana.com.sireader.dagger
+package atanana.com.sireader.di
 
 import android.content.ContentResolver
 import android.content.Context
