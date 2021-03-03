@@ -74,6 +74,12 @@ dexcount {
     maxMethodCount = 640000
 }
 
+detekt {
+    toolVersion = "1.16.0-RC2"
+    config = files("config/detekt/detekt.yml")
+    buildUponDefaultConfig = true
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
