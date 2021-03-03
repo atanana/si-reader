@@ -72,7 +72,7 @@ class ParseFileUseCase @Inject constructor(
         withContext(Dispatchers.IO) {
             try {
                 runInTransaction(block)
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 throw CannotSaveInDatabaseException()
             }
         }
@@ -101,7 +101,7 @@ class ParseFileUseCase @Inject constructor(
                 val documentType = getDocumentType(uri)
                 return Parser().parse(it!!, documentType)
             }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             throw ParseFileException()
         }
     }
