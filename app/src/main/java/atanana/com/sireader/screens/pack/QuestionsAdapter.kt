@@ -15,7 +15,7 @@ import atanana.com.sireader.databinding.ItemQuestionBinding
 import atanana.com.sireader.views.gone
 
 class QuestionsAdapter(
-        private val onQuestionClick: (questionId: Int) -> Unit
+    private val onQuestionClick: (questionId: Int) -> Unit
 ) : RecyclerView.Adapter<QuestionsAdapter.ViewHolder>() {
 
     var questions = emptyList<QuestionItem>()
@@ -57,12 +57,12 @@ class QuestionsAdapter(
     }
 
     private fun createQuestionText(item: QuestionItem): Spannable =
-            SpannableStringBuilder().apply {
-                val price = item.price + ". "
-                append(price)
-                setSpan(StyleSpan(Typeface.BOLD), 0, price.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                append(item.question.question)
-            }
+        SpannableStringBuilder().apply {
+            val price = item.price + ". "
+            append(price)
+            setSpan(StyleSpan(Typeface.BOLD), 0, price.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            append(item.question.question)
+        }
 
     private fun TextView.safePrepend(value: String?, @StringRes prefixId: Int) {
         gone(value == null)
@@ -73,8 +73,8 @@ class QuestionsAdapter(
 }
 
 private class DiffCallback(
-        private val oldQuestions: List<QuestionItem>,
-        private val newQuestion: List<QuestionItem>
+    private val oldQuestions: List<QuestionItem>,
+    private val newQuestion: List<QuestionItem>
 ) : DiffUtil.Callback() {
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return oldQuestions[oldItemPosition].question.id == newQuestion[newItemPosition].question.id

@@ -8,8 +8,8 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class UpdateLastRead @Inject constructor(
-        private val filesDao: QuestionFilesDao,
-        private val prefs: Prefs
+    private val filesDao: QuestionFilesDao,
+    private val prefs: Prefs
 ) {
     suspend fun update(pack: PackEntity) {
         withContext(Dispatchers.IO) {

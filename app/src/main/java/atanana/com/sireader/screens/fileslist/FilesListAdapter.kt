@@ -59,8 +59,8 @@ class FilesListAdapter(private val clickListener: FileClickListener) : RecyclerV
 }
 
 private class DiffCallback(
-        private val oldFiles: List<FileItem>,
-        private val newFiles: List<FileItem>
+    private val oldFiles: List<FileItem>,
+    private val newFiles: List<FileItem>
 ) : DiffUtil.Callback() {
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
