@@ -3,6 +3,7 @@ package atanana.com.sireader.viewmodels
 import android.content.res.Resources
 import androidx.annotation.StringRes
 import androidx.appcompat.view.ActionMode
+import androidx.navigation.NavDirections
 import atanana.com.sireader.SiReaderException
 
 sealed class Action
@@ -43,3 +44,5 @@ object StopActionModeMessage : Action()
 object ReadStoragePermissionExplanation : Action()
 
 data class OpenFilePicker(val types: List<String>) : Action()
+
+data class Navigate(val directions: NavDirections) : Action()

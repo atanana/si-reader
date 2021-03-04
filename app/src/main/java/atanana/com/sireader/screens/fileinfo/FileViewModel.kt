@@ -5,7 +5,7 @@ import atanana.com.sireader.database.PackEntity
 import atanana.com.sireader.database.QuestionFileEntity
 import atanana.com.sireader.usecases.GetFileInfoWithPacks
 import atanana.com.sireader.viewmodels.BaseViewModel
-import atanana.com.sireader.viewmodels.OpenPackMessage
+import atanana.com.sireader.viewmodels.Navigate
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.*
 
 class FileViewModel @AssistedInject constructor(
     provider: GetFileInfoWithPacks,
-    @Assisted fileId: Int
+    @Assisted private val fileId: Int
 ) : BaseViewModel() {
 
     private val _file = MutableStateFlow<FileViewState?>(null)
@@ -26,7 +26,8 @@ class FileViewModel @AssistedInject constructor(
     }
 
     fun onPackClick(packId: Int) {
-        sendAction(OpenPackMessage(packId))
+        val directions = FileFragmentDirections.openPack(fileId, packId)
+        sendAction(Navigate(directions))
     }
 
     @AssistedFactory

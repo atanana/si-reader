@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import atanana.com.sireader.viewmodels.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -32,6 +33,9 @@ abstract class BaseFragment<VM : BaseViewModel>(@LayoutRes resId: Int) : Fragmen
                 }
                 is ActionModeTitleMessage -> {
                     actionMode?.title = action.text(resources)
+                }
+                is Navigate -> {
+                    findNavController().navigate(action.directions)
                 }
                 else -> processMessage(action)
             }
