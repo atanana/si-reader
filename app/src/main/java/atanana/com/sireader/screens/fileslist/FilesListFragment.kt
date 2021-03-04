@@ -6,14 +6,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import atanana.com.sireader.R
 import atanana.com.sireader.databinding.FragmentFilesListBinding
 import atanana.com.sireader.fragments.BaseFragment
 import atanana.com.sireader.fragments.createViewModel
 import atanana.com.sireader.viewmodels.Action
-import atanana.com.sireader.viewmodels.OpenFileMessage
 import atanana.com.sireader.viewmodels.OpenFilePicker
 import atanana.com.sireader.viewmodels.ReadStoragePermissionExplanation
 import atanana.com.sireader.views.gone
@@ -73,7 +71,6 @@ class FilesListFragment : BaseFragment<FilesListViewModel>(R.layout.fragment_fil
 
     override fun processMessage(message: Action) {
         when (message) {
-            is OpenFileMessage -> openFile(message.fileId)
             ReadStoragePermissionExplanation -> showReadStorageExplanation()
             is OpenFilePicker -> requestFile.launch(message.types.toTypedArray())
             else -> Unit
@@ -111,10 +108,5 @@ class FilesListFragment : BaseFragment<FilesListViewModel>(R.layout.fragment_fil
                 }
             }
         }
-    }
-
-    private fun openFile(fileId: Int) {
-        val direction = FilesListFragmentDirections.openFile(fileId)
-        findNavController().navigate(direction)
     }
 }

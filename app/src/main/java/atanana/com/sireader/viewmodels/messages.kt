@@ -29,10 +29,6 @@ sealed class ToastMessage : Action()
 
 data class ResourceToastMessage(@StringRes override val value: Int) : ToastMessage(), ResourceTextMessage
 
-data class OpenFileMessage(val fileId: Int) : Action()
-
-data class OpenPackMessage(val packId: Int) : Action()
-
 sealed class ActionModeTitleMessage : Action()
 
 data class StringActionModeTitleMessage(override val value: String) : ActionModeTitleMessage(), StringTextMessage

@@ -99,7 +99,8 @@ class FilesListViewModel @Inject constructor(
         if (selectionManager.isSelectionMode) {
             toggleFileSelection(fileId)
         } else {
-            sendAction(OpenFileMessage(fileId))
+            val directions = FilesListFragmentDirections.openFile(fileId)
+            sendAction(Navigate(directions))
         }
     }
 
