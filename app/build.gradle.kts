@@ -67,7 +67,7 @@ dexcount {
 }
 
 detekt {
-    toolVersion = "1.16.0-RC2"
+    toolVersion = "1.17.0-RC3"
     config = files("config/detekt/detekt.yml")
     buildUponDefaultConfig = true
 }
