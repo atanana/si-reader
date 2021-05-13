@@ -5,5 +5,4 @@
 
     <!--elevations-->
     <dimen name="card_elevation">2dp</dimen>
-    <dimen name="app_bar_elevation">4dp</dimen>
 </resources>
