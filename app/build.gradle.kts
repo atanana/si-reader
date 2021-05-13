@@ -82,10 +82,10 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
     implementation("com.google.android.material:material:1.3.0")
     implementation("androidx.coordinatorlayout:coordinatorlayout:1.1.0")
-    implementation("androidx.activity:activity-ktx:1.2.1")
-    implementation("androidx.fragment:fragment-ktx:1.3.1")
+    implementation("androidx.activity:activity-ktx:1.2.3")
+    implementation("androidx.fragment:fragment-ktx:1.3.3")
     implementation("androidx.viewpager2:viewpager2:1.0.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
 
     implementation("com.github.Zhuinden:fragmentviewbindingdelegate-kt:1.0.0")
 
