@@ -5,19 +5,13 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import atanana.com.sireader.R
 import atanana.com.sireader.databinding.ItemFileBinding
 import atanana.com.sireader.views.invisible
 
-class FilesListAdapter(private val clickListener: FileClickListener) : RecyclerView.Adapter<FilesListAdapter.ViewHolder>() {
-
-    var files = emptyList<FileItem>()
-        set(value) {
-            val diff = DiffUtil.calculateDiff(DiffCallback(files, value), false)
-            field = value
-            diff.dispatchUpdatesTo(this)
-        }
+class FilesListAdapter(private val clickListener: FileClickListener) : ListAdapter<FileItem, FilesListAdapter.ViewHolder>(Callback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -25,10 +19,8 @@ class FilesListAdapter(private val clickListener: FileClickListener) : RecyclerV
         return ViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = files.size
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(files[position])
+        holder.bind(getItem(position))
     }
 
     inner class ViewHolder(private val binding: ItemFileBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -58,20 +50,11 @@ class FilesListAdapter(private val clickListener: FileClickListener) : RecyclerV
     }
 }
 
-private class DiffCallback(
-    private val oldFiles: List<FileItem>,
-    private val newFiles: List<FileItem>
-) : DiffUtil.Callback() {
+private object Callback : DiffUtil.ItemCallback<FileItem>() {
 
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldFiles[oldItemPosition].entity.id == newFiles[newItemPosition].entity.id
-    }
+    override fun areItemsTheSame(oldItem: FileItem, newItem: FileItem): Boolean =
+        oldItem.entity.id == newItem.entity.id
 
-    override fun getOldListSize(): Int = oldFiles.size
-
-    override fun getNewListSize(): Int = newFiles.size
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldFiles[oldItemPosition] == newFiles[newItemPosition]
-    }
+    override fun areContentsTheSame(oldItem: FileItem, newItem: FileItem): Boolean =
+        oldItem == newItem
 }

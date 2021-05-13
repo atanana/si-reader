@@ -93,7 +93,7 @@ class FilesListFragment : BaseFragment<FilesListViewModel>(R.layout.fragment_fil
                     noFilesLabel.gone(false)
                     loadingFiles.gone(true)
                     filesList.gone(true)
-                    filesAdapter.files = emptyList()
+                    filesAdapter.submitList(emptyList())
                 }
                 Loading -> {
                     noFilesLabel.gone(true)
@@ -104,7 +104,7 @@ class FilesListFragment : BaseFragment<FilesListViewModel>(R.layout.fragment_fil
                     noFilesLabel.gone(true)
                     loadingFiles.gone(true)
                     filesList.gone(false)
-                    filesAdapter.files = state.files
+                    filesAdapter.submitList(state.files)
                 }
             }
         }
