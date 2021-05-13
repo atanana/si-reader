@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import atanana.com.sireader.R
 import atanana.com.sireader.databinding.ItemQuestionBinding
@@ -16,14 +17,7 @@ import atanana.com.sireader.views.gone
 
 class QuestionsAdapter(
     private val onQuestionClick: (questionId: Int) -> Unit
-) : RecyclerView.Adapter<QuestionsAdapter.ViewHolder>() {
-
-    var questions = emptyList<QuestionItem>()
-        set(value) {
-            val diffResult = DiffUtil.calculateDiff(DiffCallback(field, value), false)
-            field = value
-            diffResult.dispatchUpdatesTo(this)
-        }
+) : ListAdapter<QuestionItem, QuestionsAdapter.ViewHolder>(Callback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -31,10 +25,8 @@ class QuestionsAdapter(
         return ViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = questions.size
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(questions[position])
+        holder.bind(getItem(position))
     }
 
     inner class ViewHolder(private val binding: ItemQuestionBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -72,19 +64,11 @@ class QuestionsAdapter(
     }
 }
 
-private class DiffCallback(
-    private val oldQuestions: List<QuestionItem>,
-    private val newQuestion: List<QuestionItem>
-) : DiffUtil.Callback() {
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldQuestions[oldItemPosition].question.id == newQuestion[newItemPosition].question.id
-    }
+private object Callback : DiffUtil.ItemCallback<QuestionItem>() {
 
-    override fun getOldListSize(): Int = oldQuestions.size
+    override fun areItemsTheSame(oldItem: QuestionItem, newItem: QuestionItem): Boolean =
+        oldItem.question.id == newItem.question.id
 
-    override fun getNewListSize(): Int = newQuestion.size
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldQuestions[oldItemPosition] == newQuestion[newItemPosition]
-    }
+    override fun areContentsTheSame(oldItem: QuestionItem, newItem: QuestionItem): Boolean =
+        oldItem == newItem
 }

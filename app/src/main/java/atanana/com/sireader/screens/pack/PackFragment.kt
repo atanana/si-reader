@@ -58,9 +58,8 @@ class PackFragment : BaseFragment<PackViewModel>(R.layout.fragment_pack) {
     }
 
     private fun updateQuestions(questions: List<QuestionItem>) {
-        questionsAdapter.questions = questions
+        questionsAdapter.submitList(questions)
     }
-
 
     companion object {
         @JvmStatic
