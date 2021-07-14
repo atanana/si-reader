@@ -76,14 +76,14 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra.get("kotlinVersion")}")
-    implementation("androidx.core:core-ktx:1.3.2")
+    implementation("androidx.core:core-ktx:1.6.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1")
-    implementation("androidx.appcompat:appcompat:1.2.0")
+    implementation("androidx.appcompat:appcompat:1.3.0")
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
-    implementation("com.google.android.material:material:1.3.0")
+    implementation("com.google.android.material:material:1.4.0")
     implementation("androidx.coordinatorlayout:coordinatorlayout:1.1.0")
     implementation("androidx.activity:activity-ktx:1.2.3")
-    implementation("androidx.fragment:fragment-ktx:1.3.3")
+    implementation("androidx.fragment:fragment-ktx:1.3.5")
     implementation("androidx.viewpager2:viewpager2:1.0.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
 
@@ -105,6 +105,6 @@ dependencies {
     implementation("org.apache.poi:poi-scratchpad:3.17")
 
     testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test:runner:1.3.0")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
+    androidTestImplementation("androidx.test:runner:1.4.0")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 }
