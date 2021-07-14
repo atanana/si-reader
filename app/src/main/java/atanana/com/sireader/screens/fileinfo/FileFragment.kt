@@ -43,6 +43,7 @@ class FileFragment : BaseFragment<FileViewModel>(R.layout.fragment_file) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.fileInfo.setHasFixedSize(true)
         binding.fileInfo.layoutManager = LinearLayoutManager(activity)
         binding.fileInfo.adapter = packsAdapter
 

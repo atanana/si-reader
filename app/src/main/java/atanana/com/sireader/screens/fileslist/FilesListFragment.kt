@@ -60,6 +60,7 @@ class FilesListFragment : BaseFragment<FilesListViewModel>(R.layout.fragment_fil
             viewModel.fabClicked(requireActivity(), requestPermission)
         }
 
+        binding.filesList.setHasFixedSize(true)
         binding.filesList.layoutManager = LinearLayoutManager(activity)
         binding.filesList.adapter = filesAdapter
 

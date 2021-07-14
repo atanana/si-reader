@@ -42,6 +42,7 @@ class PackFragment : BaseFragment<PackViewModel>(R.layout.fragment_pack) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.questionsList.setHasFixedSize(true)
         binding.questionsList.layoutManager = LinearLayoutManager(activity)
         binding.questionsList.adapter = questionsAdapter
 
