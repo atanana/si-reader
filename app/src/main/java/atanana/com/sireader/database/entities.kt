@@ -2,9 +2,21 @@ package atanana.com.sireader.database
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "questions")
+@Entity(
+    tableName = "questions",
+    foreignKeys = [
+        ForeignKey(
+            entity = PackEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["packId"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ],
+    indices = [Index("packId")]
+)
 data class QuestionEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
@@ -14,16 +26,21 @@ data class QuestionEntity(
     val notAnswer: String?,
     val comment: String?,
     val reference: String?,
-    @ForeignKey(
-        entity = PackEntity::class,
-        parentColumns = ["id"],
-        childColumns = ["packId"],
-        onDelete = ForeignKey.CASCADE
-    )
     val packId: Int
 )
 
-@Entity(tableName = "packs")
+@Entity(
+    tableName = "packs",
+    foreignKeys = [
+        ForeignKey(
+            entity = QuestionFileEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["fileId"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ],
+    indices = [Index("fileId")]
+)
 data class PackEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
@@ -31,12 +48,6 @@ data class PackEntity(
     val author: String?,
     val notes: String?,
     val index: Int,
-    @ForeignKey(
-        entity = QuestionFileEntity::class,
-        parentColumns = ["id"],
-        childColumns = ["fileId"],
-        onDelete = ForeignKey.CASCADE
-    )
     val fileId: Int
 ) {
     val indexedTitle: String
