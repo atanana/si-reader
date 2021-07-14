@@ -2,10 +2,9 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
-    id("com.getkeepsafe.dexcount")
     id("dagger.hilt.android.plugin")
     id("androidx.navigation.safeargs.kotlin")
-    id("io.gitlab.arturbosch.detekt").version("1.16.0-RC2")
+    id("io.gitlab.arturbosch.detekt").version("1.18.0-RC1")
 }
 
 android {
@@ -51,21 +50,6 @@ android {
     }
 }
 
-dexcount {
-    format = "list"
-    includeClasses = false
-    includeClassCount = false
-    includeFieldCount = true
-    includeTotalMethodCount = false
-    orderByMethodCount = false
-    verbose = false
-    maxTreeDepth = Integer.MAX_VALUE
-    teamCityIntegration = false
-    teamCitySlug = null
-    runOnEachPackage = true
-    maxMethodCount = 640000
-}
-
 detekt {
     toolVersion = "1.17.0-RC3"
     config = files("config/detekt/detekt.yml")
@@ -77,7 +61,7 @@ dependencies {
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra.get("kotlinVersion")}")
     implementation("androidx.core:core-ktx:1.6.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1-native-mt")
     implementation("androidx.appcompat:appcompat:1.3.0")
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
     implementation("com.google.android.material:material:1.4.0")
