@@ -8,14 +8,14 @@ plugins {
 }
 
 android {
-    compileSdkVersion(30)
+    compileSdk = 30
     defaultConfig {
-        applicationId("atanana.com.sireader")
-        minSdkVersion(21)
-        targetSdkVersion(30)
-        versionCode(1)
-        versionName("1.0")
-        testInstrumentationRunner("android.support.test.runner.AndroidJUnitRunner")
+        applicationId = "atanana.com.sireader"
+        minSdk = 21
+        targetSdk = 30
+        versionCode = 1
+        versionName = "1.0"
+        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
         kapt {
