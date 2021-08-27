@@ -1,6 +1,6 @@
 buildscript {
     val kotlinVersion by rootProject.extra("1.5.21")
-    val hiltVersion by rootProject.extra("2.37")
+    val hiltVersion by rootProject.extra("2.38.1")
     val navVersion by rootProject.extra("2.3.5")
 
     repositories {
