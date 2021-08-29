@@ -4,7 +4,7 @@ plugins {
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
     id("androidx.navigation.safeargs.kotlin")
-    id("io.gitlab.arturbosch.detekt").version("1.18.0-RC1")
+    id("io.gitlab.arturbosch.detekt").version("1.18.0")
 }
 
 android {
@@ -51,7 +51,7 @@ android {
 }
 
 detekt {
-    toolVersion = "1.17.0-RC3"
+    toolVersion = "1.18.0"
     config = files("config/detekt/detekt.yml")
     buildUponDefaultConfig = true
 }
