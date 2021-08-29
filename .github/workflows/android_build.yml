@@ -42,7 +42,7 @@ jobs:
           java-version: 11
 
       - name: Build Project
-        run: ./gradlew assembleRelease
+        run: ./gradlew assembleDebug
 
       - uses: actions/upload-artifact@v2
         with:
